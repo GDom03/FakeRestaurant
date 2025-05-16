@@ -6,7 +6,13 @@ import { createModel as createReviewModel } from "./Review.js";
 import 'dotenv/config.js'; //read .env file and make it available in process.env
 
 export const database = new Sequelize(process.env.DB_CONNECTION_URI, {
-    dialect: process.env.DIALECT
+    dialect: process.env.DIALECT,
+    retry: {
+        max: 5, // Numero massimo di tentativi
+        backoffBase: 1000, // Ritardo iniziale tra i tentativi (in millisecondi)
+        backoffExponent: 1.5, // Moltiplicatore esponenziale per il ritardo
+        timeout: 60000, // Timeout totale massimo per tutti i tentativi (in millisecondi)
+    },
 });
 
 createUserModel(database);

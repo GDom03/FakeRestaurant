@@ -22,6 +22,8 @@ services:
       - '5050:80'
     depends_on:
       - db
+    volumes:
+      - ../Database/pgadmin_data:/var/lib/pgadmin
   
   backend:
     build: ../Backend 
@@ -32,9 +34,9 @@ services:
       DB_CONNECTION_URI: "postgres://admin:admin@db:5432/fake_restaurant_db"
       DIALECT: "postgres"
       TOKEN_SECRET: "V3RY_S3CR37_T0K3N"
-    volumes:
-      - ../Backend:/app # Monta la directory del tuo backend nel container per sviluppo
-      - /app/node_modules # Evita di sovrascrivere i moduli installati nel container
+    #volumes:
+    #  - ../Backend:/app # Monta la directory del tuo backend nel container per sviluppo
+    #  - /app/node_modules # Evita di sovrascrivere i moduli installati nel container
     depends_on:
       - db
     command: "npm start" # Comando per avviare la tua applicazione Node.js
@@ -42,5 +44,7 @@ services:
 
 volumes:
   postgres_data:
+    driver: local
+  pgadmin_data:
     driver: local
 

@@ -26,9 +26,10 @@ Restaurant.Reviews = Restaurant.hasMany(Review);
 Review.Restaurant = Review.belongsTo(Review);
 
 
+
 //synchronize schema (creates missing tables)
 database.sync({ alter: true }).then(() => {
     console.log("Database synced correctly");
 }).catch(err => {
-    console.err("Error with database synchronization: " + err.message);
+    console.log("Error with database synchronization: " + err.message);
 });

@@ -4,6 +4,9 @@ import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
+import { authenticationRouter } from "./routes/authenticationRouter.js";
+
+
 const app = express();
 const PORT = 3000;
 
@@ -41,7 +44,7 @@ const swaggerSpec = swaggerJSDoc({
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 //define routes
-//app.use(authenticationRouter);
+app.use(authenticationRouter);
 //app.use(enforceAuthentication);
 //app.use(todoRouter);
 

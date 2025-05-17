@@ -1,6 +1,40 @@
 import { DataTypes } from "sequelize";
 import { createHash } from "crypto";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: name of the user
+ *           example: Domenico
+ *         surname:
+ *           type: string
+ *           description: surname of the user
+ *           example: Gagliotti
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: email of the user
+ *           example: domgag@gmail.com
+ *         password:
+ *           type: string
+ *           description: password hashed SHA-256
+ *       required:
+ *         - name
+ *         - surname
+ *         - email
+ *         - password
+ *       example:
+ *         name: Domenico
+ *         surname: Gagliotti
+ *         email: domgag@gmail.com
+ *         password: "acc8bc4befa697b5b7b98dbe4490af3a013b27156f94a4962fb354c16064f8d0"
+ */
 export function createModel(database) {
     database.define('User', {
         // Model attributes are defined here

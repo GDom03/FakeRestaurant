@@ -1,0 +1,54 @@
+
+services:
+  fake_restaurant_db:
+    image: postgres:15
+    container_name: fake_restaurant_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: fake_restaurant_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./Database/postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --username admin --dbname fake_restaurant_db"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - '5050:80'
+    depends_on:
+      - fake_restaurant_db
+    volumes:
+      - ./PgAdmin/pgadmin_data:/var/lib/pgadmin
+
+  backend:
+    build: ../Backend 
+    container_name: fake_restaurant_server
+    ports:
+      - '3000:3000' 
+    environment:
+      DB_CONNECTION_URI: "postgres://admin:admin@fake_restaurant_db:5432/fake_restaurant_db"
+      DIALECT: "postgres"
+      TOKEN_SECRET: "V3RY_S3CR37_T0K3N"
+    #volumes:
+    #  - ../Backend:/app # Monta la directory del tuo backend nel container per sviluppo
+    #  - /app/node_modules # Evita di sovrascrivere i moduli installati nel container
+    depends_on:
+      fake_restaurant_db:
+        condition: service_healthy
+    command: "npm start" # Comando per avviare la tua applicazione Node.js
+
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+

@@ -19,15 +19,6 @@ app.use(cors()); //API will be accessible from anywhere. We'll talk about this i
 // Parse incoming requests with a JSON payload
 app.use(express.json());
 
-//error handler
-app.use((err, req, res, next) => {
-    console.log(err.stack);
-    res.status(err.status || 500).json({
-        code: err.status || 500,
-        description: err.message || "An error occurred"
-    });
-});
-
 //generate OpenAPI spec and show swagger ui
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 const swaggerSpec = swaggerJSDoc({
@@ -37,8 +28,13 @@ const swaggerSpec = swaggerJSDoc({
             title: 'FakeResturant',
             version: '1.0.0',
         },
+        components: {
+            schemas: {
+
+            }
+        }
     },
-    apis: ['./routes/*Router.js'], // files containing annotations
+    apis: ['./routes/*Router.js', './models/*.js'], // files containing annotations
 });
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
@@ -47,6 +43,19 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use(authenticationRouter);
 //app.use(enforceAuthentication);
 //app.use(todoRouter);
+
+//error handler
+app.use((err, req, res, next) => {
+    // Log dello stack di errore per il debugging
+    console.error(err.stack);
+
+    res
+        .status(err.status || 500)
+        .json({
+            status: err.status || 500,
+            message: err.message || "An unexpected error occurred",
+        });
+});
 
 
 app.listen(PORT);

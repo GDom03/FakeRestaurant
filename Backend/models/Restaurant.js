@@ -1,5 +1,39 @@
 import { DataTypes } from "sequelize";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Restaurant:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           format: int32
+ *           description: unique identifier of the restaurant
+ *         name:
+ *           type: string
+ *           description: name of the restaurant
+ *           example: Trattoria Tecnologie Web
+ *         description:
+ *           type: string
+ *           description: description of the restaurant
+ *           example: Waiters can sometimes stand still
+ *         type:
+ *           type: string  
+ *           description: type of the restaurant
+ *           example: Tech cuisine
+ *       required:
+ *         - id
+ *         - name
+ *         - description
+ *         - type
+ *       example:
+ *         id: 1
+ *         name: Trattoria Tecnologie Web
+ *         description: Waiters can sometimes stand still
+ *         type: Tech cuisine
+ */
 export function createModel(database) {
     database.define('Restaurant', {
         // Model attributes are defined here

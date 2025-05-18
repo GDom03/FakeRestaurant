@@ -54,4 +54,19 @@ export class RestaurantController {
     }
 
 
+    static async deleteRestaurant(req, res) {
+        const where = {};
+
+        where.id = req.query.idRestaurant;
+        where.UserEmail = req.email;
+
+        const result = await Restaurant.destroy({
+            where
+        });
+
+        return result;
+
+    }
+
+
 }

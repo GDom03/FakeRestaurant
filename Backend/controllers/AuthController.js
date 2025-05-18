@@ -39,8 +39,8 @@ export class AuthController {
         return user.save(); //returns a Promise
     }
 
-    static issueToken(sourceEmail, sourcePassword) {
-        return Jwt.sign({ email: sourceEmail, password: sourcePassword }, process.env.TOKEN_SECRET, { expiresIn: `${24*60*60}s` });
+    static issueToken(sourceEmail) {
+        return Jwt.sign({ email: sourceEmail }, process.env.TOKEN_SECRET, { expiresIn: `${24*60*60}s` });
     }
 
     static isTokenValid(token, callback) {

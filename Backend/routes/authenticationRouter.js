@@ -58,7 +58,7 @@ authenticationRouter.post("/auth", checkEmailField, checkPasswordField, async(re
         const result = await AuthController.checkCredentials(req, res);
 
         if (result) {
-            const token = AuthController.issueToken(req.body.email, req.body.password);
+            const token = AuthController.issueToken(req.body.email);
             return res.status(200).json({ token });
         } else {
 

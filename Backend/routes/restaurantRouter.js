@@ -2,6 +2,7 @@ import express from "express";
 import { RestaurantController } from "../controllers/RestaurantController.js";
 import { MyException } from "../utils/MyException.js";
 import { checkNameField, checkDescriptionField, checkLatitudeField, checkLongitudeField, checkTypeField } from "../middleware/RestaurantCheck.js";
+import { SuccessMessage } from "../utils/SuccessMessage.js";
 
 
 export const restaurantRouter = express.Router();
@@ -123,4 +124,107 @@ restaurantRouter.post("/addRestaurant", checkNameField, checkDescriptionField, c
         console.log(err);
         next(new MyException(500, "Could not save restaurant. Try again later."));
     })
+});
+
+/**
+ * @swagger
+ * /deleteRestaurant:
+ *   delete:
+ *     summary: Delete a restaurant
+ *     description: Deletes a restaurant specified by its ID.
+ *     tags:
+ *       - Delete Resources
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: query
+ *         name: idRestaurant
+ *         required: true
+ *         description: The ID of the restaurant to delete
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       '200':
+ *         description: Restaurant deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object  
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   description: Success message
+ *                   example: "Restaurant deleted successfully"
+ *       '400':
+ *         description: Bad Request - Missing or invalid parameters
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "idRestaurant is required"
+ *       '404':
+ *         description: Not Found - Restaurant not found or not owned by user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "Restaurant not found or not owned by user"
+ *       '500':
+ *         description: Internal Server Error - Could not delete restaurant
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "Could not delete restaurant. Try again later."
+ */
+restaurantRouter.delete("/deleteRestaurant", async(req, res, next) => {
+
+
+    if (req.query.idRestaurant == undefined) {
+        return next(new MyException(400, "idRestaurant is required"));
+    }
+    let result;
+    try {
+        result = await RestaurantController.deleteRestaurant(req, res);
+        if (result > 0) {
+            res.json(JSON.parse(new SuccessMessage(200, "Restaurant deleted successfully").toString()));
+        }
+
+    } catch (err) {
+        console.log(err);
+        next(new MyException(500, "Could not delete restaurant. Try again later."));
+    }
+    if (result == 0) {
+        next(new MyException(404, "Restaurant not found or not owned by user"));
+    }
+
 });

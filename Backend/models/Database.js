@@ -24,16 +24,16 @@ export const { User, Restaurant, Review, Image } = database.models;
 
 //associations configuration
 User.Reviews = User.hasMany(Review);
-Review.User = Review.belongsTo(User);
+Review.User = Review.belongsTo(User, { foreignKey: { allowNull: false } });
 
 User.Restaurants = User.hasMany(Restaurant);
-Restaurant.User = Restaurant.belongsTo(User);
+Restaurant.User = Restaurant.belongsTo(User, { foreignKey: { allowNull: false } });
 
 Restaurant.Reviews = Restaurant.hasMany(Review);
-Review.Restaurant = Review.belongsTo(Restaurant);
+Review.Restaurant = Review.belongsTo(Restaurant, { foreignKey: { allowNull: false } });
 
 Restaurant.Images = Restaurant.hasMany(Image);
-Image.Restaurant = Image.belongsTo(Restaurant);
+Image.Restaurant = Image.belongsTo(Restaurant, { foreignKey: { allowNull: false } });
 
 
 

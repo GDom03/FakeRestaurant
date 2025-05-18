@@ -10,48 +10,43 @@ import { DataTypes } from "sequelize";
  *         id:
  *           type: integer
  *           format: int32
- *           description: unique identifier of the restaurant
+ *           description: Unique identifier of the restaurant
  *         name:
  *           type: string
- *           description: name of the restaurant
+ *           description: Name of the restaurant
  *           example: Trattoria Tecnologie Web
  *         description:
  *           type: string
- *           description: description of the restaurant
+ *           description: Description of the restaurant
  *           example: Waiters can sometimes stand still
  *         type:
  *           type: string  
- *           description: type of the restaurant
+ *           description: Type of the restaurant
  *           example: Tech cuisine
- *         location:
- *           type: object
- *           description: Geographic coordinates of the restaurant
- *           properties:
- *             type:
- *               type: string
- *               enum: [Point]
- *               description: Type of geometry
- *               example: Point
- *             coordinates:
- *               type: array
- *               description: Array with longitude and latitude
- *               items:
- *                 type: number
- *               example: [40.827891, 14.201837]
+ *         latitude:
+ *           type: number
+ *           format: float
+ *           description: Geographic latitude of the restaurant
+ *           example: 40.827891
+ *         longitude:
+ *           type: number
+ *           format: float
+ *           description: Geographic longitude of the restaurant
+ *           example: 14.201837
  *       required:
  *         - id
  *         - name
  *         - description
  *         - type
- *         - location
+ *         - latitude
+ *         - longitude
  *       example:
  *         id: 1
  *         name: Trattoria Tecnologie Web
  *         description: Waiters can sometimes stand still
  *         type: Tech cuisine
- *         location:
- *           type: Point
- *           coordinates: [40.827891, 14.201837]
+ *         latitude: 40.827891
+ *         longitude: 14.201837
  */
 export function createModel(database) {
     database.define('Restaurant', {
@@ -74,8 +69,12 @@ export function createModel(database) {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        location: {
-            type: DataTypes.GEOMETRY('POINT'),
+        latitude: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+        },
+        longitude: {
+            type: DataTypes.FLOAT,
             allowNull: false,
         }
 

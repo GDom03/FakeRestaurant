@@ -5,7 +5,8 @@ import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
 import { authenticationRouter } from "./routes/authenticationRouter.js";
-
+import { restaurantRouter } from "./routes/restaurantRouter.js";
+import { enforceAuthentication } from "./middleware/authorization.js";
 
 const app = express();
 const PORT = 3000;
@@ -41,7 +42,10 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 //define routes
 app.use(authenticationRouter);
-//app.use(enforceAuthentication);
+
+app.use(enforceAuthentication);
+app.use(restaurantRouter);
+
 //app.use(todoRouter);
 
 //error handler

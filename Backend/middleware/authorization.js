@@ -15,9 +15,8 @@ export function enforceAuthentication(req, res, next) {
         if (err) {
             next({ status: 401, message: "Unauthorized" });
         } else {
-            req.username = decodedToken.user;
+            req.email = decodedToken.email;
             next();
         }
     });
 }
-

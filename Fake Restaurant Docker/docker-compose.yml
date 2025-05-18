@@ -13,9 +13,9 @@ services:
       - ./Database/postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready --username admin --dbname fake_restaurant_db"]
-      interval: 10s
-      timeout: 10s
-      retries: 20
+      interval: 5s
+      timeout: 5s
+      retries: 50
 
   pgadmin:
     image: dpage/pgadmin4

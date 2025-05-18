@@ -1,7 +1,7 @@
 import express from "express";
 import { AuthController } from "../controllers/AuthController.js";
 import { MyException } from "../utils/MyException.js";
-import { checkUserExists } from "../middleware/UserCheck.js";
+import { checkUserExists, checkEmailField, checkPasswordField, checkNameField, checkSurnameField } from "../middleware/UserCheck.js";
 
 
 export const authenticationRouter = express.Router();
@@ -53,12 +53,12 @@ export const authenticationRouter = express.Router();
  *               status: 401        
  *               error: "Invalid credentials. Try again."
  */
-authenticationRouter.post("/auth", async(req, res, next) => {
+authenticationRouter.post("/auth", checkEmailField, checkPasswordField, async(req, res, next) => {
     try {
         const result = await AuthController.checkCredentials(req, res);
 
         if (result) {
-            const token = AuthController.issueToken(req.body.user);
+            const token = AuthController.issueToken(req.body.email, req.body.password);
             return res.status(200).json({ token });
         } else {
 
@@ -156,7 +156,7 @@ authenticationRouter.post("/auth", async(req, res, next) => {
  *                   description: Error message
  *                   example: Could not save user. Try again later.
  */
-authenticationRouter.post("/signup", checkUserExists, (req, res, next) => {
+authenticationRouter.post("/signup", checkEmailField, checkPasswordField, checkNameField, checkSurnameField, checkUserExists, (req, res, next) => {
     AuthController.saveUser(req, res).then((user) => {
         console.log(user);
         res.json(user);

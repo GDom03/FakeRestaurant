@@ -12,6 +12,8 @@ export const authenticationRouter = express.Router();
  *   post:
  *     summary: Authenticate user
  *     description: Check that the user is registered and return a token.
+ *     tags:
+ *       - Authentication
  *     produces:
  *       - application/json
  *     requestBody:
@@ -48,6 +50,7 @@ export const authenticationRouter = express.Router();
  *                   type: string
  *                   description: Error message
  *             example:
+ *               status: 401        
  *               error: "Invalid credentials. Try again."
  */
 authenticationRouter.post("/auth", async(req, res, next) => {
@@ -69,42 +72,95 @@ authenticationRouter.post("/auth", async(req, res, next) => {
 
 /**
  * @swagger
- *  /signup:
- *    post:
- *      description: Sing up user
- *      produces:
- *        - application/json
- *      requestBody:
- *        description: user credentials to save it in the database
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                email:
- *                  type: string
- *                  example: domgag@gmail.com
- *                password:
- *                  type: string
- *                  example: domgag
- *                name:
- *                  type: string
- *                  example: Domenico
- *                surname: 
- *                  type: string
- *                  example: Gagliotti           
- *      responses:
- *        200:
- *          description: User registered (user object)
- *        401:
- *          description: Could not save user
+ * /signup:
+ *   post:
+ *     summary: Sign up a new user
+ *     description: Register a new user with email, password, name, and surname.
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       description: User credentials to save in the database
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *               - name
+ *               - surname
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: domgag@gmail.com
+ *               password:
+ *                 type: string
+ *                 example: domgag
+ *               name:
+ *                 type: string
+ *                 example: Domenico
+ *               surname:
+ *                 type: string
+ *                 example: Gagliotti
+ *     responses:
+ *       200:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                   example: domgag@gmail.com
+ *                 name:
+ *                   type: string
+ *                   example: Domenico
+ *                 surname:
+ *                   type: string
+ *                   example: Gagliotti
+ *                 password:
+ *                   type: string
+ *                   example: domgag
+ *       409:
+ *         description: User already registered. Try to login.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 409
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: User already registered. Try to login.
+ *       500:
+ *         description: Could not save user. Try again later.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Could not save user. Try again later.
  */
 authenticationRouter.post("/signup", checkUserExists, (req, res, next) => {
     AuthController.saveUser(req, res).then((user) => {
         console.log(user);
         res.json(user);
     }).catch((err) => {
-        next(new MyException(500, "Could not save user"));
+        next(new MyException(500, "Could not save user. Try again later."));
     })
 });

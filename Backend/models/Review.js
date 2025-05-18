@@ -1,5 +1,34 @@
 import { DataTypes } from "sequelize";
 
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Review:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           format: int32
+ *           description: unique identifier of the Review
+ *           example: 1
+ *         title:
+ *           type: string
+ *           description: title of the Review
+ *           example: Strange waiters
+ *         content:
+ *           type: string
+ *           description: content of the Review
+ *           example: While I was eating, the waiter stood there the whole time looking at me near the table. I thought they had switched to single-threaded event loop management    
+ *       required:
+ *         - id
+ *         - title
+ *       example:
+ *         id: 1
+ *         title: Strange waiters
+ *         content: "While I was eating, the waiter stood there the whole time looking at me near the table. I thought they had switched to single-threaded event loop management"
+ */
 export function createModel(database) {
     database.define('Review', {
         // Model attributes are defined here

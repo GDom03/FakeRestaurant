@@ -6,6 +6,115 @@ import { checkNameField, checkDescriptionField, checkLatitudeField, checkLongitu
 
 export const restaurantRouter = express.Router();
 
+
+/**
+ * @swagger
+ * /addRestaurant:
+ *   post:
+ *     summary: Create a new restaurant
+ *     description: Create a new restaurant with the given data
+ *     tags:
+ *       - Insert Resources
+ *     produces:
+ *       - application/json
+ *     requestBody:
+ *       description: Restaurant data to create
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Restaurant'
+ *           example:
+ *             name: "Trattoria Tecnologie Web"
+ *             description: "Waiters can sometimes stand still"
+ *             type: "Tech cuisine"
+ *             latitude: 40.827891
+ *             longitude: 14.201837
+ *     responses:
+ *       '200':
+ *         description: Restaurant created (object)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object  
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   format: int32
+ *                   description: Unique identifier of the restaurant
+ *                 name:
+ *                   type: string
+ *                   description: Name of the restaurant
+ *                   example: Trattoria Tecnologie Web
+ *                 description:
+ *                   type: string
+ *                   description: Description of the restaurant
+ *                   example: Waiters can sometimes stand still
+ *                 type:
+ *                   type: string  
+ *                   description: Type of the restaurant
+ *                   example: Tech cuisine
+ *                 latitude:
+ *                   type: number
+ *                   format: float
+ *                   description: Geographic latitude of the restaurant
+ *                   example: 40.827891
+ *                 longitude:
+ *                   type: number
+ *                   format: float
+ *                   description: Geographic longitude of the restaurant
+ *                   example: 14.201837
+ *             example:
+ *               id: 1
+ *               name: Trattoria Tecnologie Web
+ *               description: Waiters can sometimes stand still
+ *               type: Tech cuisine
+ *               latitude: 40.827891
+ *               longitude: 14.201837
+ *       '400':
+ *         description: User credentials are missing or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 409
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Name field is required
+ *       '401':
+ *         description: Invalid credentials
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ *             example:
+ *               status: 401        
+ *               error: "Unauthorized problem with the token" 
+ *       '500':
+ *         description: Could not save user. Try again later.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Could not save user. Try again later.
+ */
 restaurantRouter.post("/addRestaurant", checkNameField, checkDescriptionField, checkTypeField, checkLatitudeField, checkLongitudeField, async(req, res, next) => {
     RestaurantController.saveRestaurant(req, res).then((restaurant) => {
         console.log(restaurant);

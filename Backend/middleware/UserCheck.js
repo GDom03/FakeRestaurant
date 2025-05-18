@@ -15,19 +15,6 @@ export async function checkUserExists(req, res, next) {
     next();
 }
 
-export async function checkUserNotExists(req, res, next) {
-    let user = await User.findOne({
-        where: {
-            email: req.body.email
-        },
-    });
-
-    if (user === null) {
-        next(new MyException(404, "User not found"));
-    }
-    next();
-}
-
 export function checkEmailField(req, res, next) {
     if (!req.body.email) {
         next(new MyException(400, "Email field is required"));

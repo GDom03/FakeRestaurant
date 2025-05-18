@@ -6,6 +6,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 
 import { authenticationRouter } from "./routes/authenticationRouter.js";
 import { restaurantRouter } from "./routes/restaurantRouter.js";
+import { searchRouter } from "./routes/searchRouter.js";
 import { enforceAuthentication } from "./middleware/authorization.js";
 
 const app = express();
@@ -42,6 +43,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 //define routes
 app.use(authenticationRouter);
+app.use(searchRouter);
 
 app.use(enforceAuthentication);
 app.use(restaurantRouter);

@@ -125,6 +125,21 @@ authenticationRouter.post("/auth", checkEmailField, checkPasswordField, async(re
  *                 password:
  *                   type: string
  *                   example: domgag
+ *       400:
+ *         description: User credentials are missing or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 409
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Email field is required
  *       409:
  *         description: User already registered. Try to login.
  *         content:

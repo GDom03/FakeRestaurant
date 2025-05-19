@@ -8,6 +8,7 @@ import { authenticationRouter } from "./routes/authenticationRouter.js";
 import { restaurantRouter } from "./routes/restaurantRouter.js";
 import { searchRouter } from "./routes/searchRouter.js";
 import { enforceAuthentication } from "./middleware/authorization.js";
+import { imageRouter } from "./routes/imageRouter.js";
 
 const app = express();
 const PORT = 3000;
@@ -47,6 +48,7 @@ app.use(searchRouter);
 
 app.use(enforceAuthentication);
 app.use(restaurantRouter);
+app.use(imageRouter);
 
 //app.use(todoRouter);
 

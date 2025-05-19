@@ -11,16 +11,16 @@ import { DataTypes } from "sequelize";
  *           type: integer
  *           format: int32
  *           description: unique identifier of the image
- *         image:
+ *         imageUrl:
  *           type: string
  *           format: binary
- *           description: image of the restaurant
+ *           description: URL or path of the image in cloud storage
  *       required:
  *         - id
- *         - image
+ *         - imageUrl
  *       example:
  *         id: 1
- *         image: "base64-encoded-image-string"
+ *         image: "restaurant-images/123456789.jpg"
  */
 export function createModel(database) {
     database.define('Image', {
@@ -32,7 +32,7 @@ export function createModel(database) {
             primaryKey: true
         },
         image: {
-            type: DataTypes.BLOB,
+            type: DataTypes.STRING,
             allowNull: false,
         },
 

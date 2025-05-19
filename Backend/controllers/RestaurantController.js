@@ -1,5 +1,4 @@
-import { User, Restaurant, Review } from "../models/Database.js";
-import Jwt from "jsonwebtoken";
+import { Restaurant } from "../models/Database.js";
 import { Op } from 'sequelize';
 
 export class RestaurantController {
@@ -29,14 +28,14 @@ export class RestaurantController {
         const offset = (page - 1) * limit;
 
         const where = {};
-        if (req.query.nameRestaurant) {
+        if (req.query.name) {
             where.name = {
-                [Op.like]: `%${req.query.nameRestaurant}%`
+                [Op.like]: `%${req.query.name}%`
             };
         }
-        if (req.query.emailUser) {
+        if (req.query.userEmail) {
             where.UserEmail = {
-                [Op.like]: `%${req.query.emailUser}%`
+                [Op.like]: `%${req.query.userEmail}%`
             };
         }
 
@@ -57,7 +56,7 @@ export class RestaurantController {
     static async deleteRestaurant(req, res) {
         const where = {};
 
-        where.id = req.query.idRestaurant;
+        where.id = req.query.restaurantId;
         where.UserEmail = req.email;
 
         const result = await Restaurant.destroy({

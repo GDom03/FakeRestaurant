@@ -1,4 +1,4 @@
-import { User, Restaurant, Review } from "../models/Database.js";
+import { User } from "../models/Database.js";
 import Jwt from "jsonwebtoken";
 
 

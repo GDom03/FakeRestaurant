@@ -1,3 +1,4 @@
+version: "3.8"
 
 services:
   fake_restaurant_db:
@@ -16,6 +17,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 50
+    networks:
+      fake_restaurant_network:
+        ipv4_address: 172.28.0.2
 
   pgadmin:
     image: dpage/pgadmin4
@@ -29,6 +33,25 @@ services:
       - fake_restaurant_db
     volumes:
       - ./PgAdmin/pgadmin_data:/var/lib/pgadmin
+    networks:
+      fake_restaurant_network:
+        ipv4_address: 172.28.0.3
+
+  fake_restaurant_cloud:
+    image: minio/minio
+    container_name: fake_restaurant_cloud
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./MinIO/minio-data:/data
+    networks:
+      fake_restaurant_network:
+        ipv4_address: 172.28.0.4
 
   backend:
     build: ../Backend 
@@ -39,16 +62,24 @@ services:
       DB_CONNECTION_URI: "postgres://admin:admin@fake_restaurant_db:5432/fake_restaurant_db"
       DIALECT: "postgres"
       TOKEN_SECRET: "V3RY_S3CR37_T0K3N"
-    #volumes:
-    #  - ../Backend:/app # Monta la directory del tuo backend nel container per sviluppo
-    #  - /app/node_modules # Evita di sovrascrivere i moduli installati nel container
     depends_on:
       fake_restaurant_db:
         condition: service_healthy
-    command: "npm start" # Comando per avviare la tua applicazione Node.js
-
+      fake_restaurant_cloud:
+        condition: service_started
+    command: "npm start"
+    networks:
+      fake_restaurant_network:
+        ipv4_address: 172.28.0.5
 
 volumes:
   postgres_data:
   pgadmin_data:
+  minio-data:
 
+networks:
+  fake_restaurant_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

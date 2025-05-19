@@ -1,7 +1,7 @@
 import express from "express";
 import { RestaurantController } from "../controllers/RestaurantController.js";
 import { MyException } from "../utils/MyException.js";
-import { checkNameField, checkDescriptionField, checkLatitudeField, checkLongitudeField, checkTypeField } from "../middleware/RestaurantCheck.js";
+import { checkNameField, checkDescriptionField, checkLatitudeField, checkLongitudeField, checkTypeField, checkRestaurantIdField, checkRestaurantExists } from "../middleware/restaurantCheck.js";
 import { SuccessMessage } from "../utils/SuccessMessage.js";
 
 
@@ -16,6 +16,8 @@ export const restaurantRouter = express.Router();
  *     description: Create a new restaurant with the given data
  *     tags:
  *       - Insert Resources
+ *     security:
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     requestBody:
@@ -206,15 +208,10 @@ restaurantRouter.post("/addRestaurant", checkNameField, checkDescriptionField, c
  *                   description: Error message
  *                   example: "Could not delete restaurant. Try again later."
  */
-restaurantRouter.delete("/deleteRestaurant", async(req, res, next) => {
+restaurantRouter.delete("/deleteRestaurant", checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
 
-
-    if (req.query.idRestaurant == undefined) {
-        return next(new MyException(400, "idRestaurant is required"));
-    }
-    let result;
     try {
-        result = await RestaurantController.deleteRestaurant(req, res);
+        let result = await RestaurantController.deleteRestaurant(req, res);
         if (result > 0) {
             res.json(JSON.parse(new SuccessMessage(200, "Restaurant deleted successfully").toString()));
         }
@@ -223,8 +220,6 @@ restaurantRouter.delete("/deleteRestaurant", async(req, res, next) => {
         console.log(err);
         next(new MyException(500, "Could not delete restaurant. Try again later."));
     }
-    if (result == 0) {
-        next(new MyException(404, "Restaurant not found or not owned by user"));
-    }
+
 
 });

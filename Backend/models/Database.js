@@ -23,17 +23,17 @@ createImageModel(database);
 export const { User, Restaurant, Review, Image } = database.models;
 
 //associations configuration
-User.Reviews = User.hasMany(Review);
-Review.User = Review.belongsTo(User, { foreignKey: { allowNull: false } });
+User.Reviews = User.hasMany(Review, { onUpdate: 'CASCADE' });
+Review.User = Review.belongsTo(User, { foreignKey: { allowNull: false }, onUpdate: 'CASCADE' });
 
-User.Restaurants = User.hasMany(Restaurant);
-Restaurant.User = Restaurant.belongsTo(User, { foreignKey: { allowNull: false } });
+User.Restaurants = User.hasMany(Restaurant, { onUpdate: 'CASCADE' });
+Restaurant.User = Restaurant.belongsTo(User, { foreignKey: { allowNull: false }, onUpdate: 'CASCADE' });
 
-Restaurant.Reviews = Restaurant.hasMany(Review);
-Review.Restaurant = Review.belongsTo(Restaurant, { foreignKey: { allowNull: false } });
+Restaurant.Reviews = Restaurant.hasMany(Review, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+Review.Restaurant = Review.belongsTo(Restaurant, { foreignKey: { allowNull: false }, onDelete: 'NO ACTION', onUpdate: 'CASCADE' });
 
-Restaurant.Images = Restaurant.hasMany(Image);
-Image.Restaurant = Image.belongsTo(Restaurant, { foreignKey: { allowNull: false } });
+Restaurant.Images = Restaurant.hasMany(Image, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+Image.Restaurant = Image.belongsTo(Restaurant, { foreignKey: { allowNull: false }, onDelete: 'NO ACTION', onUpdate: 'CASCADE' });
 
 
 

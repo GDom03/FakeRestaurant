@@ -3,8 +3,6 @@ import express from "express";
 import { MyException } from "../utils/MyException.js";
 import { RestaurantController } from "../controllers/RestaurantController.js";
 
-
-
 export const searchRouter = express.Router();
 
 /**
@@ -81,12 +79,7 @@ export const searchRouter = express.Router();
  */
 searchRouter.get("/getRestaurants", async(req, res, next) => {
 
-
-    console.log("\n\n\n");
-    console.log("query: ", req.query);
-    console.log("\n\n\n");
-
-    if (req.query.nameRestaurant == undefined && req.query.emailUser == undefined) {
+    if (req.query.name == undefined && req.query.userEmail == undefined) {
         return next(new MyException(400, "No search parameters provided"));
     }
 

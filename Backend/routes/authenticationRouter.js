@@ -1,7 +1,7 @@
 import express from "express";
 import { AuthController } from "../controllers/AuthController.js";
 import { MyException } from "../utils/MyException.js";
-import { checkUserExists, checkEmailField, checkPasswordField, checkNameField, checkSurnameField } from "../middleware/UserCheck.js";
+import { checkUserExists, checkEmailField, checkPasswordField, checkNameField, checkSurnameField } from "../middleware/userCheck.js";
 
 
 export const authenticationRouter = express.Router();

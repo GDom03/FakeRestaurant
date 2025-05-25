@@ -7,8 +7,10 @@ import swaggerJSDoc from "swagger-jsdoc";
 import { authenticationRouter } from "./routes/authenticationRouter.js";
 import { restaurantRouter } from "./routes/restaurantRouter.js";
 import { searchRouter } from "./routes/searchRouter.js";
+import { reviewRouter } from "./routes/reviewRouter.js";
 import { enforceAuthentication } from "./middleware/authorization.js";
 import { imageRouter } from "./routes/imageRouter.js";
+import { MyException } from "./utils/MyException.js";
 
 const app = express();
 const PORT = 3000;
@@ -32,13 +34,24 @@ const swaggerSpec = swaggerJSDoc({
             version: '1.0.0',
         },
         components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT' // opzionale ma consigliato
+                }
+            },
             schemas: {
-
+                // i tuoi eventuali modelli qui
             }
-        }
+        },
+        security: [{
+            bearerAuth: []
+        }]
     },
-    apis: ['./routes/*Router.js', './models/*.js'], // files containing annotations
+    apis: ['./routes/*Router.js', './models/*.js'], // i file da scansionare per le annotazioni
 });
+
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
@@ -49,8 +62,13 @@ app.use(searchRouter);
 app.use(enforceAuthentication);
 app.use(restaurantRouter);
 app.use(imageRouter);
+app.use(reviewRouter);
 
-//app.use(todoRouter);
+
+// Catch-all per route non trovate (404)
+app.use((req, res, next) => {
+    next(new MyException(404, 'Endpoint not found'));
+});
 
 //error handler
 app.use((err, req, res, next) => {

@@ -35,9 +35,30 @@ export class RestaurantController {
         }
         if (req.query.userEmail) {
             where.UserEmail = {
-                [Op.like]: `%${req.query.userEmail}%`
+                [Op.like]: `%${req.params.userEmail}%`
             };
         }
+
+        const sort = req.query.sort || 'updatedAt';
+
+        const restaurants = await Restaurant.findAll({
+            where,
+            limit,
+            offset,
+            order: [
+                [sort, 'DESC']
+            ]
+        });
+        return restaurants;
+    }
+
+    static async getRestaurantsById(req, res) {
+        const limit = req.query.limit || 10;
+        const page = req.query.page || 1;
+        const offset = (page - 1) * limit;
+
+        const where = {};
+        where.id = req.params.restaurantId;
 
         const sort = req.query.sort || 'updatedAt';
 

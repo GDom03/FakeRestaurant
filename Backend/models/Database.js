@@ -3,6 +3,7 @@ import { createModel as createUserModel } from "./User.js";
 import { createModel as createRestaurantModel } from "./Restaurant.js";
 import { createModel as createReviewModel } from "./Review.js";
 import { createModel as createImageModel } from "./Image.js";
+import { createModel as createVoteModel } from "./Vote.js";
 
 import 'dotenv/config.js'; //read .env file and make it available in process.env
 
@@ -19,8 +20,9 @@ createUserModel(database);
 createRestaurantModel(database);
 createReviewModel(database);
 createImageModel(database);
+createVoteModel(database);
 
-export const { User, Restaurant, Review, Image } = database.models;
+export const { User, Restaurant, Review, Image, Vote } = database.models;
 
 //associations configuration
 User.Reviews = User.hasMany(Review, { onUpdate: 'CASCADE' });
@@ -34,6 +36,11 @@ Review.Restaurant = Review.belongsTo(Restaurant, { foreignKey: { allowNull: fals
 
 Restaurant.Images = Restaurant.hasMany(Image, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 Image.Restaurant = Image.belongsTo(Restaurant, { foreignKey: { allowNull: false }, onDelete: 'NO ACTION', onUpdate: 'CASCADE' });
+
+Vote.User = Vote.belongsTo(User, { foreignKey: { allowNull: false }, onUpdate: 'CASCADE', onDelete: 'CASCADE' });
+Vote.Review = Vote.belongsTo(Review, { foreignKey: { allowNull: false }, onUpdate: 'CASCADE', onDelete: 'CASCADE' });
+User.Votes = User.hasMany(Vote, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+Review.Votes = Review.hasMany(Vote, { onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
 
 

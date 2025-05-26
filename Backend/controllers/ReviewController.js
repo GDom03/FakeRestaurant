@@ -1,5 +1,6 @@
-import { Review, User } from "../models/Database.js";
+import { Review, User, Vote } from "../models/Database.js";
 import { MyException } from "../utils/MyException.js";
+import { Sequelize } from "sequelize";
 
 export class ReviewController {
 
@@ -26,31 +27,49 @@ export class ReviewController {
         return review.save(); //returns a Promise
     }
 
-    static async getReviewsByRestaurant(req, res) {
-        const limit = req.query.limit || 10;
-        const page = req.query.page || 1;
+
+    static async get(where, req, res) {
+        const limit = parseInt(req.query.limit) || 10;
+        const page = parseInt(req.query.page) || 1;
         const offset = (page - 1) * limit;
-
-        const where = {};
-        where.RestaurantId = req.params.restaurantId;
-
         const sort = req.query.sort || 'updatedAt';
 
         const reviews = await Review.findAll({
             where,
-            limit,
-            offset,
+            attributes: {
+                include: [
+                    [Sequelize.fn('SUM', Sequelize.literal(`CASE WHEN "Votes"."isUpVote" = TRUE THEN 1 ELSE 0 END`)), 'upvotes'],
+                    [Sequelize.fn('SUM', Sequelize.literal(`CASE WHEN "Votes"."isUpVote" = FALSE THEN 1 ELSE 0 END`)), 'downvotes']
+                ]
+            },
+            include: [{
+                model: Vote,
+                as: 'Votes',
+                attributes: [],
+                required: false // LEFT OUTER JOIN
+            }],
+            group: ['Review.id'],
             order: [
                 [sort, 'DESC']
-            ]
+            ],
+            limit,
+            offset,
+            subQuery: false
         });
+
         return reviews;
     }
 
+    static async getReviewsByRestaurant(req, res) {
+
+        const where = {
+            RestaurantId: req.params.restaurantId
+        };
+
+        return this.get(where, req, res);
+    }
+
     static async getReviews(req, res) {
-        const limit = req.query.limit || 10;
-        const page = req.query.page || 1;
-        const offset = (page - 1) * limit;
 
         const where = {};
         if (req.query.userEmail) {
@@ -68,17 +87,7 @@ export class ReviewController {
             where.UserEmail = req.query.userEmail;
         }
 
-        const sort = req.query.sort || 'updatedAt';
-
-        const reviews = await Review.findAll({
-            where,
-            limit,
-            offset,
-            order: [
-                [sort, 'DESC']
-            ]
-        });
-        return reviews;
+        return this.get(where, req, res);
     }
 
 

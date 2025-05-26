@@ -158,7 +158,78 @@ searchRouter.get("/getRestaurants/:restaurantId", async(req, res, next) => {
     }
 });
 
-
+/**
+ * @swagger
+ * /getReviews:
+ *   get:
+ *     summary: Get reviews by restaurant
+ *     description: Retrieve a paginated list of reviews for a specific restaurant, including upvotes and downvotes counts. Supports sorting.
+ *     tags:
+ *       - Search Resources
+ *     parameters:
+ *       - in: query
+ *         name: restaurantId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the restaurant to get reviews for
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         required: false
+ *         description: Page number for paginated results
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         required: false
+ *         description: Number of reviews per page
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           default: updatedAt
+ *         required: false
+ *         description: Field to sort the results by (e.g. 'updatedAt', 'overallRating')
+ *     responses:
+ *       '200':
+ *         description: List of reviews for the restaurant with upvotes and downvotes counts
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Review'
+ *       '400':
+ *         description: Missing or invalid parameters
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: Missing restaurantId parameter
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: Could not fetch reviews. Try again later.
+ */
 searchRouter.get("/getReviews", async(req, res, next) => {
 
     try {

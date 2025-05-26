@@ -63,7 +63,5 @@ export function createModel(database) {
             allowNull: false
         },
 
-    }, { // Other model options go here
-        //the actual table name is inferred from the model name (pluralized) by default
-    });
+    }, {});
 }

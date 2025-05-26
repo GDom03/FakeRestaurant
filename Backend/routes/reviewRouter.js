@@ -2,7 +2,8 @@ import express from "express";
 import { ReviewController } from "../controllers/ReviewController.js";
 import { MyException } from "../utils/MyException.js";
 import { checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField } from "../middleware/reviewCheck.js";
-import { checkRestaurantIdField } from "../middleware/restaurantCheck.js";
+import { checkRestaurantIdField, checkRestaurantExists } from "../middleware/restaurantCheck.js";
+
 
 export const reviewRouter = express.Router();
 
@@ -138,7 +139,7 @@ export const reviewRouter = express.Router();
  *                   description: Error message
  *                   example: Could not save review. Try again later.
  */
-reviewRouter.post("/addReview", checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, async(req, res, next) => {
+reviewRouter.post("/addReview", checkRestaurantExists, checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, async(req, res, next) => {
     ReviewController.saveReview(req, res).then((review) => {
         console.log(review);
         res.json(review);

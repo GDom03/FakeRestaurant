@@ -8,6 +8,7 @@ import { authenticationRouter } from "./routes/authenticationRouter.js";
 import { restaurantRouter } from "./routes/restaurantRouter.js";
 import { searchRouter } from "./routes/searchRouter.js";
 import { reviewRouter } from "./routes/reviewRouter.js";
+import { voteRouter } from "./routes/voteRouter.js";
 import { enforceAuthentication } from "./middleware/authorization.js";
 import { imageRouter } from "./routes/imageRouter.js";
 import { MyException } from "./utils/MyException.js";
@@ -63,6 +64,7 @@ app.use(enforceAuthentication);
 app.use(restaurantRouter);
 app.use(imageRouter);
 app.use(reviewRouter);
+app.use(voteRouter);
 
 
 // Catch-all per route non trovate (404)

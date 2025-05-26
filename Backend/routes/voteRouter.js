@@ -12,7 +12,7 @@ export const voteRouter = express.Router();
 
 /**
  * @swagger
- * /addVote:
+ * /votes:
  *   post:
  *     summary: Create a new vote
  *     description: Submit a vote (upvote or downvote) for a review
@@ -100,7 +100,7 @@ export const voteRouter = express.Router();
  *                   description: Error message
  *                   example: Could not save vote. Try again later.
  */
-voteRouter.post("/addVote", checkIsUpVoteField, checkReviewIdField, checkReviewExists, async(req, res, next) => {
+voteRouter.post("/votes", checkIsUpVoteField, checkReviewIdField, checkReviewExists, async(req, res, next) => {
 
     VoteController.saveVote(req, res).then((vote) => {
         console.log(vote);
@@ -113,7 +113,7 @@ voteRouter.post("/addVote", checkIsUpVoteField, checkReviewIdField, checkReviewE
 
 /**
  * @swagger
- * /deleteVote:
+ * /votes:
  *   delete:
  *     summary: Delete a vote
  *     description: Deletes a vote specified by its ReviewId.
@@ -191,7 +191,7 @@ voteRouter.post("/addVote", checkIsUpVoteField, checkReviewIdField, checkReviewE
  *                   description: Error message
  *                   example: "Could not delete vote. Try again later."
  */
-voteRouter.delete("/deleteVote", checkReviewIdField, checkReviewExists, async(req, res, next) => {
+voteRouter.delete("/votes", checkReviewIdField, checkReviewExists, async(req, res, next) => {
 
     try {
         let result = await VoteController.deleteVote(req, res);

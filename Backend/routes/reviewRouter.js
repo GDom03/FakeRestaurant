@@ -12,7 +12,7 @@ export const reviewRouter = express.Router();
 
 /**
  * @swagger
- * /addReview:
+ * /review:
  *   post:
  *     summary: Create a new review
  *     description: Create a new restaurant review with the given data
@@ -142,7 +142,7 @@ export const reviewRouter = express.Router();
  *                   description: Error message
  *                   example: Could not save review. Try again later.
  */
-reviewRouter.post("/addReview", checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
+reviewRouter.post("/review", checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
     ReviewController.saveReview(req, res).then((review) => {
         console.log(review);
         res.json(review);
@@ -155,7 +155,7 @@ reviewRouter.post("/addReview", checkTitleField, checkContentField, checkOverall
 
 /**
  * @swagger
- * /deleteReview:
+ * /reviews:
  *   delete:
  *     summary: Delete a review
  *     description: Deletes a review specified by its ID.
@@ -233,7 +233,7 @@ reviewRouter.post("/addReview", checkTitleField, checkContentField, checkOverall
  *                   description: Error message
  *                   example: "Could not delete review. Try again later."
  */
-reviewRouter.delete("/deleteReview", checkReviewIdField, checkReviewExists, async(req, res, next) => {
+reviewRouter.delete("/reviews", checkReviewIdField, checkReviewExists, async(req, res, next) => {
 
     try {
         let result = await ReviewController.deleteReview(req, res);

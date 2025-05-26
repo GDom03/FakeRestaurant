@@ -15,7 +15,7 @@ const upload = multer({ storage: storage });
 
 /**
  * @swagger
- * /uploadImage:
+ * /images:
  *   post:
  *     summary: Upload an image for a restaurant
  *     description: Uploads an image file associated with a specific restaurant. The image is stored in MinIO and linked to the restaurant in the database.
@@ -102,7 +102,7 @@ const upload = multer({ storage: storage });
  *                   description: Error message
  *                   example: Could not save image. Try again later.
  */
-imageRouter.post("/uploadImage", upload.single('image'), checkRestaurantIdField, checkImageField, checkRestaurantExists, async(req, res, next) => {
+imageRouter.post("/images", upload.single('image'), checkRestaurantIdField, checkImageField, checkRestaurantExists, async(req, res, next) => {
 
     console.log(process.env.MINIO_HOST);
     ImageController.saveImage(req, res, next).then((image) => {
@@ -120,7 +120,7 @@ imageRouter.post("/uploadImage", upload.single('image'), checkRestaurantIdField,
 
 /**
  * @swagger
- * /deleteImage:
+ * /images:
  *   delete:
  *     summary: Delete an image
  *     description: Deletes an image by its ID and removes it from MinIO and the database.
@@ -198,7 +198,7 @@ imageRouter.post("/uploadImage", upload.single('image'), checkRestaurantIdField,
  *                   description: Error message
  *                   example: "Could not delete image. Try again later."
  */
-imageRouter.delete("/deleteImage", checkImageIdField, checkImageExists, checkCanDeleteImage, async(req, res, next) => {
+imageRouter.delete("/images", checkImageIdField, checkImageExists, checkCanDeleteImage, async(req, res, next) => {
 
     try {
         let result = await ImageController.deleteImage(req, res);

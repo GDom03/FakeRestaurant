@@ -8,7 +8,7 @@ export const searchRouter = express.Router();
 
 /**
  * @swagger
- * /getRestaurants:
+ * /restaurants:
  *   get:
  *     summary: Search for restaurants
  *     description: Retrieve a list of restaurants filtered by name or associated user email and you can sort them, also it has a page system.
@@ -83,7 +83,7 @@ export const searchRouter = express.Router();
  *                   type: string
  *                   example: Could not fetch restaurants. Try again later.
  */
-searchRouter.get("/getRestaurants", async(req, res, next) => {
+searchRouter.get("/restaurants", async(req, res, next) => {
 
     try {
         const restaurants = await RestaurantController.getRestaurants(req, res);
@@ -97,7 +97,7 @@ searchRouter.get("/getRestaurants", async(req, res, next) => {
 
 /**
  * @swagger
- * /getRestaurants/{restaurantId}:
+ * /restaurants/{restaurantId}:
  *   get:
  *     summary: Get a restaurant by ID
  *     description: Retrieve a single restaurant using its unique numeric ID.
@@ -144,7 +144,7 @@ searchRouter.get("/getRestaurants", async(req, res, next) => {
  *                   type: string
  *                   example: Could not fetch restaurants. Try again later.
  */
-searchRouter.get("/getRestaurants/:restaurantId", async(req, res, next) => {
+searchRouter.get("/restaurants/:restaurantId", async(req, res, next) => {
     if (!Number.isInteger(Number(req.params.restaurantId))) {
         return next(new MyException(400, "Restaurant Id must be an integer"));
     }
@@ -160,7 +160,7 @@ searchRouter.get("/getRestaurants/:restaurantId", async(req, res, next) => {
 
 /**
  * @swagger
- * /getReviews:
+ * /reviews:
  *   get:
  *     summary: Get reviews by restaurant
  *     description: Retrieve a paginated list of reviews for a specific restaurant, including upvotes and downvotes counts. Supports sorting.
@@ -168,11 +168,11 @@ searchRouter.get("/getRestaurants/:restaurantId", async(req, res, next) => {
  *       - Search Resources
  *     parameters:
  *       - in: query
- *         name: restaurantId
+ *         name: userEmail
  *         schema:
- *           type: integer
- *         required: true
- *         description: ID of the restaurant to get reviews for
+ *           type: string
+ *         required: false
+ *         description: Email of the user to filter reviews by
  *       - in: query
  *         name: page
  *         schema:
@@ -230,7 +230,7 @@ searchRouter.get("/getRestaurants/:restaurantId", async(req, res, next) => {
  *                   type: string
  *                   example: Could not fetch reviews. Try again later.
  */
-searchRouter.get("/getReviews", async(req, res, next) => {
+searchRouter.get("/reviews", async(req, res, next) => {
 
     try {
         const reviews = await ReviewController.getReviews(req, res);
@@ -247,7 +247,7 @@ searchRouter.get("/getReviews", async(req, res, next) => {
 
 /**
  * @swagger
- * /getReviews/{restaurantId}:
+ * /reviews/{restaurantId}:
  *   get:
  *     summary: Get reviews by restaurant ID
  *     description: Retrieve all reviews associated with a specific restaurant using its unique numeric ID.
@@ -296,7 +296,7 @@ searchRouter.get("/getReviews", async(req, res, next) => {
  *                   type: string
  *                   example: Could not fetch reviews. Try again later.
  */
-searchRouter.get("/getReviews/:restaurantId", async(req, res, next) => {
+searchRouter.get("/reviews/:restaurantId", async(req, res, next) => {
 
     if (!Number.isInteger(Number(req.params.restaurantId))) {
         return next(new MyException(400, "Restaurant Id must be an integer"));

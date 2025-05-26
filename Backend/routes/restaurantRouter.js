@@ -10,7 +10,7 @@ export const restaurantRouter = express.Router();
 
 /**
  * @swagger
- * /addRestaurant:
+ * /restaurants:
  *   post:
  *     summary: Create a new restaurant
  *     description: Create a new restaurant with the given data
@@ -118,7 +118,7 @@ export const restaurantRouter = express.Router();
  *                   description: Error message
  *                   example: Could not save user. Try again later.
  */
-restaurantRouter.post("/addRestaurant", checkNameField, checkDescriptionField, checkTypeField, checkLatitudeField, checkLongitudeField, async(req, res, next) => {
+restaurantRouter.post("/restaurants", checkNameField, checkDescriptionField, checkTypeField, checkLatitudeField, checkLongitudeField, async(req, res, next) => {
     RestaurantController.saveRestaurant(req, res).then((restaurant) => {
         console.log(restaurant);
         res.json(restaurant);
@@ -130,7 +130,7 @@ restaurantRouter.post("/addRestaurant", checkNameField, checkDescriptionField, c
 
 /**
  * @swagger
- * /deleteRestaurant:
+ * /restaurants:
  *   delete:
  *     summary: Delete a restaurant
  *     description: Deletes a restaurant specified by its ID.
@@ -208,7 +208,7 @@ restaurantRouter.post("/addRestaurant", checkNameField, checkDescriptionField, c
  *                   description: Error message
  *                   example: "Could not delete restaurant. Try again later."
  */
-restaurantRouter.delete("/deleteRestaurant", checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
+restaurantRouter.delete("/restaurants", checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
 
     try {
         let result = await RestaurantController.deleteRestaurant(req, res);

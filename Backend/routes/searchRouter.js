@@ -3,6 +3,7 @@ import express from "express";
 import { MyException } from "../utils/MyException.js";
 import { RestaurantController } from "../controllers/RestaurantController.js";
 import { ReviewController } from "../controllers/ReviewController.js";
+import { checkEmailField } from "../middleware/userCheck.js";
 
 export const searchRouter = express.Router();
 
@@ -171,7 +172,7 @@ searchRouter.get("/restaurants/:restaurantId", async(req, res, next) => {
  *         name: userEmail
  *         schema:
  *           type: string
- *         required: false
+ *         required: true
  *         description: Email of the user to filter reviews by
  *       - in: query
  *         name: page
@@ -230,7 +231,7 @@ searchRouter.get("/restaurants/:restaurantId", async(req, res, next) => {
  *                   type: string
  *                   example: Could not fetch reviews. Try again later.
  */
-searchRouter.get("/reviews", async(req, res, next) => {
+searchRouter.get("/reviews", checkEmailField, async(req, res, next) => {
 
     try {
         const reviews = await ReviewController.getReviews(req, res);

@@ -12,7 +12,7 @@ export const reviewRouter = express.Router();
 
 /**
  * @swagger
- * /review:
+ * /reviews:
  *   post:
  *     summary: Create a new review
  *     description: Create a new restaurant review with the given data
@@ -142,7 +142,7 @@ export const reviewRouter = express.Router();
  *                   description: Error message
  *                   example: Could not save review. Try again later.
  */
-reviewRouter.post("/review", checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
+reviewRouter.post("/reviews", checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
     ReviewController.saveReview(req, res).then((review) => {
         console.log(review);
         res.json(review);

@@ -3,6 +3,8 @@ import { MyException } from "../utils/MyException.js";
 import { checkRestaurantIdField, checkRestaurantExists } from "../middleware/restaurantCheck.js";
 import { checkImageField } from "../middleware/imageCheck.js";
 import { ImageController } from "../controllers/ImageController.js";
+import { checkImageIdField, checkImageExists, checkCanDeleteImage } from "../middleware/imageCheck.js";
+import { SuccessMessage } from "../utils/SuccessMessage.js";
 import multer from 'multer';
 
 
@@ -112,5 +114,102 @@ imageRouter.post("/uploadImage", upload.single('image'), checkRestaurantIdField,
     }).catch((error) => {
         next(new MyException(500, error.message));
     });
+
+});
+
+
+/**
+ * @swagger
+ * /deleteImage:
+ *   delete:
+ *     summary: Delete an image
+ *     description: Deletes an image by its ID and removes it from MinIO and the database.
+ *     tags:
+ *       - Delete Resources
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: query
+ *         name: imageId
+ *         required: true
+ *         description: The ID of the image to delete
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       '200':
+ *         description: Image deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object  
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   description: Success message
+ *                   example: "Image deleted successfully"
+ *       '400':
+ *         description: Bad Request - Missing or invalid parameters
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "imageId is required"
+ *       '404':
+ *         description: Not Found - Image not found or not owned by user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "Image not found or not owned by user"
+ *       '500':
+ *         description: Internal Server Error - Could not delete image
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "Could not delete image. Try again later."
+ */
+imageRouter.delete("/deleteImage", checkImageIdField, checkImageExists, checkCanDeleteImage, async(req, res, next) => {
+
+    try {
+        let result = await ImageController.deleteImage(req, res);
+        if (result > 0) {
+            res.json(JSON.parse(new SuccessMessage(200, "Image deleted successfully").toString()));
+        }
+
+    } catch (err) {
+        console.log(err);
+        next(new MyException(500, "Could not delete image. Try again later."));
+    }
+
 
 });

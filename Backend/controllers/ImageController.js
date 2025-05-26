@@ -26,4 +26,26 @@ export class ImageController {
             next(error);
         }
     }
+
+
+    static async deleteImage(req, res) {
+        const where = {};
+
+        where.id = req.query.imageId;
+
+        const image = await Image.findOne({ where });
+
+        const result = await Image.destroy({
+            where
+        });
+
+        if (result > 0) {
+            const fileName = image.image;
+            await minioClient.removeObject('images', fileName);
+
+        }
+
+        return result;
+
+    }
 }

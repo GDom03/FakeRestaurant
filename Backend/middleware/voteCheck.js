@@ -10,7 +10,7 @@ export function checkIsUpVoteField(req, res, next) {
 }
 
 export function checkReviewIdField(req, res, next) {
-    if (!req.body || !req.body.reviewId) {
+    if (!req.query || !req.query.reviewId) {
         next(new MyException(400, "reviewId field is required"));
     }
 

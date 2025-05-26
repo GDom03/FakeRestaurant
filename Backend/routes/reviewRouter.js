@@ -3,6 +3,9 @@ import { ReviewController } from "../controllers/ReviewController.js";
 import { MyException } from "../utils/MyException.js";
 import { checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField } from "../middleware/reviewCheck.js";
 import { checkRestaurantIdField, checkRestaurantExists } from "../middleware/restaurantCheck.js";
+import { SuccessMessage } from "../utils/SuccessMessage.js";
+import { checkReviewExists } from "../middleware/reviewCheck.js";
+import { checkReviewIdField } from "../middleware/voteCheck.js";
 
 
 export const reviewRouter = express.Router();
@@ -139,7 +142,7 @@ export const reviewRouter = express.Router();
  *                   description: Error message
  *                   example: Could not save review. Try again later.
  */
-reviewRouter.post("/addReview", checkRestaurantExists, checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, async(req, res, next) => {
+reviewRouter.post("/addReview", checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
     ReviewController.saveReview(req, res).then((review) => {
         console.log(review);
         res.json(review);
@@ -147,4 +150,101 @@ reviewRouter.post("/addReview", checkRestaurantExists, checkTitleField, checkCon
         console.log(err);
         next(new MyException(500, "Could not save review. Try again later."));
     })
+});
+
+
+/**
+ * @swagger
+ * /deleteReview:
+ *   delete:
+ *     summary: Delete a review
+ *     description: Deletes a review specified by its ID.
+ *     tags:
+ *       - Delete Resources
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: query
+ *         name: idReview
+ *         required: true
+ *         description: The ID of the review to delete
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       '200':
+ *         description: Review deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object  
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   description: Success message
+ *                   example: "Review deleted successfully"
+ *       '400':
+ *         description: Bad Request - Missing or invalid parameters
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "idReview is required"
+ *       '404':
+ *         description: Not Found - Review not found or not owned by user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "Review not found or not owned by user"
+ *       '500':
+ *         description: Internal Server Error - Could not delete review
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   description: HTTP status code
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "Could not delete review. Try again later."
+ */
+reviewRouter.delete("/deleteReview", checkReviewIdField, checkReviewExists, async(req, res, next) => {
+
+    try {
+        let result = await ReviewController.deleteReview(req, res);
+        if (result > 0) {
+            res.json(JSON.parse(new SuccessMessage(200, "Review deleted successfully").toString()));
+        }
+
+    } catch (err) {
+        console.log(err);
+        next(new MyException(500, "Could not delete review. Try again later."));
+    }
+
+
 });

@@ -93,6 +93,8 @@ export class ReviewController {
 
     static async deleteReview(req, res) {
         const where = {};
+        where.UserEmail = req.email;
+        where.id = req.query.reviewId;
 
         const result = await Review.destroy({
             where

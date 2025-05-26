@@ -100,13 +100,7 @@ export const voteRouter = express.Router();
  *                   description: Error message
  *                   example: Could not save vote. Try again later.
  */
-voteRouter.post("/addVote", checkReviewExists, checkIsUpVoteField, checkReviewIdField, async(req, res, next) => {
-
-
-    // ReviewController.getReviewsById(req, res).catch((err) => {
-    //     console.log(err);
-    //     next(new MyException(404, "Review not found or not associated with the vote"));
-    // });
+voteRouter.post("/addVote", checkIsUpVoteField, checkReviewIdField, checkReviewExists, async(req, res, next) => {
 
     VoteController.saveVote(req, res).then((vote) => {
         console.log(vote);
@@ -197,7 +191,7 @@ voteRouter.post("/addVote", checkReviewExists, checkIsUpVoteField, checkReviewId
  *                   description: Error message
  *                   example: "Could not delete vote. Try again later."
  */
-voteRouter.delete("/deleteVote", checkReviewIdField, async(req, res, next) => {
+voteRouter.delete("/deleteVote", checkReviewIdField, checkReviewExists, async(req, res, next) => {
 
     try {
         let result = await VoteController.deleteVote(req, res);

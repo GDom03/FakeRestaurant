@@ -1,11 +1,12 @@
-import { Review } from "../models/Database.js"
+import { Review, User } from "../models/Database.js"
 import { MyException } from "../utils/MyException.js";
 
 export async function checkReviewExists(req, res, next) {
 
     let review = await Review.findOne({
         where: {
-            id: req.body.reviewId
+            id: req.query.reviewId,
+            UserEmail: req.email
         },
     });
 
@@ -15,6 +16,15 @@ export async function checkReviewExists(req, res, next) {
 
     next();
 }
+
+export function checkReviewIdField(req, res, next) {
+    if (!req.body || !req.body.reviewId) {
+        next(new MyException(400, "reviewId field is required"));
+    }
+
+    next();
+}
+
 
 export function checkTitleField(req, res, next) {
     if (!req.body || !req.body.title) {

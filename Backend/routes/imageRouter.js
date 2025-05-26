@@ -103,8 +103,6 @@ const upload = multer({ storage: storage });
  *                   example: Could not save image. Try again later.
  */
 imageRouter.post("/images", upload.single('image'), checkRestaurantIdField, checkImageField, checkRestaurantExists, async(req, res, next) => {
-
-    console.log(process.env.MINIO_HOST);
     ImageController.saveImage(req, res, next).then((image) => {
         if (image) {
             res.json(image);
@@ -112,6 +110,7 @@ imageRouter.post("/images", upload.single('image'), checkRestaurantIdField, chec
             next(new MyException(500, "Could not save image. Try again later."));
         }
     }).catch((error) => {
+        console.log(err);
         next(new MyException(500, error.message));
     });
 
@@ -203,12 +202,12 @@ imageRouter.delete("/images", checkImageIdField, checkImageExists, checkCanDelet
     try {
         let result = await ImageController.deleteImage(req, res);
         if (result > 0) {
-            res.json(JSON.parse(new SuccessMessage(200, "Image deleted successfully").toString()));
+            res.json(JSON.parse(new SuccessMessage(SuccessMessage.OK, "Image deleted successfully").toString()));
         }
 
     } catch (err) {
         console.log(err);
-        next(new MyException(500, "Could not delete image. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not delete image. Try again later."));
     }
 
 

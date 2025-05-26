@@ -10,7 +10,7 @@ export class AuthController {
      */
     static async checkCredentials(req, res) {
         let user = new User({ //user data specified in the request
-            email: req.body.email,
+            email: req.body.UserEmail,
             password: req.body.password
         });
 
@@ -30,7 +30,7 @@ export class AuthController {
     static async saveUser(req, res) {
         //save new user
         let user = new User({
-            email: req.body.email,
+            email: req.body.UserEmail,
             password: req.body.password,
             name: req.body.name,
             surname: req.body.surname

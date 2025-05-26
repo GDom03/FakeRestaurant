@@ -11,7 +11,8 @@ export class ImageController {
 
             const uniqueFileName = `images/${Date.now()}_${file.originalname}`;
 
-            await minioClient.putObject('images', uniqueFileName, req.file.buffer);
+
+            await minioClient.putObject("fake-restaurant", uniqueFileName, req.file.buffer);
 
             // Crea una nuova istanza di Image con i parametri corretti
             let image = new Image({
@@ -27,12 +28,7 @@ export class ImageController {
         }
     }
 
-
-    static async deleteImage(req, res) {
-        const where = {};
-
-        where.id = req.query.imageId;
-
+    static async mydelete(where, req, res) {
         const image = await Image.findOne({ where });
 
         const result = await Image.destroy({
@@ -41,11 +37,33 @@ export class ImageController {
 
         if (result > 0) {
             const fileName = image.image;
-            await minioClient.removeObject('images', fileName);
+            await minioClient.removeObject("fake-restaurant", fileName);
 
         }
 
         return result;
+    }
 
+    static async deleteImage(req, res) {
+        const where = {};
+
+        where.id = req.query.imageId;
+
+        return this.mydelete(where, req, res);
+
+    }
+
+
+    static async getImagesByRestaurant(req, res) {
+
+        const where = {
+            RestaurantId: req.params.restaurantId
+        };
+
+        const images = await Image.findAll({
+            where
+        });
+
+        return images;
     }
 }

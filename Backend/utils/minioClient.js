@@ -1,7 +1,7 @@
 import { Client } from 'minio';
 
 export const minioClient = new Client({
-    endPoint: '172.28.0.4',
+    endPoint: process.env.MINIO_IP || 'localhost',
     port: 9000,
     useSSL: false,
     accessKey: 'minioadmin',

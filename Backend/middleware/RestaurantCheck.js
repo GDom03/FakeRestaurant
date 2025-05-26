@@ -3,22 +3,41 @@ import { MyException } from "../utils/MyException.js";
 
 export async function checkRestaurantExists(req, res, next) {
 
+    const where = {};
+
+    if (req.body && req.body.restaurantId) {
+        where.id = req.body.restaurantId;
+    } else if (req.params && req.params.restaurantId) {
+        where.id = req.params.restaurantId;
+    }
+
     let restaurant = await Restaurant.findOne({
-        where: {
-            id: req.body.restaurantId
-        },
+        where
     });
 
     if (restaurant == null) {
-        next(new MyException(404, "Restaurant not found"));
+        next(new MyException(MyException.NOT_FOUND, "Restaurant not found"));
     }
+
+    next();
+}
+
+
+export function checkRestaurantIdIsNumber(req, res, next) {
+    if (!Number.isInteger(Number(req.params.restaurantId))) {
+        return next(new MyException(MyException.BAD_REQUEST, "Restaurant Id must be an integer"));
+    }
+    if (Number(req.params.restaurantId) <= 0) {
+        return next(new MyException(MyException.BAD_REQUEST, "Restaurant Id must be greater than 0"));
+    }
+
 
     next();
 }
 
 export function checkRestaurantIdField(req, res, next) {
     if (!req.body || !req.body.restaurantId) {
-        next(new MyException(400, "RestaurantId field is required"));
+        next(new MyException(MyException.BAD_REQUEST, "RestaurantId field is required"));
     }
 
     next();
@@ -26,35 +45,35 @@ export function checkRestaurantIdField(req, res, next) {
 
 export function checkNameField(req, res, next) {
     if (!req.body || !req.body.name) {
-        next(new MyException(400, "Name field is required"));
+        next(new MyException(MyException.BAD_REQUEST, "Name field is required"));
     }
     next();
 }
 
 export function checkDescriptionField(req, res, next) {
     if (!req.body || !req.body.description) {
-        next(new MyException(400, "Description field is required"));
+        next(new MyException(MyException.BAD_REQUEST, "Description field is required"));
     }
     next();
 }
 
 export function checkTypeField(req, res, next) {
     if (!req.body || !req.body.type) {
-        next(new MyException(400, "Type field is required"));
+        next(new MyException(MyException.BAD_REQUEST, "Type field is required"));
     }
     next();
 }
 
 export function checkLatitudeField(req, res, next) {
     if (!req.body || !req.body.latitude) {
-        next(new MyException(400, "Latitude field is required"));
+        next(new MyException(MyException.BAD_REQUEST, "Latitude field is required"));
     }
     next();
 }
 
 export function checkLongitudeField(req, res, next) {
     if (!req.body || !req.body.longitude) {
-        next(new MyException(400, "Longitude field is required"));
+        next(new MyException(MyException.BAD_REQUEST, "Longitude field is required"));
     }
     next();
 }

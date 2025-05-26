@@ -1,7 +1,7 @@
 import express from "express";
 import { AuthController } from "../controllers/AuthController.js";
 import { MyException } from "../utils/MyException.js";
-import { checkUserExists, checkEmailField, checkPasswordField, checkNameField, checkSurnameField } from "../middleware/userCheck.js";
+import { checkUserNotExists, checkEmailField, checkPasswordField, checkNameField, checkSurnameField } from "../middleware/userCheck.js";
 
 
 export const authenticationRouter = express.Router();
@@ -24,7 +24,7 @@ export const authenticationRouter = express.Router();
  *           schema:
  *             $ref: '#/components/schemas/User'
  *           example:
- *             email: "domgag@gmail.com"
+ *             UserEmail: "domgag@gmail.com"
  *             password: "domgag"
  *     responses:
  *       '200':
@@ -58,15 +58,15 @@ authenticationRouter.post("/auth", checkEmailField, checkPasswordField, async(re
         const result = await AuthController.checkCredentials(req, res);
 
         if (result) {
-            const token = AuthController.issueToken(req.body.email);
+            const token = AuthController.issueToken(req.body.UserEmail);
             return res.status(200).json({ token });
         } else {
 
-            next(new MyException(401, "Invalid credentials. Try again."));
+            next(new MyException(MyException.UNAUTHORIZED, "Invalid credentials. Try again."));
         }
     } catch (error) {
-
-        next(error);
+        console.log(err);
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not auth user. Try again later."));
     }
 });
 
@@ -86,12 +86,12 @@ authenticationRouter.post("/auth", checkEmailField, checkPasswordField, async(re
  *           schema:
  *             type: object
  *             required:
- *               - email
+ *               - UserEmail
  *               - password
  *               - name
  *               - surname
  *             properties:
- *               email:
+ *               UserEmail:
  *                 type: string
  *                 format: email
  *                 example: domgag@gmail.com
@@ -112,7 +112,7 @@ authenticationRouter.post("/auth", checkEmailField, checkPasswordField, async(re
  *             schema:
  *               type: object
  *               properties:
- *                 email:
+ *                 UserEmail:
  *                   type: string
  *                   format: email
  *                   example: domgag@gmail.com
@@ -171,11 +171,11 @@ authenticationRouter.post("/auth", checkEmailField, checkPasswordField, async(re
  *                   description: Error message
  *                   example: Could not save user. Try again later.
  */
-authenticationRouter.post("/signup", checkEmailField, checkPasswordField, checkNameField, checkSurnameField, checkUserExists, (req, res, next) => {
+authenticationRouter.post("/signup", checkEmailField, checkPasswordField, checkNameField, checkSurnameField, checkUserNotExists, (req, res, next) => {
     AuthController.saveUser(req, res).then((user) => {
-        console.log(user);
         res.json(user);
     }).catch((err) => {
-        next(new MyException(500, "Could not save user. Try again later."));
+        console.log(err);
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not save user. Try again later."));
     })
 });

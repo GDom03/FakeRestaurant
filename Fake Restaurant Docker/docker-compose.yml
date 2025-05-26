@@ -62,6 +62,7 @@ services:
       DB_CONNECTION_URI: "postgres://admin:admin@fake_restaurant_db:5432/fake_restaurant_db"
       DIALECT: "postgres"
       TOKEN_SECRET: "V3RY_S3CR37_T0K3N"
+      MINIO_IP: "172.28.0.4"
     depends_on:
       fake_restaurant_db:
         condition: service_healthy

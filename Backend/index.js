@@ -69,7 +69,7 @@ app.use(voteRouter);
 
 // Catch-all per route non trovate (404)
 app.use((req, res, next) => {
-    next(new MyException(404, 'Endpoint not found'));
+    next(new MyException(MyException.NOT_FOUND, 'Endpoint not found'));
 });
 
 //error handler

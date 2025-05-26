@@ -148,7 +148,7 @@ reviewRouter.post("/reviews", checkTitleField, checkContentField, checkOverallRa
         res.json(review);
     }).catch((err) => {
         console.log(err);
-        next(new MyException(500, "Could not save review. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not save review. Try again later."));
     })
 });
 
@@ -238,12 +238,12 @@ reviewRouter.delete("/reviews", checkReviewIdField, checkReviewExists, async(req
     try {
         let result = await ReviewController.deleteReview(req, res);
         if (result > 0) {
-            res.json(JSON.parse(new SuccessMessage(200, "Review deleted successfully").toString()));
+            res.json(JSON.parse(new SuccessMessage(SuccessMessage.OK, "Review deleted successfully").toString()));
         }
 
     } catch (err) {
         console.log(err);
-        next(new MyException(500, "Could not delete review. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not delete review. Try again later."));
     }
 
 

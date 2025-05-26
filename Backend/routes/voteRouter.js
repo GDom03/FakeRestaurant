@@ -107,7 +107,7 @@ voteRouter.post("/votes", checkIsUpVoteField, checkReviewIdField, checkReviewExi
         res.json(vote);
     }).catch((err) => {
         console.log(err);
-        next(new MyException(500, "Could not save vote. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not save vote. Try again later."));
     })
 });
 
@@ -196,12 +196,12 @@ voteRouter.delete("/votes", checkReviewIdField, checkReviewExists, async(req, re
     try {
         let result = await VoteController.deleteVote(req, res);
         if (result > 0) {
-            res.json(JSON.parse(new SuccessMessage(200, "Vote deleted successfully").toString()));
+            res.json(JSON.parse(new SuccessMessage(SuccessMessage.OK, "Vote deleted successfully").toString()));
         }
 
     } catch (err) {
         console.log(err);
-        next(new MyException(500, "Could not delete vote. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not delete vote. Try again later."));
     }
 
 

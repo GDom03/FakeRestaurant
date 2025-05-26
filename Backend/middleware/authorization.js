@@ -1,4 +1,3 @@
-import e from "express";
 import { AuthController } from "../controllers/AuthController.js";
 import { MyException } from "../utils/MyException.js";
 
@@ -20,7 +19,7 @@ export function enforceAuthentication(req, res, next) {
     }
     AuthController.isTokenValid(token, (err, decodedToken) => {
         if (err) {
-            next(new MyException(401, "Unauthorized"));
+            next(new MyException(MyException.UNAUTHORIZED, "Unauthorized"));
         } else {
             req.email = decodedToken.email;
             next();

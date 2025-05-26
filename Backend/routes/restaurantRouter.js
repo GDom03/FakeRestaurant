@@ -124,7 +124,7 @@ restaurantRouter.post("/restaurants", checkNameField, checkDescriptionField, che
         res.json(restaurant);
     }).catch((err) => {
         console.log(err);
-        next(new MyException(500, "Could not save restaurant. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not save restaurant. Try again later."));
     })
 });
 
@@ -213,12 +213,12 @@ restaurantRouter.delete("/restaurants", checkRestaurantIdField, checkRestaurantE
     try {
         let result = await RestaurantController.deleteRestaurant(req, res);
         if (result > 0) {
-            res.json(JSON.parse(new SuccessMessage(200, "Restaurant deleted successfully").toString()));
+            res.json(JSON.parse(new SuccessMessage(SuccessMessage.OK, "Restaurant deleted successfully").toString()));
         }
 
     } catch (err) {
         console.log(err);
-        next(new MyException(500, "Could not delete restaurant. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not delete restaurant. Try again later."));
     }
 
 

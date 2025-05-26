@@ -3,7 +3,9 @@ import express from "express";
 import { MyException } from "../utils/MyException.js";
 import { RestaurantController } from "../controllers/RestaurantController.js";
 import { ReviewController } from "../controllers/ReviewController.js";
-import { checkEmailField } from "../middleware/userCheck.js";
+import { checkEmailField, checkUserExists } from "../middleware/userCheck.js";
+import { ImageController } from "../controllers/ImageController.js";
+import { checkRestaurantExists, checkRestaurantIdIsNumber } from "../middleware/restaurantCheck.js";
 
 export const searchRouter = express.Router();
 
@@ -91,7 +93,7 @@ searchRouter.get("/restaurants", async(req, res, next) => {
         res.json(restaurants);
     } catch (err) {
         console.log(err);
-        next(new MyException(500, "Could not fetch restaurants. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not fetch restaurants. Try again later."));
     }
 
 });
@@ -145,17 +147,13 @@ searchRouter.get("/restaurants", async(req, res, next) => {
  *                   type: string
  *                   example: Could not fetch restaurants. Try again later.
  */
-searchRouter.get("/restaurants/:restaurantId", async(req, res, next) => {
-    if (!Number.isInteger(Number(req.params.restaurantId))) {
-        return next(new MyException(400, "Restaurant Id must be an integer"));
-    }
-
+searchRouter.get("/restaurants/:restaurantId", checkRestaurantIdIsNumber, checkRestaurantExists, async(req, res, next) => {
     try {
         const restaurants = await RestaurantController.getRestaurantsById(req, res);
         res.json(restaurants);
     } catch (err) {
         console.log(err);
-        next(new MyException(500, "Could not fetch restaurants. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not fetch restaurants. Try again later."));
     }
 });
 
@@ -231,7 +229,7 @@ searchRouter.get("/restaurants/:restaurantId", async(req, res, next) => {
  *                   type: string
  *                   example: Could not fetch reviews. Try again later.
  */
-searchRouter.get("/reviews", checkEmailField, async(req, res, next) => {
+searchRouter.get("/reviews", checkEmailField, checkUserExists, async(req, res, next) => {
 
     try {
         const reviews = await ReviewController.getReviews(req, res);
@@ -241,7 +239,7 @@ searchRouter.get("/reviews", checkEmailField, async(req, res, next) => {
         if (err instanceof MyException) {
             next(err);
         }
-        next(new MyException(500, "Could not fetch reviews. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not fetch reviews. Try again later."));
     }
 
 });
@@ -297,18 +295,78 @@ searchRouter.get("/reviews", checkEmailField, async(req, res, next) => {
  *                   type: string
  *                   example: Could not fetch reviews. Try again later.
  */
-searchRouter.get("/reviews/:restaurantId", async(req, res, next) => {
-
-    if (!Number.isInteger(Number(req.params.restaurantId))) {
-        return next(new MyException(400, "Restaurant Id must be an integer"));
-    }
+searchRouter.get("/reviews/:restaurantId", checkRestaurantIdIsNumber, checkRestaurantExists, async(req, res, next) => {
 
     try {
         const reviews = await ReviewController.getReviewsByRestaurant(req, res);
         res.json(reviews);
     } catch (err) {
         console.log(err);
-        next(new MyException(500, "Could not fetch reviews. Try again later."));
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not fetch reviews. Try again later."));
+    }
+
+});
+
+/**
+ * @swagger
+ * /images/{restaurantId}:
+ *   get:
+ *     summary: Get images by restaurant ID
+ *     description: Retrieve all image URLs associated with a specific restaurant using its unique numeric ID.
+ *     tags:
+ *       - Search Resources
+ *     parameters:
+ *       - in: path
+ *         name: restaurantId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the restaurant to retrieve images for
+ *     responses:
+ *       '200':
+ *         description: The images were successfully retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *                 example: http://localhost:9000/images/restaurant123/photo1.jpg
+ *       '400':
+ *         description: Invalid restaurant ID (must be an integer)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: Restaurant Id must be an integer
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: Could not fetch images. Try again later.
+ */
+searchRouter.get("/images/:restaurantId", checkRestaurantIdIsNumber, checkRestaurantExists, async(req, res, next) => {
+
+    try {
+        const images = await ImageController.getImagesByRestaurant(req, res);
+        res.json(images);
+    } catch (err) {
+        console.log(err);
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not fetch images. Try again later."));
     }
 
 });

@@ -43,12 +43,19 @@ export class ReviewController {
                 ]
             },
             include: [{
-                model: Vote,
-                as: 'Votes',
-                attributes: [],
-                required: false // LEFT OUTER JOIN
-            }],
-            group: ['Review.id'],
+                    model: Vote,
+                    as: 'Votes',
+                    attributes: [],
+                    required: false // LEFT OUTER JOIN
+                },
+                {
+                    model: User,
+                    as: 'User',
+                    attributes: ['name', 'surname'],
+                    required: true
+                }
+            ],
+            group: ['Review.id', 'User.email'],
             order: [
                 [sort, 'DESC']
             ],
@@ -81,7 +88,7 @@ export class ReviewController {
 
 
             if (user == null) {
-                throw new MyException(404, "User not Exists");
+                throw new MyException(MyException.NOT_FOUND, "User not Exists");
             }
 
             where.UserEmail = req.query.userEmail;

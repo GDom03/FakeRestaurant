@@ -1,5 +1,6 @@
 import { Restaurant } from "../models/Database.js"
 import { MyException } from "../utils/MyException.js";
+import { check, validationResult } from 'express-validator';
 
 export async function checkRestaurantExists(req, res, next) {
 
@@ -38,7 +39,8 @@ export async function checkRestaurantIdField(req, res, next) {
     await check('restaurantId')
         .exists({ checkFalsy: true }).withMessage('RestaurantId field is required')
         .bail()
-        .isUUID().withMessage('RestaurantId must be a valid UUID') // opzionale
+        .isInt({ min: 1 }).withMessage('restaurantId must be a valid integer')
+        .toInt()
         .run(req);
 
     const errors = validationResult(req);

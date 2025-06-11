@@ -1,5 +1,6 @@
-import { Restaurant } from "../models/Database.js";
+import { Image, Restaurant } from "../models/Database.js";
 import { Op } from 'sequelize';
+import { ImageController } from "./ImageController.js";
 
 export class RestaurantController {
 
@@ -68,6 +69,9 @@ export class RestaurantController {
 
 
     static async deleteRestaurant(req, res) {
+
+        const images = await RestaurantController.extractImages(req);
+
         const where = {};
 
         where.id = req.query.restaurantId;
@@ -77,9 +81,26 @@ export class RestaurantController {
             where
         });
 
+        if (result > 0) {
+            RestaurantController.removeAllImages(images);
+        }
+
         return result;
 
     }
 
+    static removeAllImages(images) {
+        images.forEach(element => {
+            ImageController.removeFromeCloud(element);
+        });
+    }
 
+    static async extractImages(req) {
+        const where = {};
+        where.RestaurantId = req.query.restaurantId;
+        const images = await Image.findAll({
+            where
+        });
+        return images;
+    }
 }

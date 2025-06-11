@@ -31,17 +31,26 @@ export class ImageController {
     static async mydelete(where, req, res) {
         const image = await Image.findOne({ where });
 
+        const result = await ImageController.onlyDelete(where, image);
+
+        return result;
+    }
+
+    static async onlyDelete(where, image) {
         const result = await Image.destroy({
             where
         });
 
         if (result > 0) {
-            const fileName = image.image;
-            await minioClient.removeObject("fake-restaurant", fileName);
+            await ImageController.removeFromeCloud(image);
 
         }
-
         return result;
+    }
+
+    static async removeFromeCloud(image) {
+        const fileName = image.image;
+        await minioClient.removeObject("fake-restaurant", fileName);
     }
 
     static async deleteImage(req, res) {

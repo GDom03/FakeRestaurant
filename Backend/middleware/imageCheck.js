@@ -1,5 +1,6 @@
 import { MyException } from "../utils/MyException.js";
 import { Image, Restaurant } from "../models/Database.js";
+import { check, validationResult } from 'express-validator';
 
 export async function checkImageExists(req, res, next) {
     let image = await Image.findOne({
@@ -48,7 +49,8 @@ export async function checkImageIdField(req, res, next) {
         .if((value, { req }) => req.query.imageId || req.body.imageId)
         .exists({ checkFalsy: true }).withMessage('imageId is required')
         .bail()
-        .isUUID().withMessage('imageId must be a valid UUID')
+        .isInt({ min: 1 }).withMessage('imageId must be a valid integer')
+        .toInt()
         .run(req);
 
     const errors = validationResult(req);

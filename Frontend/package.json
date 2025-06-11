@@ -1,0 +1,22 @@
+{
+  "name": "fake-restaurant-frontend",
+  "version": "1.0.0",
+  "description": "Angular Frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GDom03/FakeRestaurant.git"
+  },
+  "keywords": [
+    "food"
+  ],
+  "author": "Domenico Gagliotti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GDom03/FakeRestaurant/issues"
+  },
+  "homepage": "https://github.com/GDom03/FakeRestaurant#readme"
+}

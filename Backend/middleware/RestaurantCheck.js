@@ -22,7 +22,6 @@ export async function checkRestaurantExists(req, res, next) {
     next();
 }
 
-
 export function checkRestaurantIdIsNumber(req, res, next) {
     if (!Number.isInteger(Number(req.params.restaurantId))) {
         return next(new MyException(MyException.BAD_REQUEST, "Restaurant Id must be an integer"));
@@ -35,45 +34,117 @@ export function checkRestaurantIdIsNumber(req, res, next) {
     next();
 }
 
-export function checkRestaurantIdField(req, res, next) {
-    if (!req.body || !req.body.restaurantId) {
-        next(new MyException(MyException.BAD_REQUEST, "RestaurantId field is required"));
+export async function checkRestaurantIdField(req, res, next) {
+    await check('restaurantId')
+        .exists({ checkFalsy: true }).withMessage('RestaurantId field is required')
+        .bail()
+        .isUUID().withMessage('RestaurantId must be a valid UUID') // opzionale
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
     next();
 }
 
-export function checkNameField(req, res, next) {
-    if (!req.body || !req.body.name) {
-        next(new MyException(MyException.BAD_REQUEST, "Name field is required"));
+export async function checkRestaurantIdParam(req, res, next) {
+    await param('restaurantId')
+        .exists({ checkFalsy: true }).withMessage('Restaurant Id is required')
+        .bail()
+        .isInt({ min: 1 }).withMessage('Restaurant Id must be a positive integer')
+        .toInt()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
+
     next();
 }
 
-export function checkDescriptionField(req, res, next) {
-    if (!req.body || !req.body.description) {
-        next(new MyException(MyException.BAD_REQUEST, "Description field is required"));
+export async function checkNameField(req, res, next) {
+    await check('name')
+        .exists({ checkFalsy: true }).withMessage('Name field is required')
+        .bail()
+        .isLength({ min: 2 }).withMessage('Name must be at least 2 characters')
+        .trim()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
+
     next();
 }
 
-export function checkTypeField(req, res, next) {
-    if (!req.body || !req.body.type) {
-        next(new MyException(MyException.BAD_REQUEST, "Type field is required"));
+export async function checkDescriptionField(req, res, next) {
+    await check('description')
+        .exists({ checkFalsy: true }).withMessage('Description field is required')
+        .bail()
+        .isLength({ min: 5 }).withMessage('Description must be at least 5 characters')
+        .trim()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
+
     next();
 }
 
-export function checkLatitudeField(req, res, next) {
-    if (!req.body || !req.body.latitude) {
-        next(new MyException(MyException.BAD_REQUEST, "Latitude field is required"));
+export async function checkTypeField(req, res, next) {
+    await check('type')
+        .exists({ checkFalsy: true }).withMessage('Type field is required')
+        .bail()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
+
     next();
 }
 
-export function checkLongitudeField(req, res, next) {
-    if (!req.body || !req.body.longitude) {
-        next(new MyException(MyException.BAD_REQUEST, "Longitude field is required"));
+export async function checkLatitudeField(req, res, next) {
+    await check('latitude')
+        .exists({ checkFalsy: true }).withMessage('Latitude field is required')
+        .bail()
+        .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be a number between -90 and 90')
+        .toFloat()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
+
+    next();
+}
+
+export async function checkLongitudeField(req, res, next) {
+    await check('longitude')
+        .exists({ checkFalsy: true }).withMessage('Longitude field is required')
+        .bail()
+        .isFloat({ min: -180, max: 180 }).withMessage('Longitude must be a number between -180 and 180')
+        .toFloat()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
+    }
+
     next();
 }

@@ -1,5 +1,6 @@
 import { User } from "../models/Database.js"
 import { MyException } from "../utils/MyException.js";
+import { check, validationResult } from 'express-validator';
 
 export async function checkUserExists(req, res, next) {
 
@@ -33,36 +34,72 @@ export async function checkUserNotExists(req, res, next) {
     next();
 }
 
-export function checkEmailField(req, res, next) {
-    if (req.query && req.query.UserEmail) {
-        next();
-        return;
-    } else if (req.body && req.body.UserEmail) {
-        next();
-        return;
+export async function checkEmailField(req, res, next) {
+
+    await check('UserEmail')
+        .exists({ checkFalsy: true }).withMessage('Email field is required')
+        .bail()
+        .isEmail().withMessage('Email must be valid')
+        .normalizeEmail()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    next(new MyException(MyException.BAD_REQUEST, "Email field is required"));
 
-}
-
-export function checkPasswordField(req, res, next) {
-    if (!req.body || !req.body.password) {
-        next(new MyException(MyException.BAD_REQUEST, "Password field is required"));
-    }
     next();
 }
 
-export function checkNameField(req, res, next) {
-    if (!req.body || !req.body.name) {
-        next(new MyException(MyException.BAD_REQUEST, "Name field is required"));
+export async function checkPasswordField(req, res, next) {
+    await check('password')
+        .exists({ checkFalsy: true }).withMessage('Password field is required')
+        .bail()
+        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
+        .trim()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
+
     next();
 }
 
-export function checkSurnameField(req, res, next) {
-    if (!req.body || !req.body.surname) {
-        next(new MyException(MyException.BAD_REQUEST, "Surname field is required"));
+export async function checkNameField(req, res, next) {
+    await check('name')
+        .exists({ checkFalsy: true }).withMessage('Name field is required')
+        .bail()
+        .isLength({ min: 2 }).withMessage('Name must be at least 2 characters')
+        .trim()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
+
+    next();
+}
+
+export async function checkSurnameField(req, res, next) {
+    await check('surname')
+        .exists({ checkFalsy: true }).withMessage('Surname field is required')
+        .bail()
+        .isLength({ min: 2 }).withMessage('Surname must be at least 2 characters')
+        .trim()
+        .escape()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
+    }
+
     next();
 }

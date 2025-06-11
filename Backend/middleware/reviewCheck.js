@@ -17,66 +17,136 @@ export async function checkReviewExists(req, res, next) {
     next();
 }
 
-export function checkReviewIdField(req, res, next) {
-    if (!req.body || !req.body.reviewId) {
-        next(new MyException(MyException.BAD_REQUEST, "reviewId field is required"));
+export async function checkReviewIdField(req, res, next) {
+    await check('reviewId')
+        .exists({ checkFalsy: true }).withMessage('reviewId field is required')
+        .bail()
+        .isInt({ min: 1 }).withMessage('reviewId must be a positive integer')
+        .toInt()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
     next();
 }
 
 
-export function checkTitleField(req, res, next) {
-    if (!req.body || !req.body.title) {
-        next(new MyException(MyException.BAD_REQUEST, "title field is required"));
-    }
+export async function checkTitleField(req, res, next) {
+    await check('title')
+        .exists({ checkFalsy: true }).withMessage('title field is required')
+        .bail()
+        .isLength({ min: 3 }).withMessage('title must be at least 3 characters')
+        .trim()
+        .escape()
+        .run(req);
 
-    next();
-}
-
-export function checkContentField(req, res, next) {
-    if (!req.body || !req.body.content) {
-        next(new MyException(MyException.BAD_REQUEST, "content field is required"));
-    }
-
-    next();
-}
-
-export function checkOverallRatingField(req, res, next) {
-    if (!req.body || !req.body.overallRating) {
-        next(new MyException(MyException.BAD_REQUEST, "overallRating field is required"));
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
     next();
 }
 
 
-export function checkServiceRatingField(req, res, next) {
-    if (!req.body || !req.body.serviceRating) {
-        next(new MyException(MyException.BAD_REQUEST, "serviceRating field is required"));
-    }
+export async function checkContentField(req, res, next) {
+    await check('content')
+        .exists({ checkFalsy: true }).withMessage('content field is required')
+        .bail()
+        .isLength({ min: 10 }).withMessage('content must be at least 10 characters')
+        .trim()
+        .escape()
+        .run(req);
 
-    next();
-}
-export function checkQualityPriceRatingField(req, res, next) {
-    if (!req.body || !req.body.qualityPriceRating) {
-        next(new MyException(MyException.BAD_REQUEST, "qualityPriceRating field is required"));
-    }
-
-    next();
-}
-
-export function checkFoodRatingField(req, res, next) {
-    if (!req.body || !req.body.foodRating) {
-        next(new MyException(MyException.BAD_REQUEST, "foodRating field is required"));
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
     next();
 }
 
-export function checkAtmosphereRatingField(req, res, next) {
-    if (!req.body || !req.body.atmosphereRating) {
-        next(new MyException(MyException.BAD_REQUEST, "atmosphereRating field is required"));
+
+export async function checkOverallRatingField(req, res, next) {
+    await check('overallRating')
+        .exists({ checkFalsy: true }).withMessage('overallRating field is required')
+        .bail()
+        .isFloat({ min: 1, max: 5 }).withMessage('overallRating must be between 1 and 5')
+        .toFloat()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
+    }
+
+    next();
+}
+
+
+export async function checkServiceRatingField(req, res, next) {
+    await check('serviceRating')
+        .exists({ checkFalsy: true }).withMessage('serviceRating field is required')
+        .bail()
+        .isFloat({ min: 1, max: 5 }).withMessage('serviceRating must be between 1 and 5')
+        .toFloat()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
+    }
+
+    next();
+}
+
+export async function checkQualityPriceRatingField(req, res, next) {
+    await check('qualityPriceRating')
+        .exists({ checkFalsy: true }).withMessage('qualityPriceRating field is required')
+        .bail()
+        .isFloat({ min: 1, max: 5 }).withMessage('qualityPriceRating must be between 1 and 5')
+        .toFloat()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
+    }
+
+    next();
+}
+
+
+export async function checkFoodRatingField(req, res, next) {
+    await check('foodRating')
+        .exists({ checkFalsy: true }).withMessage('foodRating field is required')
+        .bail()
+        .isFloat({ min: 1, max: 5 }).withMessage('foodRating must be between 1 and 5')
+        .toFloat()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
+    }
+
+    next();
+}
+
+export async function checkAtmosphereRatingField(req, res, next) {
+    await check('atmosphereRating')
+        .exists({ checkFalsy: true }).withMessage('atmosphereRating field is required')
+        .bail()
+        .isFloat({ min: 1, max: 5 }).withMessage('atmosphereRating must be between 1 and 5')
+        .toFloat()
+        .run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
     next();

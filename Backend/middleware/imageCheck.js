@@ -43,12 +43,12 @@ export function checkImageField(req, res, next) {
     next();
 }
 
-export async function checkRestaurantIdField(req, res, next) {
-    await check('restaurantId')
-        .exists({ checkFalsy: true }).withMessage('RestaurantId field is required')
+export async function checkImageIdField(req, res, next) {
+    await check('imageId')
+        .if((value, { req }) => req.query.imageId || req.body.imageId)
+        .exists({ checkFalsy: true }).withMessage('imageId is required')
         .bail()
-        .isInt({ gt: 0 }).withMessage('RestaurantId must be a positive integer')
-        .toInt()
+        .isUUID().withMessage('imageId must be a valid UUID')
         .run(req);
 
     const errors = validationResult(req);

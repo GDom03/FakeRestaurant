@@ -1,24 +1,20 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
+import { RouterModule, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  standalone: true,  
+  imports: [RouterModule, RouterLink, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  searchQuery: string = '';
+  searchField: string = "";
 
-  onSearch() {
-    if (this.searchQuery.trim()) {
-      console.log('Searching for:', this.searchQuery);
-      // Implementa la logica di ricerca
-    }
+  search(){
+    console.log(this.searchField);
   }
 
-  onProfileClick() {
-    console.log('Profile clicked');
-    // Implementa la logica del profilo
-  }
 
 }

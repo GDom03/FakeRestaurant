@@ -1,5 +1,49 @@
-<!DOCTYPE html>
 <nav>
+    <div class="flex justify-between items-center pt-0 pb-0 bg-white">
+
+        <div class="flex items-center gap-4">
+            <a routerLink="/home">
+                <img src="assets/logo.png" alt="" class="size-16 md:size-24 xlg:size-24 2xl:size-32" />
+            </a>
+            <a routerLink="/home" class="hidden lg:block text-xl font-bold">Fake Restaurant</a>
+
+        </div>
+
+
+        <div class="max-w-5xl w-2/3 flex flex-row justify-between items-center fermx-auto border border-2 rounded-full shadow-md bg-white">
+            <div class="flex w-2/3">
+                <span class="my-auto ml-2">
+                    
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+
+                 </span>
+
+                <input type="text" [(ngModel)]="searchField" class="p-2 outline-none text-xl placeholder-shown:border-black" placeholder="Search ..." />
+
+            </div>
+
+            <div>
+                <button class=" bg-green-400 p-1 mr-1 rounded-full text-xl text-white font-bold" (click)="search()">Search</button>
+            </div>
+
+        </div>
+
+
+
+        <div class=" flex justify-between items-center gap-4 ">
+
+            <a routerLink="/login ">
+                <svg xmlns="http://www.w3.org/2000/svg " fill="none " viewBox="0 0 24 24 " stroke-width="1.5 " stroke="currentColor " class="size-8 md:size-12 xlg:size-16 2xl:size-16 ">
+                    <path stroke-linecap="round " stroke-linejoin="round " d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3
+            0 0 1 6 0Z " />
+                </svg>
+
+            </a>
+
+        </div>
+
+    </div>
 
 </nav>
-<p>navbar works!</p>

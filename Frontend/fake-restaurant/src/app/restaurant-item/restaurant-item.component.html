@@ -6,7 +6,7 @@
             [class.cursor-pointer]="imageNumber > 0" [class.hover:bg-gray-200]="imageNumber === 0" [class.text-gray-400]="imageNumber === 0" [class.cursor-not-allowed]="imageNumber === 0">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
             </svg>
-        <img id="selectedImage" [src]="images[imageNumber].image" alt="Foto" class="size-64" />
+        <img id="selectedImage" [src]="images[imageNumber].image" alt="Foto" class="size-64 rounded-xl" />
         <svg (click)="nextImage()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 hover:rounded-lg" [class.hover:bg-orange-400]="imageNumber < images.length - 1" [class.hover:text-white]="imageNumber < images.length - 1 "
             [class.hover:bg-gray-200]="imageNumber === images.length - 1" [class.text-gray-400]="imageNumber === images.length - 1" [class.cursor-not-allowed]="imageNumber === images.length - 1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />

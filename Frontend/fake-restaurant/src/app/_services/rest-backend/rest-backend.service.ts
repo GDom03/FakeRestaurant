@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RestaurantItem } from '../../_models/restaurant-item.type';
 import { ImageItem } from '../../_models/image-item.type';
+import { ReviewItem } from '../../_models/review-item.type';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,13 @@ export class RestBackendService {
     let url = `${this.url}/restaurants?page=${page}&limit=${limit}&sort=updatedAt&name=${name}`; 
   
     return this.http.get<RestaurantItem[]>(url, this.httpOptions);
+  }
+
+  getReviewsByResturant(id:number, page: number = 1, limit: number = 3) {
+
+    let url = `${this.url}/reviews/${id}/?page=${page}&limit=${limit}&sort=upvotes`; 
+    console.log(url);
+    return this.http.get<ReviewItem[]>(url, this.httpOptions);
   }
 
   getImagesOfResturant(idRestaurant: number){

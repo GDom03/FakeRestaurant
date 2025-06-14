@@ -3,6 +3,7 @@ import { RestaurantItem } from '../_models/restaurant-item.type';
 import { ImageItem } from '../_models/image-item.type';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-restaurant-item',
@@ -17,13 +18,14 @@ export class RestaurantItemComponent {
   imageNumber: number = 0;
   restService = inject(RestBackendService);
   private toastr = inject(ToastrService);
+  router: Router = new Router();
   
   ngOnInit() {
     this.restService.getImagesOfResturant(this.restaurantItem.id).subscribe({
       next: (data) => {
         //console.log(data);
         this.images = data;
-        // this.images.forEach((item)=>{console.log(item.image)});
+  
       },
       error: (err) => {
         this.toastr.error(err.message, err.statusText)        
@@ -44,5 +46,13 @@ export class RestaurantItemComponent {
     }
   }
 
+  viewDetail() {
+    this.router.navigate([`/restaurants/${this.restaurantItem.name}`], {
+      state: {
+        restaurantItem: this.restaurantItem,
+        images: this.images
+      }
+    });
+  }
 
 }

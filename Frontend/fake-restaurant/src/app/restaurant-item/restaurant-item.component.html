@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<div class="flex flex-col bg-white border border-2 rounded-lg p-3 hover:shadow-lg">
+
+<div class="flex flex-col bg-white border border-2 rounded-lg p-3 hover:shadow-lg" (click)="viewDetail()">
     <div class=" flex items-center gap-2 pb-1">
         @if (images != undefined) {
         <svg id="prevButton" (click)="prevImage()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 hover:rounded-lg" [class.hover:bg-orange-400]="imageNumber > 0" [class.hover:text-white]="imageNumber > 0"

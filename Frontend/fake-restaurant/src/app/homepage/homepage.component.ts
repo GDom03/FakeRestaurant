@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RestaurantItem } from '../_models/restaurant-item.type';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
 import { RestaurantItemComponent } from '../restaurant-item/restaurant-item.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-homepage',
@@ -13,7 +14,7 @@ export class HomepageComponent {
   restService = inject(RestBackendService);
   page: number = 1;
   restaurants: RestaurantItem[] = [];
-  toastr: any;
+  private toastr = inject(ToastrService);
 
   ngOnInit() {
     this.fetchLastRestaurants();  

@@ -2,6 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { RestaurantItem } from '../_models/restaurant-item.type';
 import { ImageItem } from '../_models/image-item.type';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-restaurant-item',
@@ -15,7 +16,7 @@ export class RestaurantItemComponent {
   images: ImageItem[];
   imageNumber: number = 0;
   restService = inject(RestBackendService);
-  toastr: any;
+  private toastr = inject(ToastrService);
   
   ngOnInit() {
     this.restService.getImagesOfResturant(this.restaurantItem.id).subscribe({

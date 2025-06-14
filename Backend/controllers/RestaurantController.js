@@ -46,12 +46,12 @@ export class RestaurantController {
         const where = {};
         if (req.query.name) {
             where.name = {
-                [Op.like]: `%${req.query.name}%`
+                [Op.iLike]: `%${req.query.name}%`
             };
         }
         if (req.query.userEmail) {
             where.UserEmail = {
-                [Op.like]: `%${req.params.userEmail}%`
+                [Op.iLike]: `%${req.params.userEmail}%`
             };
         }
 

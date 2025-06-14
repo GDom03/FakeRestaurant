@@ -24,6 +24,13 @@ export class RestBackendService {
     return this.http.get<RestaurantItem[]>(url, this.httpOptions);
   }
 
+  getResturantsByName(name:string, page: number = 1, limit: number = 3) {
+
+    let url = `${this.url}/restaurants?page=${page}&limit=${limit}&sort=updatedAt&name=${name}`; 
+  
+    return this.http.get<RestaurantItem[]>(url, this.httpOptions);
+  }
+
   getImagesOfResturant(idRestaurant: number){
 
     let url = `${this.url}/images/${idRestaurant}`;

@@ -19,7 +19,7 @@ export const searchRouter = express.Router();
  *       - Search Resources
  *     parameters:
  *       - in: query
- *         name: nameRestaurant
+ *         name: name
  *         schema:
  *           type: string
  *         description: Partial or full name of the restaurant to search for

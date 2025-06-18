@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
 import { UserItem } from '../_models/user-item.type';
 import { AuthService } from '../_services/auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage-account',
@@ -10,12 +11,24 @@ import { AuthService } from '../_services/auth/auth.service';
   styleUrl: './manage-account.component.scss'
 })
 export class ManageAccountComponent {
+
   	user: UserItem;
 	authService = inject(AuthService);
+	toastr = inject(ToastrService);
   
   	constructor(private router: Router) {
     	this.user = { email : this.authService.getUser() ?? "",};
 
   	}
+
+	logout() {
+		if(confirm('Are you sure you want to log out?')) {
+			this.authService.logout();
+			this.router.navigate(['/home']);
+			this.toastr.success('You have been logged out successfully.', 'Logout');
+			
+		}
+		
+	}
 
 }

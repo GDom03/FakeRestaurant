@@ -23,7 +23,7 @@
                         <label for="pass" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
                         <div class="flex flex-row w-full items-center gap-1">
                             <input [type]="showPassword ? 'text' : 'password'" formControlName="pass" id="pass" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 " placeholder="••••••••" required=" ">
-                            <button type="button" (click)="showPassword = !showPassword" class=" border border-gray-300 rounded-lg p-2.5 bg-gray-50 hover:bg-orange-400 hover:text-white">
+                            <button type="button" (click)="showPassword = !showPassword" class=" border border-gray-300 rounded-lg p-2.5 bg-gray-50 transition duration-200 ease-in-out hover:bg-orange-400 hover:text-white">
                       @if (!showPassword) {
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
@@ -48,7 +48,7 @@
                         </div>
 
                     </div>
-                    <button type="submit" class="w-full text-white bg-orange-400 hover:bg-orange-500 rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
+                    <button type="submit" class="w-full text-white bg-orange-400 transition duration-200 ease-in-out hover:bg-orange-500 rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
                     <p class="text-sm font-medium text-gray-500 ">
                         Don't have an account yet? <a routerLink="/signup" class="link">Sign up</a>
                     </p>

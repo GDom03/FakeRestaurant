@@ -11,6 +11,8 @@ import { VoteRequest } from './vote-request.type';
   providedIn: 'root'
 })
 export class RestBackendService {
+
+
 	url = "http://localhost:3000"
 
 	constructor(private http: HttpClient) { }	
@@ -36,6 +38,12 @@ export class RestBackendService {
 
 	getLastResturants(page: number = 1, limit: number = 3) {	
 	  	let url = `${this.url}/restaurants?page=${page}&limit=${limit}&sort=updatedAt`; 
+
+	  	return this.http.get<RestaurantItem[]>(url, this.httpOptions);
+	}
+
+	getUserResturants(page: number, limit: number) {
+		let url = `${this.url}/restaurants?page=${page}&limit=${limit}&sort=updatedAt&UserEmail=${localStorage.getItem('email') ?? ""}`; 
 
 	  	return this.http.get<RestaurantItem[]>(url, this.httpOptions);
 	}	
@@ -74,5 +82,13 @@ export class RestBackendService {
 		return this.http.delete(url, this.httpOptions);
 	}
 
+	getRemoveResturant(idRestaurant: number) {
+		let url = `${this.url}/restaurants/${idRestaurant}`;
+		const options = {
+    		headers: this.httpOptions.headers,
+    			params: { UserEmail : localStorage.getItem('email') ?? "" } // <-- aggiunto parametro
+  		};
+		return this.http.delete(url, this.httpOptions);
+	}
 
 }

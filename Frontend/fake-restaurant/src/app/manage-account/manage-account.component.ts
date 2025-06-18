@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { Navigation, Router } from '@angular/router';
+import { Navigation, Router, RouterLink, RouterModule } from '@angular/router';
 import { UserItem } from '../_models/user-item.type';
 import { AuthService } from '../_services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage-account',
-  imports: [],
+  imports: [RouterLink, RouterModule],
   templateUrl: './manage-account.component.html',
   styleUrl: './manage-account.component.scss'
 })
@@ -15,8 +15,9 @@ export class ManageAccountComponent {
   	user: UserItem;
 	authService = inject(AuthService);
 	toastr = inject(ToastrService);
+	router = inject(Router);
   
-  	constructor(private router: Router) {
+  	constructor() {
     	this.user = { email : this.authService.getUser() ?? "",};
 
   	}

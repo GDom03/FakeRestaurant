@@ -23,7 +23,7 @@ export class UserRestaurantsComponent {
   	fetchUserRestaurants(page: number = 1, limit: number = 3){
   	  this.restService.getUserResturants(page,limit).subscribe({
   	    next: (data) => {
-  	      // console.log(data);
+  	      
   	      this.restaurants = data;
   	    },
   	    error: (err) => {

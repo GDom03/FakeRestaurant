@@ -31,6 +31,11 @@ export class DeletableRestaurantItemComponent {
   	      this.toastr.error("Sorry, try later", "Error");       
   	    }
   	  });
+
+	  if(localStorage.getItem('RestaurantDeleted') === "true") {
+		localStorage.removeItem('RestaurantDeleted');
+		this.toastr.success("Restaurant deleted successfully", "Success");
+	  }
 	
   	}
 
@@ -58,6 +63,7 @@ export class DeletableRestaurantItemComponent {
 	deleteRestaurant() {
 		this.restService.getRemoveResturant(this.restaurantItem.id).subscribe({
   	    next: (data) => {
+			localStorage.setItem('RestaurantDeleted', "true");		
   	      
 	
   	    },

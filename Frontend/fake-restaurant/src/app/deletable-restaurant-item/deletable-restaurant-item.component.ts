@@ -66,7 +66,8 @@ export class DeletableRestaurantItemComponent {
 	deleteRestaurant() {
 		this.restService.getRemoveResturant(this.restaurantItem.id).subscribe({
   	    next: (data) => {
-			localStorage.setItem('RestaurantDeleted', "true");		
+			localStorage.setItem('RestaurantDeleted', "true");
+			window.location.reload();		
   	      
 	
   	    },

@@ -8,8 +8,9 @@ export class ImageController {
             const restaurantId = req.locals.restaurantId;
 
             const file = req.file;
-
-            const uniqueFileName = `http://localhost:9000/fake-restaurant/images/${Date.now()}_${file.originalname}`;
+			
+			// http://localhost:9000/fake-restaurant/
+            const uniqueFileName = `images/${Date.now()}_${file.originalname}`;
 
 
             await minioClient.putObject("fake-restaurant", uniqueFileName, req.file.buffer);

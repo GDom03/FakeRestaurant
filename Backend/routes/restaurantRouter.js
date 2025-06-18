@@ -130,7 +130,7 @@ restaurantRouter.post("/restaurants", checkNameField, checkDescriptionField, che
 
 /**
  * @swagger
- * /restaurants:
+ * /restaurants/{restaurantId}:
  *   delete:
  *     summary: Delete a restaurant
  *     description: Deletes a restaurant specified by its ID.
@@ -208,7 +208,7 @@ restaurantRouter.post("/restaurants", checkNameField, checkDescriptionField, che
  *                   description: Error message
  *                   example: "Could not delete restaurant. Try again later."
  */
-restaurantRouter.delete("/restaurants", checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
+restaurantRouter.delete("/restaurants/:restaurantId", checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
 
     try {
         let result = await RestaurantController.deleteRestaurant(req, res);

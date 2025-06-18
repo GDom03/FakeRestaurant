@@ -15,65 +15,86 @@ import { ReviewItemComponent } from '../review-item/review-item.component';
   styleUrl: './restaurant-detail.component.scss'
 })
 export class RestaurantDetailComponent {
-  restaurantItem: RestaurantItem;
-  images: ImageItem[];
-  imageNumber: number = 0;
-  page: number = 1;
-  reviews: ReviewItem[];
-  restService = inject(RestBackendService);
-  private toastr = inject(ToastrService);
-  
+  	restaurantItem: RestaurantItem;
+  	images: ImageItem[];
+  	imageNumber: number = 0;
+  	page: number = 1;
+  	reviews: ReviewItem[];
+	router = inject(Router);
+	location = inject(Location);		
+  	restService = inject(RestBackendService);
+  	private toastr = inject(ToastrService);
+	
 
-  constructor(private router: Router,private location: Location) {
-    // Leggi lo stato di navigazione (i dati passati)
-    const nav: Navigation | null = this.router.getCurrentNavigation();
-    this.restaurantItem = nav?.extras.state?.['restaurantItem'] ?? undefined;
-    this.images = nav?.extras.state?.['images'] ?? [];
+  	constructor() {
+  	  // Leggi lo stato di navigazione (i dati passati)
+  	  const nav: Navigation | null = this.router.getCurrentNavigation();
+  	  this.restaurantItem = nav?.extras.state?.['restaurantItem'] ?? undefined;
+  	  this.images = nav?.extras.state?.['images'] ?? [];
 
-    if(this.restaurantItem == undefined|| this.images.length == 0){
-      this.toastr.error("Sorry, try later", "Error");
-      this.router.navigate(['/']);
-    }
+  	  if(this.restaurantItem == undefined|| this.images.length == 0){
+  	    this.toastr.error("Sorry, try later", "Error");
+  	    this.router.navigate(['/']);
+  	  }
 
-    this.restService.getReviewsByResturant(this.restaurantItem.id,this.page).subscribe({
-      next: (data) => {
-        
-        this.reviews = data;
-         
-    
-        if(this.reviews == undefined|| this.reviews.length == 0){
-          this.toastr.error("Sorry, try later", "Error");
-          this.router.navigate(['/']);
-      }
-        
+	  this.fetchReviews();
+	
 
-      },
-      error: (err) => {
-  
-          this.toastr.error("Sorry, try later", "Error");
-          this.router.navigate(['/']);
-        
-      }
-    });
-
-   
-
-  }
+  	}
 
 
-  goBack() {
-    this.location.back();
-  }
+	fetchReviews() {
 
-  prevImage() {
-    if (this.imageNumber > 0) {
-      this.imageNumber--;
-    }
-  }
+		this.restService.getReviewsByResturant(this.restaurantItem.id,this.page).subscribe({
+  	    next: (data) => {
+		
+  	      this.reviews = data;
+	
+  	    },
+  	    error: (err) => {
+		
+  	        this.toastr.error("Sorry, try later", "Error");
+  	        this.router.navigate(['/']);
+	
+  	    }
+  	  });
 
-  nextImage() {
-    if (this.imageNumber < this.images.length - 1) {
-      this.imageNumber++;
-    }
-  }
+
+
+	}
+
+
+  	goBack() {
+  	  this.location.back();
+  	}
+
+  	prevImage() {
+  	  if (this.imageNumber > 0) {
+  	    this.imageNumber--;
+  	  }
+  	}
+
+  	nextImage() {
+  	  if (this.imageNumber < this.images.length - 1) {
+  	    this.imageNumber++;
+  	  }
+  	}
+
+	prevReview() {
+    	if (this.page > 1) {
+      		this.page--;
+			this.fetchReviews();
+
+    	}
+  	}
+
+  	nextReview() {
+    	if (this.reviews && this.reviews.length > 0) { 
+      		this.page++;
+			this.fetchReviews();
+    	}
+  	}
+
+
+
 }

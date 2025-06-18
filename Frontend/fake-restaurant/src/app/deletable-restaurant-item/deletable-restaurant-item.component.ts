@@ -58,7 +58,7 @@ export class DeletableRestaurantItemComponent {
   	  this.router.navigate([`/restaurants/${this.restaurantItem.name}`], {
   	    state: {
   	      restaurantItem: this.restaurantItem,
-  	      images: this.images
+  	      images: this.images 
   	    }
   	  });
   	}

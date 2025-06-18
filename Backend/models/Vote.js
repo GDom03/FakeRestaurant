@@ -19,24 +19,20 @@ import { DataTypes } from "sequelize";
  *         - isUpVote
  */
 export function createModel(database) {
-
-
-    database.define('Vote', {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            allowNull: false,
-            primaryKey: true
-        },
-        isUpVote: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
-        }
-
-    }, {
-        indexes: [{
-            unique: true,
-            fields: ['ReviewId', 'UserEmail']
-        }, ]
-    });
+  database.define('Vote', {
+    isUpVote: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    ReviewId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true   // 🔑 Parte della PK
+    },
+    UserEmail: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true   // 🔑 Parte della PK
+    }
+  });
 }

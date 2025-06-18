@@ -8,13 +8,14 @@ export class RestaurantController {
      * Attempts to create a new User
      */
     static async saveRestaurant(req, res) {
+
         //save new user
         let restaurant = new Restaurant({
-            name: req.body.name,
-            description: req.body.description,
-            type: req.body.type,
-            latitude: req.body.latitude,
-            longitude: req.body.longitude
+            name: req.locals.name,
+            description: req.locals.description,
+            type: req.locals.type,
+            latitude: req.locals.latitude,
+            longitude: req.locals.longitude
 
         });
         restaurant.UserEmail = req.email;
@@ -42,16 +43,16 @@ export class RestaurantController {
     }
 
     static async getRestaurants(req, res) {
-
+        console.log("Saving restaurant with data: ", req.locals);
         const where = {};
-        if (req.query.name) {
+        if (req.locals.name) {
             where.name = {
-                [Op.iLike]: `%${req.query.name}%`
+                [Op.iLike]: `%${req.locals.name}%`
             };
         }
-        if (req.query.userEmail) {
+        if (req.locals.UserEmail) {
             where.UserEmail = {
-                [Op.iLike]: `%${req.params.userEmail}%`
+                [Op.iLike]: `%${req.locals.UserEmail}%`
             };
         }
 
@@ -61,7 +62,7 @@ export class RestaurantController {
     static async getRestaurantsById(req, res) {
 
         const where = {};
-        where.id = req.params.restaurantId;
+        where.id = req.locals.restaurantId;
 
 
         return this.get(where, req, res);
@@ -74,7 +75,7 @@ export class RestaurantController {
 
         const where = {};
 
-        where.id = req.query.restaurantId;
+        where.id = req.locals.restaurantId;
         where.UserEmail = req.email;
 
         const result = await Restaurant.destroy({
@@ -97,7 +98,7 @@ export class RestaurantController {
 
     static async extractImages(req) {
         const where = {};
-        where.RestaurantId = req.query.restaurantId;
+        where.RestaurantId = req.locals.restaurantId;
         const images = await Image.findAll({
             where
         });

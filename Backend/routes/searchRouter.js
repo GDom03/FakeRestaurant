@@ -5,7 +5,7 @@ import { RestaurantController } from "../controllers/RestaurantController.js";
 import { ReviewController } from "../controllers/ReviewController.js";
 import { checkEmailField, checkUserExists } from "../middleware/userCheck.js";
 import { ImageController } from "../controllers/ImageController.js";
-import { checkRestaurantExists, checkRestaurantIdIsNumber } from "../middleware/restaurantCheck.js";
+import { checkRestaurantIdField, checkRestaurantExists } from "../middleware/restaurantCheck.js";
 
 export const searchRouter = express.Router();
 
@@ -88,6 +88,12 @@ export const searchRouter = express.Router();
  */
 searchRouter.get("/restaurants", async(req, res, next) => {
 
+    // Salva il valore validato in un campo locale di `req`
+    req.locals = req.locals || {}; // inizializza se necessario
+    req.locals.name = req.body?.name || req.query?.name || req.params?.name || null;
+    req.locals.UserEmail = req.body?.UserEmail || req.query?.UserEmail || req.params?.UserEmail || null;
+
+
     try {
         const restaurants = await RestaurantController.getRestaurants(req, res);
         res.json(restaurants);
@@ -147,7 +153,7 @@ searchRouter.get("/restaurants", async(req, res, next) => {
  *                   type: string
  *                   example: Could not fetch restaurants. Try again later.
  */
-searchRouter.get("/restaurants/:restaurantId", checkRestaurantIdIsNumber, checkRestaurantExists, async(req, res, next) => {
+searchRouter.get("/restaurants/:restaurantId", checkRestaurantExists, async(req, res, next) => {
     try {
         const restaurants = await RestaurantController.getRestaurantsById(req, res);
         res.json(restaurants);
@@ -231,6 +237,7 @@ searchRouter.get("/restaurants/:restaurantId", checkRestaurantIdIsNumber, checkR
  */
 searchRouter.get("/reviews", checkEmailField, checkUserExists, async(req, res, next) => {
 
+
     try {
         const reviews = await ReviewController.getReviews(req, res);
         res.json(reviews);
@@ -295,7 +302,7 @@ searchRouter.get("/reviews", checkEmailField, checkUserExists, async(req, res, n
  *                   type: string
  *                   example: Could not fetch reviews. Try again later.
  */
-searchRouter.get("/reviews/:restaurantId", checkRestaurantIdIsNumber, checkRestaurantExists, async(req, res, next) => {
+searchRouter.get("/reviews/:restaurantId", checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
 
     try {
         const reviews = await ReviewController.getReviewsByRestaurant(req, res);
@@ -359,7 +366,7 @@ searchRouter.get("/reviews/:restaurantId", checkRestaurantIdIsNumber, checkResta
  *                   type: string
  *                   example: Could not fetch images. Try again later.
  */
-searchRouter.get("/images/:restaurantId", checkRestaurantIdIsNumber, checkRestaurantExists, async(req, res, next) => {
+searchRouter.get("/images/:restaurantId", checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
 
     try {
         const images = await ImageController.getImagesByRestaurant(req, res);

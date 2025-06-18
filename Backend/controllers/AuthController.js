@@ -10,8 +10,8 @@ export class AuthController {
      */
     static async checkCredentials(req, res) {
         let user = new User({ //user data specified in the request
-            email: req.body.UserEmail,
-            password: req.body.password
+            email: req.locals.UserEmail,
+            password: req.locals.password
         });
 
         let found = await User.findOne({
@@ -30,10 +30,10 @@ export class AuthController {
     static async saveUser(req, res) {
         //save new user
         let user = new User({
-            email: req.body.UserEmail,
-            password: req.body.password,
-            name: req.body.name,
-            surname: req.body.surname
+            email: req.locals.UserEmail,
+            password: req.locals.password,
+            name: req.locals.name,
+            surname: req.locals.surname
 
         });
         return user.save(); //returns a Promise

@@ -10,13 +10,28 @@ export class VoteController {
         //save new user
 
         let vote = new Vote({
-            ReviewId: req.body.reviewId,
+            ReviewId: req.locals.reviewId,
             UserEmail: req.email,
-            isUpVote: req.body.isUpVote
+            isUpVote: req.locals.isUpVote
 
         });
 
         return vote.save(); //returns a Promise
+    }
+
+	static async getVote(req, res) {
+        
+		const where = {
+			ReviewId: req.locals.reviewId,
+            UserEmail: req.email,
+		};
+
+		const vote = await Vote.findAll({
+            where,
+            
+        });
+        
+        return vote; //returns a Promise
     }
 
 
@@ -24,7 +39,7 @@ export class VoteController {
         const where = {};
 
         where.UserEmail = req.email;
-        where.ReviewId = req.body.reviewId;
+        where.ReviewId = req.locals.reviewId;
 
         const result = await Vote.destroy({
             where

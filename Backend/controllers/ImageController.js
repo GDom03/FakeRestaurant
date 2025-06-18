@@ -5,7 +5,7 @@ export class ImageController {
 
     static async saveImage(req, res, next) {
         try {
-            const restaurantId = req.body.restaurantId;
+            const restaurantId = req.locals.restaurantId;
 
             const file = req.file;
 
@@ -56,7 +56,7 @@ export class ImageController {
     static async deleteImage(req, res) {
         const where = {};
 
-        where.id = req.query.imageId;
+        where.id = req.locals.imageId;
 
         return this.mydelete(where, req, res);
 
@@ -66,7 +66,7 @@ export class ImageController {
     static async getImagesByRestaurant(req, res) {
 
         const where = {
-            RestaurantId: req.params.restaurantId
+            RestaurantId: req.locals.restaurantId
         };
 
         const images = await Image.findAll({

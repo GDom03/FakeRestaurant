@@ -39,7 +39,7 @@ export class SearchResultsComponent {
       },
       error: (err) => {
   
-        this.toastr.error(err.message, err.statusText)
+        this.toastr.error("Sorry, try later", "Error");
         
       }
     });

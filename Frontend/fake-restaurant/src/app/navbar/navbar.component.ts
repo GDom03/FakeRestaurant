@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
 import { RestaurantItem } from '../_models/restaurant-item.type';
+import { AuthService } from '../_services/auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,8 +17,9 @@ export class NavbarComponent {
   searchField: string = "";
   private toastr = inject(ToastrService);
   restService = inject(RestBackendService);
+  authService = inject(AuthService);
   restaurants: RestaurantItem[] = [];
-  router: Router = new Router();
+  router = inject(Router);
 
 
   search(){
@@ -32,20 +34,15 @@ export class NavbarComponent {
       next: (data) => {
         console.log(data);
         this.restaurants = data;
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/search-results'], {
-            state: {
-              restaurants: data,
-              searchField: this.searchField
-            }
-          });
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => { // force reload
+          this.router.navigateByUrl('/search-results');
         });
         //this.router.navigate(['/search-results'], { state: { restaurants: data, searchField : this.searchField } });
         //....
       },
       error: (err) => {
   
-        this.toastr.error(err.message, err.statusText)
+        this.toastr.error("Sorry, try later", "Error");
         
       }
     });

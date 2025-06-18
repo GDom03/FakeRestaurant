@@ -10,7 +10,7 @@ import 'dotenv/config.js'; //read .env file and make it available in process.env
 export const database = new Sequelize(process.env.DB_CONNECTION_URI, {
     dialect: process.env.DIALECT,
     retry: {
-        max: 10, // numero di tentativi
+        max: 2, // numero di tentativi
         backoffBase: 1000, // millisecondi tra ogni tentativo
         backoffExponent: 1.1 // aumento esponenziale del ritardo
     }

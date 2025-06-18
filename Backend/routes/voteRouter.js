@@ -3,7 +3,8 @@ import express from "express";
 import { MyException } from "../utils/MyException.js";
 import { SuccessMessage } from "../utils/SuccessMessage.js";
 import { VoteController } from "../controllers/VoteController.js";
-import { checkIsUpVoteField, checkReviewIdField } from "../middleware/voteCheck.js";
+import { checkIsUpVoteField } from "../middleware/voteCheck.js";
+import { checkReviewIdField, checkReviewExistsWithoutEmail } from "../middleware/reviewCheck.js";
 import { ReviewController } from "../controllers/ReviewController.js";
 import { checkReviewExists } from "../middleware/reviewCheck.js";
 
@@ -100,14 +101,28 @@ export const voteRouter = express.Router();
  *                   description: Error message
  *                   example: Could not save vote. Try again later.
  */
-voteRouter.post("/votes", checkIsUpVoteField, checkReviewIdField, checkReviewExists, async(req, res, next) => {
+voteRouter.post("/votes", checkIsUpVoteField, checkReviewIdField, checkReviewExistsWithoutEmail, async(req, res, next) => {
 
     VoteController.saveVote(req, res).then((vote) => {
         console.log(vote);
         res.json(vote);
     }).catch((err) => {
         console.log(err);
-        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not save vote. Try again later."));
+		VoteController.getVote(req, res).then((vote) => {
+			if (vote.length > 0) {
+
+				res.status(MyException.CONFLICT).json(
+					vote[0]
+				);
+				
+			}else{
+				return next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not save vote. Try again later."));
+			}
+		}).catch((err) => {
+			console.log(err);
+			return next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not check if vote exists. Try again later."));
+		});
+       
     })
 });
 
@@ -191,7 +206,7 @@ voteRouter.post("/votes", checkIsUpVoteField, checkReviewIdField, checkReviewExi
  *                   description: Error message
  *                   example: "Could not delete vote. Try again later."
  */
-voteRouter.delete("/votes", checkReviewIdField, checkReviewExists, async(req, res, next) => {
+voteRouter.delete("/votes/:reviewId", checkReviewIdField, checkReviewExistsWithoutEmail, async(req, res, next) => {
 
     try {
         let result = await VoteController.deleteVote(req, res);

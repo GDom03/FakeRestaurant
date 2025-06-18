@@ -3,6 +3,11 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import {RestaurantDetailComponent} from './restaurant-detail/restaurant-detail.component'
+import { ManageAccountComponent } from './manage-account/manage-account.component';
+
+import { authGuard } from './_guards/auth/auth.guard';
+import { SignupComponent } from './signup/signup.component';
+
 
 export const routes: Routes = [
 
@@ -24,6 +29,17 @@ export const routes: Routes = [
         path: "restaurants/:name",
         component: RestaurantDetailComponent,
         title: "Fake Restaurant Restaurant Detail",
+    },
+    {
+        path: "manage-account",
+        component: ManageAccountComponent,
+        title: "Fake Restaurant Manage Account",
+        canActivate: [authGuard]
+    },
+    {
+        path: "signup",
+        component: SignupComponent,
+        title: "Fake Restaurant Signup",
     },
     {
         path: "",

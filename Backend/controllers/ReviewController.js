@@ -10,15 +10,15 @@ export class ReviewController {
     static async saveReview(req, res) {
         //save new user
         let review = new Review({
-            title: req.body.title,
-            content: req.body.content,
-            overallRating: req.body.overallRating,
-            serviceRating: req.body.serviceRating,
-            qualityPriceRating: req.body.qualityPriceRating,
-            foodRating: req.body.foodRating,
-            atmosphereRating: req.body.atmosphereRating,
+            title: req.locals.title,
+            content: req.locals.content,
+            overallRating: req.locals.overallRating,
+            serviceRating: req.locals.serviceRating,
+            qualityPriceRating: req.locals.qualityPriceRating,
+            foodRating: req.locals.foodRating,
+            atmosphereRating: req.locals.atmosphereRating,
             UserEmail: req.email,
-            RestaurantId: req.body.restaurantId
+            RestaurantId: req.locals.restaurantId
         });
 
 
@@ -70,7 +70,7 @@ export class ReviewController {
     static async getReviewsByRestaurant(req, res) {
 
         const where = {
-            RestaurantId: req.params.restaurantId
+            RestaurantId: req.locals.restaurantId
         };
 
         return this.get(where, req, res);
@@ -79,10 +79,10 @@ export class ReviewController {
     static async getReviews(req, res) {
 
         const where = {};
-        if (req.query.userEmail) {
+        if (req.locals.UserEmail) {
             let user = await User.findOne({
                 where: {
-                    email: req.query.userEmail
+                    email: req.locals.UserEmail
                 },
             });
 
@@ -101,7 +101,7 @@ export class ReviewController {
     static async deleteReview(req, res) {
         const where = {};
         where.UserEmail = req.email;
-        where.id = req.query.reviewId;
+        where.id = req.locals.reviewId;
 
         const result = await Review.destroy({
             where

@@ -6,7 +6,7 @@ export async function checkUserExists(req, res, next) {
 
     const where = {};
 
-    where.email = req.query.UserEmail;
+    where.email = req.locals.UserEmail;
 
     let user = await User.findOne({
         where
@@ -22,7 +22,7 @@ export async function checkUserNotExists(req, res, next) {
 
     const where = {};
 
-    where.email = req.body.UserEmail;
+    where.email = req.locals.UserEmail;
 
     let user = await User.findOne({
         where
@@ -49,6 +49,10 @@ export async function checkEmailField(req, res, next) {
         next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
+    // Salva il valore validato in un campo locale di `req`
+    req.locals = req.locals || {}; // inizializza se necessario
+    req.locals.UserEmail = req.body?.UserEmail || req.query?.UserEmail || req.params?.UserEmail;
+
 
     next();
 }
@@ -67,6 +71,11 @@ export async function checkPasswordField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
+
+    // Salva il valore validato in un campo locale di `req`
+    req.locals = req.locals || {}; // inizializza se necessario
+    req.locals.password = req.body?.password || req.query?.password || req.params?.password;
+
     next();
 }
 
@@ -84,6 +93,10 @@ export async function checkNameField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
+    // Salva il valore validato in un campo locale di `req`
+    req.locals = req.locals || {}; // inizializza se necessario
+    req.locals.name = req.body?.name || req.query?.name || req.params?.name;
+
     next();
 }
 
@@ -100,6 +113,10 @@ export async function checkSurnameField(req, res, next) {
     if (!errors.isEmpty()) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
+
+    // Salva il valore validato in un campo locale di `req`
+    req.locals = req.locals || {}; // inizializza se necessario
+    req.locals.surname = req.body?.surname || req.query?.surname || req.params?.surname;
 
     next();
 }

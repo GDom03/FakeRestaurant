@@ -5,7 +5,7 @@ import { check, validationResult } from 'express-validator';
 export async function checkImageExists(req, res, next) {
     let image = await Image.findOne({
         where: {
-            id: req.query.imageId
+            id: req.locals.imageId
         },
     });
 
@@ -18,7 +18,7 @@ export async function checkImageExists(req, res, next) {
 export async function checkCanDeleteImage(req, res, next) {
     let image = await Image.findOne({
         where: {
-            id: req.query.imageId,
+            id: req.locals.imageId,
         },
     });
 
@@ -57,6 +57,10 @@ export async function checkImageIdField(req, res, next) {
     if (!errors.isEmpty()) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
+
+    // Salva il valore validato in un campo locale di `req`
+    req.locals = req.locals || {}; // inizializza se necessario
+    req.locals.imageId = req.body?.imageId || req.query?.imageId || req.params?.imageId;
 
     next();
 }

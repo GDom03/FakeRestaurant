@@ -18,7 +18,7 @@ export class RestaurantItemComponent {
   imageNumber: number = 0;
   restService = inject(RestBackendService);
   private toastr = inject(ToastrService);
-  router: Router = new Router();
+  router = inject(Router);
   
   ngOnInit() {
     this.restService.getImagesOfResturant(this.restaurantItem.id).subscribe({
@@ -28,7 +28,7 @@ export class RestaurantItemComponent {
   
       },
       error: (err) => {
-        this.toastr.error(err.message, err.statusText)        
+        this.toastr.error("Sorry, try later", "Error");       
       }
     });
     

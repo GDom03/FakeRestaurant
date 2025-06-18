@@ -5,7 +5,7 @@ import { checkTitleField, checkContentField, checkOverallRatingField, checkServi
 import { checkRestaurantIdField, checkRestaurantExists } from "../middleware/restaurantCheck.js";
 import { SuccessMessage } from "../utils/SuccessMessage.js";
 import { checkReviewExists } from "../middleware/reviewCheck.js";
-import { checkReviewIdField } from "../middleware/voteCheck.js";
+import { checkReviewIdField } from "../middleware/reviewCheck.js";
 
 
 export const reviewRouter = express.Router();

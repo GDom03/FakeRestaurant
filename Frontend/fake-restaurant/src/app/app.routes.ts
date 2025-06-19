@@ -8,6 +8,7 @@ import { ManageAccountComponent } from './manage-account/manage-account.componen
 import { authGuard } from './_guards/auth/auth.guard';
 import { SignupComponent } from './signup/signup.component';
 import { UserRestaurantsComponent } from './user-restaurants/user-restaurants.component';
+import { MapRestaurantComponent } from './map-restaurant/map-restaurant.component';
 
 
 export const routes: Routes = [
@@ -47,6 +48,11 @@ export const routes: Routes = [
         component: UserRestaurantsComponent,
         title: "Fake Restaurant User Restaurants",
         canActivate: [authGuard]
+    },
+	{
+        path: "restaurant-map",
+        component: MapRestaurantComponent,
+        title: "Fake Restaurant Map Restaurants",
     },
     {
         path: "",

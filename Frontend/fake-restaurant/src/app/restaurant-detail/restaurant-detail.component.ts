@@ -15,6 +15,7 @@ import { ReviewItemComponent } from '../review-item/review-item.component';
   styleUrl: './restaurant-detail.component.scss'
 })
 export class RestaurantDetailComponent {
+
   	restaurantItem: RestaurantItem;
   	images: ImageItem[];
   	imageNumber: number = 0;
@@ -94,6 +95,11 @@ export class RestaurantDetailComponent {
 			this.fetchReviews();
     	}
   	}
+
+	goMap() {
+		this.router.navigate(['/restaurant-map'], { state: { restaurants: [this.restaurantItem] } });
+
+	}
 
 
 

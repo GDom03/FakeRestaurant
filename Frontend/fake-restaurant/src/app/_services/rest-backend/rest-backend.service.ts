@@ -13,6 +13,7 @@ import { VoteRequest } from './vote-request.type';
 export class RestBackendService {
 
 
+
 	url = "http://localhost:3000"
 	imageurl = "http://localhost:9000/fake-restaurant/"
 
@@ -59,6 +60,11 @@ export class RestBackendService {
 
 	getReviewsByResturant(id:number, page: number = 1, limit: number = 3) {	
 	  	let url = `${this.url}/reviews/${id}/?page=${page}&limit=${limit}&sort=upvotes`; 	
+	  	return this.http.get<ReviewItem[]>(url, this.httpOptions);
+	}
+
+	getUserReviews(page: number, limit: number) {
+		let url = `${this.url}/reviews?page=${page}&limit=${limit}&sort=upvotes&UserEmail=${localStorage.getItem('email') ?? ""}`; 	
 	  	return this.http.get<ReviewItem[]>(url, this.httpOptions);
 	}	
 

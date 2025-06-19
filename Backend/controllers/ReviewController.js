@@ -91,7 +91,7 @@ export class ReviewController {
                 throw new MyException(MyException.NOT_FOUND, "User not Exists");
             }
 
-            where.UserEmail = req.query.userEmail;
+            where.UserEmail = req.locals.UserEmail;
         }
 
         return this.get(where, req, res);

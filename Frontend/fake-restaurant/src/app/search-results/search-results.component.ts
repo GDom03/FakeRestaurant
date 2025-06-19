@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './search-results.component.scss'
 })
 export class SearchResultsComponent {
+
   	restaurants: RestaurantItem[] = [];
   	searchField: string;
   	page: number = 1;
@@ -72,5 +73,16 @@ export class SearchResultsComponent {
 	  	}
 	
   	}
+
+	goMap() {
+		if(this.restaurants.length == 0){
+			this.toastr.warning('No restaurants found to display on the map.', 'Warning');
+			return;
+		}
+		localStorage.setItem('searchField', this.searchField);
+		localStorage.setItem('page', this.page.toString()); 
+		this.router.navigate(['/restaurant-map'], { state: { restaurants: this.restaurants } });
+
+	}
 
 }

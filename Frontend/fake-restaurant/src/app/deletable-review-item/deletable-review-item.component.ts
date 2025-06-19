@@ -21,6 +21,16 @@ export class DeletableReviewItemComponent {
 	upvoted: boolean = false;
 
 
+	ngOnInit() {
+
+
+	  if(localStorage.getItem('ReviewDeleted') === "true") {
+		localStorage.removeItem('ReviewDeleted');
+		this.toastr.success("Review deleted successfully", "Success");
+	  }
+	
+  	}
+
   	downvote() {
 		if (this.authService.isUserAuthenticated() === false) {
 			this.toastr.warning("You must be logged in to vote", "Warning");
@@ -116,7 +126,17 @@ export class DeletableReviewItemComponent {
 	}
 
 	deleteRestaurant() {
-		throw new Error('Method not implemented.');
+		this.restService.RemoveReview(this.reviewItem.id).subscribe({
+  	    next: (data) => {
+			localStorage.setItem('ReviewDeleted', "true");
+			window.location.reload();		
+  	      
+	
+  	    },
+  	    error: (err) => {
+  	      this.toastr.error("Sorry, try later", "Error");       
+  	    }
+  	  });
 	}
 
 }

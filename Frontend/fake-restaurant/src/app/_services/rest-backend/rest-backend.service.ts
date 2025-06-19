@@ -13,7 +13,6 @@ import { VoteRequest } from './vote-request.type';
 export class RestBackendService {
 
 
-
 	url = "http://localhost:3000"
 	imageurl = "http://localhost:9000/fake-restaurant/"
 
@@ -91,6 +90,11 @@ export class RestBackendService {
 
 	getRemoveResturant(idRestaurant: number) {
 		let url = `${this.url}/restaurants/${idRestaurant}`; 
+		return this.http.delete(url, this.httpOptions);
+	}
+
+	RemoveReview(ReviewId: number) {
+		let url = `${this.url}/reviews/${ReviewId}`; 
 		return this.http.delete(url, this.httpOptions);
 	}
 

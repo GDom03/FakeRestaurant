@@ -155,7 +155,7 @@ reviewRouter.post("/reviews", checkTitleField, checkContentField, checkOverallRa
 
 /**
  * @swagger
- * /reviews:
+ * /reviews/{reviewId}:
  *   delete:
  *     summary: Delete a review
  *     description: Deletes a review specified by its ID.
@@ -233,7 +233,7 @@ reviewRouter.post("/reviews", checkTitleField, checkContentField, checkOverallRa
  *                   description: Error message
  *                   example: "Could not delete review. Try again later."
  */
-reviewRouter.delete("/reviews", checkReviewIdField, checkReviewExists, async(req, res, next) => {
+reviewRouter.delete("/reviews/:reviewId", checkReviewIdField, checkReviewExists, async(req, res, next) => {
 
     try {
         let result = await ReviewController.deleteReview(req, res);

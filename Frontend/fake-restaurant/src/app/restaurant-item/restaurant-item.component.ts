@@ -23,7 +23,6 @@ export class RestaurantItemComponent {
   ngOnInit() {
     this.restService.getImagesOfResturant(this.restaurantItem.id).subscribe({
       next: (data) => {
-        //console.log(data);
         this.images = data;
 		for(let i = 0; i < this.images.length; i++) {
 			this.images[i].image = this.restService.imageurl + this.images[i].image;

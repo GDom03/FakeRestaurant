@@ -84,11 +84,7 @@ export class RestBackendService {
 	}
 
 	getRemoveResturant(idRestaurant: number) {
-		let url = `${this.url}/restaurants/${idRestaurant}`;
-		const options = {
-    		headers: this.httpOptions.headers,
-    			params: { UserEmail : localStorage.getItem('email') ?? "" } // <-- aggiunto parametro
-  		};
+		let url = `${this.url}/restaurants/${idRestaurant}`; 
 		return this.http.delete(url, this.httpOptions);
 	}
 

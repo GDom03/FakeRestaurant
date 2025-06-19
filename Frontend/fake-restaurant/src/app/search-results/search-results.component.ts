@@ -12,51 +12,65 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './search-results.component.scss'
 })
 export class SearchResultsComponent {
-  restaurants: RestaurantItem[] = [];
-  searchField: string;
-  page: number = 1;
-  restService = inject(RestBackendService);
-  private toastr = inject(ToastrService);;
+  	restaurants: RestaurantItem[] = [];
+  	searchField: string;
+  	page: number = 1;
+  	restService = inject(RestBackendService);
+  	private toastr = inject(ToastrService);;
+	router = inject(Router);
 
-  constructor(private router: Router) {
-    // Leggi lo stato di navigazione (i dati passati)
-    const nav: Navigation | null = this.router.getCurrentNavigation();
-    this.restaurants = nav?.extras.state?.['restaurants'] ?? [];
-    this.searchField = nav?.extras.state?.['searchField'] ?? "";
+	ngOnInit() {
+		if(localStorage.getItem('searchField') === null || localStorage.getItem('searchField') === undefined){
+			return;
+		}
 
-    if(this.restaurants.length == 0|| this.searchField.length == 0){
-      this.router.navigate(['/']);
-    }
+		this.searchField = localStorage.getItem('searchField') ?? "";
+		localStorage.removeItem('searchField'); // Clear the search field from local storage
+		
+		this.page = parseInt(localStorage.getItem('page') ?? "1");
+		localStorage.removeItem('page'); // Clear the page from local storage
+		
+		this.restService.getResturantsByName(this.searchField,this.page).subscribe({
+  	    	next: (data) => {
+				
+  	      		this.restaurants = data;
+				
+				if(this.restaurants == undefined || this.restaurants.length == 0){
+					this.toastr.info("No search results", "Info");
+				}
+  	    	},
+  	    	error: (err) => {
+		
+  	      		this.toastr.error("Sorry, try later", "Error");
+	
+  	    	}
+  	  	});
 
-  }
+		
+	}
 
-  search(page: number){
-    this.restService.getResturantsByName(this.searchField,page).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.restaurants = data;
+  	search(){	
+		
+		localStorage.setItem('searchField', this.searchField);
+		localStorage.setItem('page', this.page.toString()); 
+		window.location.reload(); 
 
-      },
-      error: (err) => {
-  
-        this.toastr.error("Sorry, try later", "Error");
-        
-      }
-    });
-  }
+  	}
 
-  nextPage(){
-    if(this.restaurants.length > 0){
-      this.search(++this.page);
-    }
-    
-  }
+  	nextPage(){
+  		if(this.restaurants.length > 0){
+			++this.page;
+  	    	this.search();
+  	  	}
+	
+  	}
 
-  prevPage(){
-    if(this.page > 1){
-      this.search(--this.page);
-    }
-    
-  }
+  	prevPage(){
+  	  	if(this.page > 1){
+			--this.page;
+  	    	this.search();
+	  	}
+	
+  	}
 
 }

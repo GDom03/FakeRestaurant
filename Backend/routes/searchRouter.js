@@ -92,7 +92,7 @@ searchRouter.get("/restaurants", async(req, res, next) => {
     req.locals = req.locals || {}; // inizializza se necessario
     req.locals.name = req.body?.name || req.query?.name || req.params?.name || null;
     req.locals.UserEmail = req.body?.UserEmail || req.query?.UserEmail || req.params?.UserEmail || null;
-
+	console.log("Search parameters:", req.locals);
 
     try {
         const restaurants = await RestaurantController.getRestaurants(req, res);

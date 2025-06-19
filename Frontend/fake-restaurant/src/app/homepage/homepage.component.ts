@@ -23,7 +23,7 @@ export class HomepageComponent {
   fetchLastRestaurants(page: number = 1, limit: number = 3){
     this.restService.getLastResturants(page,limit).subscribe({
       next: (data) => {
-        // console.log(data);
+
         this.restaurants = data;
       },
       error: (err) => {

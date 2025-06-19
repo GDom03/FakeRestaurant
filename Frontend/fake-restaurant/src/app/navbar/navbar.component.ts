@@ -25,28 +25,15 @@ export class NavbarComponent {
   search(){
   
     if(this.searchField === "" || this.searchField.trim() === ""){
-      
-      this.toastr.warning('Enter the name of the restaurant you want to search for.', 'Warning');
-      return;
+    	this.toastr.warning('Enter the name of the restaurant you want to search for.', 'Warning');
+      	return;
     }
-    console.log(this.searchField);
-    this.restService.getResturantsByName(this.searchField).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.restaurants = data;
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => { // force reload
-          this.router.navigateByUrl('/search-results');
-        });
-        //this.router.navigate(['/search-results'], { state: { restaurants: data, searchField : this.searchField } });
-        //....
-      },
-      error: (err) => {
-  
-        this.toastr.error("Sorry, try later", "Error");
-        
-      }
-    });
 
+	localStorage.setItem('searchField', this.searchField); // Store search field in local storage
+	
+	this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+  		this.router.navigateByUrl('/search-results');
+	});
 
   
   }

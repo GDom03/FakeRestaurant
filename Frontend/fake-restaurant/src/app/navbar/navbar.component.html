@@ -21,7 +21,7 @@
 
                  </span>
 
-                <input type="text" [(ngModel)]="searchField" class=" w-full p-2 rounded-full outline-none text-md md:text-xl placeholder-shown:border-black" placeholder="Search ..." />
+                <input (keydown.enter)="search()" type="text" [(ngModel)]="searchField" class=" w-full p-2 rounded-full outline-none text-md md:text-xl placeholder-shown:border-black" placeholder="Search ..." />
 
             </div>
 

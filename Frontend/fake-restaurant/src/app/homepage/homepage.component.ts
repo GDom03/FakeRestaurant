@@ -25,6 +25,9 @@ export class HomepageComponent {
       next: (data) => {
 
         this.restaurants = data;
+		if(this.restaurants == undefined || this.restaurants.length == 0){
+			this.toastr.info("No restaurants found", "Info");
+		}
       },
       error: (err) => {
   

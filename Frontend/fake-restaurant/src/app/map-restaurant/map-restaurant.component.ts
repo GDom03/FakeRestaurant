@@ -53,7 +53,7 @@ export class MapRestaurantComponent implements AfterViewInit {
 	  		if (restaurant.latitude && restaurant.longitude) {
 				leaflet.marker([restaurant.latitude, restaurant.longitude])
 		  			.addTo(this.map)
-		  			.bindPopup(`<b>${restaurant.name}</b><br>${restaurant.type}`)
+		  			.bindPopup(`<b><h1>${restaurant.name}</h1></b><h2>🔸 ${restaurant.type}</h2><p>[${restaurant.latitude},${restaurant.longitude}]</p>`)
 		  			.openPopup();
 	  		}
 		});

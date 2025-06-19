@@ -16,6 +16,7 @@ import { ReviewItemComponent } from '../review-item/review-item.component';
 })
 export class RestaurantDetailComponent {
 
+
   	restaurantItem: RestaurantItem;
   	images: ImageItem[];
   	imageNumber: number = 0;
@@ -99,6 +100,10 @@ export class RestaurantDetailComponent {
 	goMap() {
 		this.router.navigate(['/restaurant-map'], { state: { restaurants: [this.restaurantItem] } });
 
+	}
+
+	goToAddReview() {
+		this.router.navigate(['/add-review'], { state: { restaurant: this.restaurantItem } });
 	}
 
 

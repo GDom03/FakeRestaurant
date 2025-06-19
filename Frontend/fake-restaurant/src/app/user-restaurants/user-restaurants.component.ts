@@ -24,7 +24,10 @@ export class UserRestaurantsComponent {
   	  this.restService.getUserResturants(page,limit).subscribe({
   	    next: (data) => {
   	      
-  	      this.restaurants = data;
+  	      	this.restaurants = data;
+			if(this.restaurants == undefined || this.restaurants.length == 0){
+				this.toastr.info("No restaurants found", "Info");
+			}
   	    },
   	    error: (err) => {
 		

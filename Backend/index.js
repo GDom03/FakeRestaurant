@@ -4,6 +4,9 @@ import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
+import https from 'https';
+import fs from 'fs';
+
 import { authenticationRouter } from "./routes/authenticationRouter.js";
 import { restaurantRouter } from "./routes/restaurantRouter.js";
 import { searchRouter } from "./routes/searchRouter.js";
@@ -85,5 +88,16 @@ app.use((err, req, res, next) => {
         });
 });
 
+// Carica certificati
+const httpsOptions = {
+  key: fs.readFileSync("./key.pem"),
+  cert: fs.readFileSync("./cert.pem"),
+};
 
-app.listen(PORT);
+// Avvia HTTPS server
+https.createServer(httpsOptions, app).listen(PORT, () => {
+  console.log(`✅ Server HTTPS avviato su https://localhost:${PORT}`);
+});
+
+
+//app.listen(PORT);

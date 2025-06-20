@@ -73,6 +73,20 @@ services:
       fake_restaurant_network:
         ipv4_address: 172.28.0.5
 
+  frontend:
+    build: ../Frontend/fake-restaurant
+    container_name: fake_restaurant_frontend
+    ports:
+      - '4200:4200'
+    volumes:
+      - ../Frontend/ssl:/app/ssl:ro
+    depends_on:
+      - backend
+    command: "ng serve --ssl true --ssl-key ssl/key.pem --ssl-cert ssl/cert.pem --host 0.0.0.0"
+    networks:
+      fake_restaurant_network:
+        ipv4_address: 172.28.0.6
+
 volumes:
   postgres_data:
   pgadmin_data:

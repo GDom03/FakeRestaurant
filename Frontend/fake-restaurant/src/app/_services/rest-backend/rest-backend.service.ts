@@ -17,7 +17,7 @@ export class RestBackendService {
 
 	
 
-	url = "http://localhost:3000"
+	url = "https://localhost:3000"
 	imageurl = "http://localhost:9000/fake-restaurant/"
 
 	constructor(private http: HttpClient) { }	

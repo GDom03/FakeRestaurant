@@ -80,9 +80,6 @@ export class AddReviewComponent {
 		if(this.addReviewForm.invalid){
       		this.toastr.error("The data you provided is invalid!", "Oops! Invalid data!");
 			
-			console.log(
-				this.addReviewForm.controls
-			);
     	}else{
 			this.overall = (this.addReviewForm.value.serviceRating ?? 1 as number) + (this.addReviewForm.value.qualityPriceRating ?? 1) + (this.addReviewForm.value.foodRating ?? 1) + (this.addReviewForm.value.atmosphereRating ?? 1);
 			this.overall /= 4; 

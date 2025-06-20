@@ -97,7 +97,7 @@ export async function checkDescriptionField(req, res, next) {
 
     // Salva il valore validato in un campo locale di `req`
     req.locals = req.locals || {}; // inizializza se necessario
-    req.locals.name = req.body?.name || req.query?.name || req.params?.name;
+    req.locals.description = req.body?.description || req.query?.description || req.params?.description;
 
     next();
 }

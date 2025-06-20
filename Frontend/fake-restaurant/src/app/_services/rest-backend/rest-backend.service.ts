@@ -7,11 +7,15 @@ import { AuthRequest } from './auth-request.type';
 import { AuthResponse } from './auth-response.type';
 import { VoteRequest } from './vote-request.type';
 import { ReviewRequest } from './review-request.type';
+import { RestaurantRequest } from './resturant-request.type';
+import { ImageRequest } from './image-request.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestBackendService {
+
+	
 
 	url = "http://localhost:3000"
 	imageurl = "http://localhost:9000/fake-restaurant/"
@@ -86,6 +90,20 @@ export class RestBackendService {
 
 		return this.http.post<VoteRequest>(url, voteRequest, this.httpOptions);
   	}
+
+	addRestaurant(RestaurantRequest: RestaurantRequest) {
+		let url = `${this.url}/restaurants`; 
+		return this.http.post<RestaurantRequest>(url, RestaurantRequest, this.httpOptions);
+	}
+
+	uploadImg(imageRequest: ImageRequest) {
+		let url = `${this.url}/images`; 
+		const formData = new FormData();
+        formData.append('image', imageRequest.image);
+        formData.append('restaurantId', imageRequest.restaurantId as any); 
+		return this.http.post(url, formData, {}); // metto {} perch'e non voglio 'Content-Type': 'application/json'
+
+	}
 
 	
 	deleteVote(ReviewId: number) {

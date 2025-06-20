@@ -6,12 +6,12 @@ import { ReviewItem } from '../../_models/review-item.type';
 import { AuthRequest } from './auth-request.type';
 import { AuthResponse } from './auth-response.type';
 import { VoteRequest } from './vote-request.type';
+import { ReviewRequest } from './review-request.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestBackendService {
-
 
 	url = "http://localhost:3000"
 	imageurl = "http://localhost:9000/fake-restaurant/"
@@ -27,6 +27,12 @@ export class RestBackendService {
 	login(loginRequest: AuthRequest){
 	  	const url = `${this.url}/auth`; 
 	  	return this.http.post<AuthResponse>(url, loginRequest, this.httpOptions);
+	}
+
+	addReview(addReviewRequest: ReviewRequest) {
+		const url = `${this.url}/reviews`; 
+	  	return this.http.post<ReviewRequest>(url, addReviewRequest, this.httpOptions);
+		
 	}	
 
 

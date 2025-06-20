@@ -12,7 +12,7 @@ import { AuthService } from '../_services/auth/auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  submitted = false;
+  submitted: boolean = false;
   toastr = inject(ToastrService);
   restService = inject(RestBackendService);
   router = inject(Router);
@@ -60,7 +60,7 @@ export class LoginComponent {
         complete: () => {
           
         }
-      })
+      });
     }
   }
 

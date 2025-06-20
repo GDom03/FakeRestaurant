@@ -15,7 +15,7 @@ export class SignupComponent {
   toastr = inject(ToastrService);
   router = inject(Router);
   restService = inject(RestBackendService);
-  submitted = false;
+  submitted: boolean = false;
   signupForm = new FormGroup({
     email: new FormControl('', [
       Validators.required,

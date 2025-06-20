@@ -1,1 +1,110 @@
-<p>add-review works!</p>
+<!DOCTYPE html>
+<section class=" h-full">
+    <div class="flex p-3">
+                <div (click)="goBack()" class="flex flex-row gap-1 text-2xl items-center border border-2 rounded-full p-2 transition duration-200 ease-in-out bg-gray-200 hover:bg-orange-400 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                    </svg>
+                    <h1>Back</h1>
+                </div>
+
+            </div>
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-full">
+
+        <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+                    Add Review for "{{ restaurant.name }}"
+                </h1>
+                <form class="space-y-4 md:space-y-6" [formGroup]="addReviewForm" (ngSubmit)="handleAddReview()">
+                    <div>
+                        <label for="title" class="block mb-2 text-sm font-medium text-gray-900">Review title</label>
+                        <input type="text" formControlName="title" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5" placeholder="Review title" required="">
+                        <div class="text-red-500">
+                            @if(submitted && addReviewForm.controls.title.errors){ @if(addReviewForm.controls.title.errors['required']){
+                            <p class="form-error">Title is required.</p>
+                            }@if(addReviewForm.controls.title.errors['minlength']){
+                            <p class="form-error">Title is too short.</p>
+                            }}
+                        </div>
+
+                    </div>
+                    <div>
+                        <label for="content" class="block mb-2 text-sm font-medium text-gray-900">Review content</label>
+                        <input type="text" formControlName="content" id="content" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5" placeholder="Review content" required="">
+                        <div class="text-red-500">
+                            @if(submitted && addReviewForm.controls.content.errors){ @if(addReviewForm.controls.content.errors['required']){
+                            <p class="form-error">Content is required.</p>
+                            }@if(addReviewForm.controls.content.errors['minlength']){
+                            <p class="form-error">Content is too short.</p>
+                            }}
+                        </div>
+
+                    </div>
+                    <div class="flex flex-col ">
+                        <label for="content" class="block mb-2 text-sm font-medium text-gray-900">Review Service Rating</label>
+                        <input type="number" formControlName="serviceRating" id="serviceRating" min="1" max="5" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block p-2.5" placeholder="Star" required="">
+                        <div class="text-red-500">
+                            @if(submitted && addReviewForm.controls.serviceRating.errors){ @if(addReviewForm.controls.serviceRating.errors['required']){
+                            <p class="form-error">Service Rating is required.</p>
+                            }@if(addReviewForm.controls.serviceRating.errors['min']){
+                            <p class="form-error">Service Rating is too short [1-5].</p>
+                            }@if(addReviewForm.controls.serviceRating.errors['max']){
+                            <p class="form-error">Service Rating is too long [1-5].</p>
+                            }}
+                        </div>
+
+                    </div>
+                    <div class="flex flex-col ">
+                        <label for="content" class="block mb-2 text-sm font-medium text-gray-900">Review Quality/Price Rating</label>
+                        <input type="number" formControlName="qualityPriceRating" id="qualityPriceRating" min="1" max="5" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block p-2.5" placeholder="Star" required="">
+                        <div class="text-red-500">
+                            @if(submitted && addReviewForm.controls.qualityPriceRating.errors){ @if(addReviewForm.controls.qualityPriceRating.errors['required']){
+                            <p class="form-error">Quality/Price Rating is required.</p>
+                            }@if(addReviewForm.controls.qualityPriceRating.errors['min']){
+                            <p class="form-error">Quality/Price Rating is too short [1-5].</p>
+                            }@if(addReviewForm.controls.qualityPriceRating.errors['max']){
+                            <p class="form-error">Quality/Price Rating is too long [1-5].</p>
+                            }}
+                        </div>
+
+                    </div>
+
+                    <div class="flex flex-col ">
+                        <label for="content" class="block mb-2 text-sm font-medium text-gray-900">Review Food Rating</label>
+                        <input type="number" formControlName="foodRating" id="foodRating" min="1" max="5" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block p-2.5" placeholder="Star" required="">
+                        <div class="text-red-500">
+                            @if(submitted && addReviewForm.controls.foodRating.errors){ @if(addReviewForm.controls.foodRating.errors['required']){
+                            <p class="form-error">Food Rating is required.</p>
+                            }@if(addReviewForm.controls.foodRating.errors['min']){
+                            <p class="form-error">Food Rating is too short [1-5].</p>
+                            }@if(addReviewForm.controls.foodRating.errors['max']){
+                            <p class="form-error">Food Rating is too long [1-5].</p>
+                            }}
+                        </div>
+
+                    </div>
+
+                    <div class="flex flex-col ">
+                        <label for="content" class="block mb-2 text-sm font-medium text-gray-900">Review Atmosphere Rating</label>
+                        <input type="number" formControlName="atmosphereRating" id="atmosphereRating" min="1" max="5" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block p-2.5" placeholder="Star" required="">
+                        <div class="text-red-500">
+                            @if(submitted && addReviewForm.controls.atmosphereRating.errors){ @if(addReviewForm.controls.atmosphereRating.errors['required']){
+                            <p class="form-error">Atmosphere Rating is required.</p>
+                            }@if(addReviewForm.controls.atmosphereRating.errors['min']){
+                            <p class="form-error">Atmosphere Rating is too short [1-5].</p>
+                            }@if(addReviewForm.controls.atmosphereRating.errors['max']){
+                            <p class="form-error">Atmosphere Rating is too long [1-5].</p>
+                            }}
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="w-full text-white bg-orange-400 transition duration-200 ease-in-out hover:bg-orange-500 rounded-lg text-sm px-5 py-2.5 text-center">Add Review</button>
+                   
+            
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

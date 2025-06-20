@@ -1,5 +1,5 @@
-export interface ReviewItem {
-  id: number; 
+export interface ReviewRequest {
+  restaurantId: number; 
   title: string;
   content: string;  
   overallRating: number;
@@ -7,11 +7,4 @@ export interface ReviewItem {
   qualityPriceRating: number;
   foodRating: number;
   atmosphereRating: number;
-  upvotes: number;
-  downvotes: number;
-  createdAt?: Date; 
-  updatedAt?: Date;
-  restaurantId?: number;
-
-
 }

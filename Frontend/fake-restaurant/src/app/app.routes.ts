@@ -11,6 +11,7 @@ import { UserRestaurantsComponent } from './user-restaurants/user-restaurants.co
 import { MapRestaurantComponent } from './map-restaurant/map-restaurant.component';
 import { UserReviewsComponent } from './user-reviews/user-reviews.component';
 import { AddReviewComponent } from './add-review/add-review.component';
+import { AddRestaurantComponent } from './add-restaurant/add-restaurant.component';
 
 
 export const routes: Routes = [
@@ -66,6 +67,12 @@ export const routes: Routes = [
         path: "add-review",
         component: AddReviewComponent,
         title: "Fake Restaurant Add Review",
+        canActivate: [authGuard]
+    },
+	{
+        path: "add-restaurant",
+        component: AddRestaurantComponent,
+        title: "Fake Restaurant Add Restaurant",
         canActivate: [authGuard]
     },
     {

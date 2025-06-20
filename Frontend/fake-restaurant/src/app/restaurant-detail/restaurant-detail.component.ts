@@ -51,6 +51,9 @@ export class RestaurantDetailComponent {
   	    next: (data) => {
 		
   	      this.reviews = data;
+		  if(this.reviews.length == 0){
+			this.toastr.info("No reviews found", "Info");
+		  }
 	
   	    },
   	    error: (err) => {

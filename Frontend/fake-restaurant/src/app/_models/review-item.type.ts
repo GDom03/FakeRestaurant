@@ -1,3 +1,5 @@
+import { UserItem } from "./user-item.type";
+
 export interface ReviewItem {
   id: number; 
   title: string;
@@ -11,6 +13,7 @@ export interface ReviewItem {
   downvotes: number;
   createdAt?: Date; 
   updatedAt?: Date;
+  User?: UserItem;
   restaurantId?: number;
 
 

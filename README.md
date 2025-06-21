@@ -47,6 +47,10 @@ Make sure you have:
    cd FakeRestaurant/Fake Restaurant Docker
    docker compose up -d --build
    docker cp ./Database/backup.sql fake_restaurant_db:backup.sql
+   docker exec -it fake_restaurant_db psql -U admin -d fake_restaurant_db
+   DROP SCHEMA public CASCADE;
+   CREATE SCHEMA public;
+   \q
    docker exec -it fake_restaurant_db psql -U admin -d fake_restaurant_db -f backup.sql
 
 

@@ -39,7 +39,7 @@ Make sure you have:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/fake-restaurant.git
+   git clone https://github.com/GDom03/FakeRestaurant.git
    
 2. **Start the containers:**
 

@@ -54,7 +54,3 @@ Make sure you have:
 ## Save permanently on db
   ```bash
   docker exec fake_restaurant_db pg_dump -U admin -F p fake_restaurant_db | Out-File -Encoding utf8 ./Database/backup.sql
-
-
-
-

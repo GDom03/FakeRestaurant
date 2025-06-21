@@ -40,11 +40,11 @@ Make sure you have:
 
    ```bash
    git clone https://github.com/your-username/fake-restaurant.git
-   cd fake-restaurant
-
+   
 2. **Start the containers:**
 
    ```bash
+   cd FakeRestaurant/Fake Restaurant Docker
    docker compose up -d --build
 
 3. **Access the services:**

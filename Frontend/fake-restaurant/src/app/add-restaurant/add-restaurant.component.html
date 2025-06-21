@@ -24,6 +24,8 @@
                             <p class="form-error">Name is required.</p>
                             }@if(addRestaurantForm.controls.name.errors['minlength']){
                             <p class="form-error">Name is too short.</p>
+                            }@if(addRestaurantForm.controls.name.errors['maxlength']){
+                            <p class="form-error">Name is too long.</p>
                             }}
                         </div>
                     </div>
@@ -36,6 +38,8 @@
                             <p class="form-error">Description is required.</p>
                             }@if(addRestaurantForm.controls.description.errors['minlength']){
                             <p class="form-error">Description is too short.</p>
+                            }@if(addRestaurantForm.controls.description.errors['maxlength']){
+                            <p class="form-error">Description is too long.</p>
                             }}
                         </div>
                     </div>
@@ -48,6 +52,8 @@
                             <p class="form-error">Type is required.</p>
                             }@if(addRestaurantForm.controls.type.errors['minlength']){
                             <p class="form-error">Type is too short.</p>
+                            }@if(addRestaurantForm.controls.type.errors['maxlength']){
+                            <p class="form-error">Type is too long.</p>
                             }}
                         </div>
                     </div>

@@ -28,13 +28,15 @@ export class AddReviewComponent {
   	  
 		title: new FormControl('', [
 			Validators.required,
-			Validators.minLength(3), 
+			Validators.minLength(3),
+			Validators.maxLength(255),  
 			]
 		),
     	
 		content: new FormControl('', [
 			Validators.required, 
-			Validators.minLength(10)]
+			Validators.minLength(10),
+			Validators.maxLength(255),  ]
 		),
     	
 		serviceRating: new FormControl(null, [

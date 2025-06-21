@@ -21,6 +21,10 @@ export class ReviewItemComponent {
   	router = inject(Router);
 	upvoted: boolean = false;
 
+	ngOnInit(){
+		console.log(this.reviewItem);
+	}
+
   	downvote() {
 		if (this.authService.isUserAuthenticated() === false) {
 			this.toastr.warning("You must be logged in to vote", "Warning");

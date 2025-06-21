@@ -31,17 +31,21 @@ export class AddRestaurantComponent {
 		
 		name: new FormControl('', [
 			Validators.required,
-			Validators.minLength(2), 
+			Validators.minLength(2),
+			Validators.maxLength(255),
 			]
 		),
     	
 		description: new FormControl('', [
 			Validators.required, 
-			Validators.minLength(5)]
+			Validators.minLength(5),
+			Validators.maxLength(255),]
 		),
 
 		type: new FormControl('', [
-			Validators.required, 
+			Validators.required,
+			Validators.minLength(2),
+			Validators.maxLength(255), 
 			]
 		),
     	

@@ -45,6 +45,8 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - ./MinIO/minio-data:/data
+      - ./MinIO/certs:/root/.minio/certs
+
     networks:
       fake_restaurant_network:
         ipv4_address: 172.28.0.4

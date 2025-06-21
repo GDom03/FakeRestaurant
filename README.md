@@ -51,6 +51,9 @@ Make sure you have:
   -  Frontend: https://localhost:4200 (⚠️ Self-signed certificate)
   -  Backend API: https://localhost:3000
 
+## Save permanently on db
+  ```bash
+  docker exec fake_restaurant_db pg_dump -U admin -F p fake_restaurant_db | Out-File -Encoding utf8 ./Database/backup.sql
 
 
 

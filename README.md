@@ -44,9 +44,10 @@ Make sure you have:
 2. **Start the containers:**
 
    ```bash
-   cd FakeRestaurant/Fake Restaurant Docker
-   docker compose up -d --build
+     cd FakeRestaurant/Fake Restaurant Docker
+     docker compose up -d --build
    ```
+   
 3. **Copy the backup:**
   ```bash
     docker cp ./Database/backup.sql fake_restaurant_db:backup.sql

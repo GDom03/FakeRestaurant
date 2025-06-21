@@ -46,7 +46,7 @@ Make sure you have:
    ```bash
    cd FakeRestaurant/Fake Restaurant Docker
    docker compose up -d --build
-   docker cp /Database/backup.sql fake_restaurant_db:backup.sql
+   docker cp ./Database/backup.sql fake_restaurant_db:backup.sql
    docker exec -it fake_restaurant_db psql -U admin -d fake_restaurant_db -f backup.sql
 
 

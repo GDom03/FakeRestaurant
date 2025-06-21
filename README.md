@@ -46,6 +46,9 @@ Make sure you have:
    ```bash
    cd FakeRestaurant/Fake Restaurant Docker
    docker compose up -d --build
+   docker cp /Database/backup.sql fake_restaurant_db:backup.sql
+   docker exec -it fake_restaurant_db psql -U admin -d fake_restaurant_db -f backup.sql
+
 
 3. **Access the services:**
   -  Frontend: https://localhost:4200 (⚠️ Self-signed certificate)
@@ -55,3 +58,5 @@ Make sure you have:
 
   ```bash
   docker exec fake_restaurant_db pg_dump -U admin -F p fake_restaurant_db | Out-File -Encoding utf8 ./Database/backup.sql
+
+

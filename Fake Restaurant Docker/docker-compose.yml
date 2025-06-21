@@ -31,8 +31,8 @@ services:
       - '5050:80'
     depends_on:
       - fake_restaurant_db
-    volumes:
-      - ./PgAdmin/pgadmin_data:/var/lib/pgadmin
+    # volumes:
+    #   - ./PgAdmin/pgadmin_data:/var/lib/pgadmin
     networks:
       fake_restaurant_network:
         ipv4_address: 172.28.0.3
@@ -89,7 +89,7 @@ services:
 
 volumes:
   postgres_data:
-  pgadmin_data:
+  # pgadmin_data:
   minio-data:
 
 networks:

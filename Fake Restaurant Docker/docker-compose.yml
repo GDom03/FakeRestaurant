@@ -10,8 +10,6 @@ services:
       POSTGRES_DB: fake_restaurant_db
     ports:
       - '5432:5432'
-    volumes:
-      - ./Database/postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready --username admin --dbname fake_restaurant_db"]
       interval: 5s
@@ -31,8 +29,6 @@ services:
       - '5050:80'
     depends_on:
       - fake_restaurant_db
-    # volumes:
-    #   - ./PgAdmin/pgadmin_data:/var/lib/pgadmin
     networks:
       fake_restaurant_network:
         ipv4_address: 172.28.0.3
@@ -88,8 +84,6 @@ services:
         ipv4_address: 172.28.0.6
 
 volumes:
-  postgres_data:
-  # pgadmin_data:
   minio-data:
 
 networks:

@@ -46,20 +46,21 @@ Make sure you have:
    ```bash
    cd FakeRestaurant/Fake Restaurant Docker
    docker compose up -d --build
+   ```
+3. **Copy the backup:**
+  ```bash
+    docker cp ./Database/backup.sql fake_restaurant_db:backup.sql
+    docker exec -it fake_restaurant_db psql -U admin -d fake_restaurant_db
+  ```
 
   ```bash
-  docker cp ./Database/backup.sql fake_restaurant_db:backup.sql
-  docker exec -it fake_restaurant_db psql -U admin -d fake_restaurant_db
-
-
+    DROP SCHEMA public CASCADE;
+    CREATE SCHEMA public;
+    \q
+  ```
   ```bash
-  DROP SCHEMA public CASCADE;
-  CREATE SCHEMA public;
-  \q
-
-  ```bash
-  docker exec -it fake_restaurant_db psql -U admin -d fake_restaurant_db -f backup.sql
-
+    docker exec -it fake_restaurant_db psql -U admin -d fake_restaurant_db -f backup.sql
+  ```
 
 3. **Access the services:**
   -  Frontend: https://localhost:4200 (⚠️ Self-signed certificate)

@@ -1,5 +1,7 @@
 import { Image } from "../models/Database.js";
 import { minioClient } from "../utils/minioClient.js";
+import path from 'path';
+
 
 export class ImageController {
 
@@ -8,12 +10,33 @@ export class ImageController {
             const restaurantId = req.locals.restaurantId;
 
             const file = req.file;
+
 			
-			// http://localhost:9000/fake-restaurant/
-            const uniqueFileName = `images/${Date.now()}_${file.originalname}`;
+        	const ext = path.extname(file.originalname).toLowerCase();
 
+    		const mimeTypes = {
+    		  '.jpg': 'image/jpeg',
+    		  '.jpeg': 'image/jpeg',
+    		  '.png': 'image/png',
+    		  '.gif': 'image/gif',
+    		  '.webp': 'image/webp',
+    		};
 
-            await minioClient.putObject("fake-restaurant", uniqueFileName, req.file.buffer);
+    		const contentType = mimeTypes[ext] || 'application/octet-stream';	
+
+			const data = Date.now();
+            const uniqueFileName = `images/${data}_${file.originalname}`;
+
+			await minioClient.putObject(
+			    "fake-restaurant",
+			    uniqueFileName,
+			    file.buffer,
+			    file.buffer.length,
+			    {'Content-Type': contentType}
+			);
+
+			
+
 
             // Crea una nuova istanza di Image con i parametri corretti
             let image = new Image({

@@ -15,9 +15,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 50
-    networks:
-      fake_restaurant_network:
-        ipv4_address: 172.28.0.2
 
   pgadmin:
     image: dpage/pgadmin4
@@ -29,9 +26,6 @@ services:
       - '5050:80'
     depends_on:
       - fake_restaurant_db
-    networks:
-      fake_restaurant_network:
-        ipv4_address: 172.28.0.3
 
   fake_restaurant_cloud:
     image: minio/minio
@@ -47,9 +41,6 @@ services:
       - ./MinIO/minio-data:/data
       - ./MinIO/certs:/root/.minio/certs
 
-    networks:
-      fake_restaurant_network:
-        ipv4_address: 172.28.0.4
 
   backend:
     build: ../Backend 
@@ -60,16 +51,12 @@ services:
       DB_CONNECTION_URI: "postgres://admin:admin@fake_restaurant_db:5432/fake_restaurant_db"
       DIALECT: "postgres"
       TOKEN_SECRET: "V3RY_S3CR37_T0K3N"
-      MINIO_IP: "172.28.0.4"
     depends_on:
       fake_restaurant_db:
         condition: service_healthy
       fake_restaurant_cloud:
         condition: service_started
     command: "npm start"
-    networks:
-      fake_restaurant_network:
-        ipv4_address: 172.28.0.5
 
   frontend:
     build: ../Frontend/fake-restaurant
@@ -81,16 +68,9 @@ services:
     depends_on:
       - backend
     command: "ng serve --ssl true --ssl-key ssl/key.pem --ssl-cert ssl/cert.pem --host 0.0.0.0"
-    networks:
-      fake_restaurant_network:
-        ipv4_address: 172.28.0.6
+
 
 volumes:
   minio-data:
 
-networks:
-  fake_restaurant_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.28.0.0/16
+

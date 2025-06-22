@@ -63,7 +63,13 @@ Make sure you have:
     docker exec -it fake_restaurant_db psql -U admin -d fake_restaurant_db -f backup.sql
   ```
 
-3. **Access the services:**
+4. **Accept self-signed certificates:**
+  - Go to https://localhost:4200 and accept
+  - Go to https://localhost:3000 and accept
+  - Go to https://localhost:9000 and accept
+To accept → click "Advanced…" → "Accept the Risk and Continue"
+
+6. **Access the services:**
   -  Frontend: https://localhost:4200 (⚠️ Self-signed certificate)
   -  Backend API: https://localhost:3000
 

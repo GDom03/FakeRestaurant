@@ -67,6 +67,7 @@ Make sure you have:
   - Go to https://localhost:4200 and accept
   - Go to https://localhost:3000 and accept
   - Go to https://localhost:9000 and accept
+    
 To accept → click "Advanced…" → "Accept the Risk and Continue"
 
 6. **Access the services:**

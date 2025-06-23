@@ -59,9 +59,6 @@ export class MapRestaurantComponent implements AfterViewInit {
 		});
     	
 
-    	// 	leaflet.marker([40.5009, 14.1455]).addTo(this.map)
-      	// 		.bindPopup('🍕 Ristorante a Napoli')
-      	// 		.openPopup();
   	}
 	
 

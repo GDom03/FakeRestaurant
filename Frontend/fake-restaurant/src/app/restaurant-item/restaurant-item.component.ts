@@ -13,20 +13,30 @@ import { Router } from '@angular/router';
   styleUrl: './restaurant-item.component.scss'
 })
 export class RestaurantItemComponent {
+
   @Input({ required: true }) restaurantItem: RestaurantItem;
   images: ImageItem[];
   imageNumber: number = 0;
   restService = inject(RestBackendService);
   private toastr = inject(ToastrService);
   router = inject(Router);
+  srcImg: string;
+  
   
   ngOnInit() {
     this.restService.getImagesOfResturant(this.restaurantItem.id).subscribe({
       next: (data) => {
         this.images = data;
-		for(let i = 0; i < this.images.length; i++) {
-			this.images[i].image = this.restService.imageurl + this.images[i].image;
-		  }	
+		try {
+			
+			for(let i = 0; i < this.images.length; i++) {
+				this.images[i].image = this.restService.imageurl + this.images[i].image;
+		  	}
+			this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';	
+		} catch (error) {
+			this.srcImg = 'assets/default.svg';
+		}
+		
   
       },
       error: (err) => {
@@ -39,12 +49,14 @@ export class RestaurantItemComponent {
   prevImage() {
     if (this.imageNumber > 0) {
       this.imageNumber--;
+	  this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
     }
   }
 
   nextImage() {
     if (this.imageNumber < this.images.length - 1) {
       this.imageNumber++;
+	  this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
     }
   }
 
@@ -56,5 +68,6 @@ export class RestaurantItemComponent {
       }
     });
   }
+
 
 }

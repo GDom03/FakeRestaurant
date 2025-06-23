@@ -4,7 +4,7 @@ import { Client } from 'minio';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 export const minioClient = new Client({
-    endPoint: 'localhost',
+    endPoint: process.env.MINIO_IP || 'localhost',
     port: 9000,
     useSSL: true,
     accessKey: 'minioadmin',

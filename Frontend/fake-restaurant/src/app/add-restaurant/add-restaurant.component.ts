@@ -4,6 +4,7 @@ import { RestBackendService } from '../_services/rest-backend/rest-backend.servi
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-add-restaurant',
@@ -12,9 +13,6 @@ import { Location } from '@angular/common';
   styleUrl: './add-restaurant.component.scss'
 })
 export class AddRestaurantComponent {
-
-
-
 
 
 	submitted: boolean = false;
@@ -72,6 +70,7 @@ export class AddRestaurantComponent {
 
 	handleAddRestaurant() {
 		this.submitted = true;
+		
 		if(this.addRestaurantForm.invalid){
       		this.toastr.error("The data you provided is invalid!", "Oops! Invalid data!");
     	}else{
@@ -83,38 +82,42 @@ export class AddRestaurantComponent {
 				longitude: this.addRestaurantForm.value.longitude ?? 1 as number,
       			}).subscribe({
       	  			next: (msg) => {
-						this.toastr.success(`Restaurant submitted successfully!`,`Success`);
 						
-						for(const img of this.imageFiles){
-							this.restService.uploadImg({
-								restaurantId: msg?.id ?? 0,
-								image: img
-							}).subscribe({
-								next: (img) => {
-									this.toastr.success(`Image submitted successfully!`,`Uploaded`);
-								},
-								error: (err) => {
-      	    						this.toastr.error("Image not successfully uploded", "Uploaded Error");
-      	  						},
+						const uploadObservables = this.imageFiles.map(img =>
+        				  this.restService.uploadImg({
+        				    restaurantId: msg?.id ?? 0,
+        				    image: img
+        				  })
+        				);
 
-
-							});
-						}
+						// Aspetta tutti gli upload
+        				forkJoin(uploadObservables).subscribe({
+        				  next: () => {
+        				    this.router.navigateByUrl("/user-restaurants");
+        				    this.toastr.success(`Restaurant submitted successfully!`, `Success`);
+        				  },
+        				  error: (err) => {
+        				
+        				    this.toastr.error("Image upload failed. Restaurant was not submitted.", "Upload Error");
+        				    this.restService.RemoveResturant(msg.id ?? 0).subscribe();  // Cleanup
+        				  },
+        				  complete: () => {
+        				    this.submitted = false;
+        				  }
+        				});
 						
-						
-      	    		  	
-
       	  			},
       	 			 	error: (err) => {
       	    				this.toastr.error("Please fill all fields correctly before submitting the restaurant.", "Submission Error");
       	  			},
       	  			complete: () => {
 						this.submitted = false;
-						this.addRestaurantForm.reset();
 						
-
-      	  		}
-      		});
+					
+      	  			}
+      			}
+			);
+			
 		}
 	}
 

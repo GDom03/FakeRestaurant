@@ -79,20 +79,10 @@ export class ReviewController {
     static async getReviews(req, res) {
 
         const where = {};
-        if (req.locals.UserEmail) {
-            let user = await User.findOne({
-                where: {
-                    email: req.locals.UserEmail
-                },
-            });
+        
 
-
-            if (user == null) {
-                throw new MyException(MyException.NOT_FOUND, "User not Exists");
-            }
-
-            where.UserEmail = req.locals.UserEmail;
-        }
+        where.UserEmail = req.locals.UserEmail;
+        
 
         return this.get(where, req, res);
     }

@@ -57,6 +57,14 @@ export async function checkEmailField(req, res, next) {
     next();
 }
 
+export function checkEmailMatch(req, res, next){
+	if(req.locals.UserEmail == req.email){
+		next();
+	}else{
+		return next(new MyException(MyException.UNAUTHORIZED, "Unathorized"));
+	}
+}
+
 export async function checkPasswordField(req, res, next) {
     await check('password')
         .exists({ checkFalsy: true }).withMessage('Password field is required')

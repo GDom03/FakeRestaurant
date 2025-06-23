@@ -3,6 +3,7 @@ import { Navigation, Router, RouterLink, RouterModule } from '@angular/router';
 import { UserItem } from '../_models/user-item.type';
 import { AuthService } from '../_services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
 
 @Component({
   selector: 'app-manage-account',
@@ -12,8 +13,10 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ManageAccountComponent {
 
+
   	user: UserItem;
 	authService = inject(AuthService);
+	restService = inject(RestBackendService);
 	toastr = inject(ToastrService);
 	router = inject(Router);
   
@@ -30,6 +33,25 @@ export class ManageAccountComponent {
 			
 		}
 		
+	}
+
+	deleteAccount() {
+		if(confirm('Are you sure you want to delete account?')) {
+			this.restService.deleteAccount(this.authService.getUser()??"").subscribe({
+			  next: (data) => {
+			
+				this.authService.logout();
+				this.router.navigate(['/home']);
+				this.toastr.success('You have been delete account successfully.', 'Logout');
+				
+			  },
+			  error: (err) => {
+			
+			    this.toastr.error("Sorry try later", "Error")			
+			  }
+			});
+			
+		}
 	}
 
 }

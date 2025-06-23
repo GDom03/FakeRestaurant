@@ -15,6 +15,7 @@ import { voteRouter } from "./routes/voteRouter.js";
 import { enforceAuthentication } from "./middleware/authorization.js";
 import { imageRouter } from "./routes/imageRouter.js";
 import { MyException } from "./utils/MyException.js";
+import { userRouter } from "./routes/userRouter.js";
 
 const app = express();
 const PORT = 3000;
@@ -68,6 +69,7 @@ app.use(restaurantRouter);
 app.use(imageRouter);
 app.use(reviewRouter);
 app.use(voteRouter);
+app.use(userRouter);
 
 
 // Catch-all per route non trovate (404)
@@ -95,7 +97,7 @@ const httpsOptions = {
 };
 
 // Avvia HTTPS server
-https.createServer(httpsOptions, app).listen(PORT, () => {
+https.createServer(httpsOptions, app).listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Server HTTPS avviato su https://localhost:${PORT}`);
 });
 

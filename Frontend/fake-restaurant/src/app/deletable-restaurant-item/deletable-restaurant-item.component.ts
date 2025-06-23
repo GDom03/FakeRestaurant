@@ -19,19 +19,26 @@ export class DeletableRestaurantItemComponent {
   	restService = inject(RestBackendService);
   	private toastr = inject(ToastrService);
   	router = inject(Router);
+	srcImg: string;
 	
   	ngOnInit() {
   	  this.restService.getImagesOfResturant(this.restaurantItem.id).subscribe({
   	    next: (data) => {
-  	      //console.log(data);
-  	      this.images = data;
-		  for(let i = 0; i < this.images.length; i++) {
-			this.images[i].image = this.restService.imageurl + this.images[i].image;
-		  }					
+  	      	//console.log(data);
+  	      	this.images = data;
+		  	try {
+			
+				for(let i = 0; i < this.images.length; i++) {
+					this.images[i].image = this.restService.imageurl + this.images[i].image;
+		  		}
+				this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';	
+			} catch (error) {
+				this.srcImg = 'assets/default.svg';
+			}				
 	
   	    },
   	    error: (err) => {
-  	      this.toastr.error("Sorry, try later", "Error");       
+  	      	this.toastr.error("Sorry, try later", "Error");       
   	    }
   	  });
 
@@ -45,12 +52,14 @@ export class DeletableRestaurantItemComponent {
   	prevImage() {
   	  if (this.imageNumber > 0) {
   	    this.imageNumber--;
+		this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
   	  }
   	}
 
   	nextImage() {
   	  if (this.imageNumber < this.images.length - 1) {
   	    this.imageNumber++;
+		this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
   	  }
   	}
 
@@ -64,7 +73,7 @@ export class DeletableRestaurantItemComponent {
   	}
 
 	deleteRestaurant() {
-		this.restService.getRemoveResturant(this.restaurantItem.id).subscribe({
+		this.restService.RemoveResturant(this.restaurantItem.id).subscribe({
   	    next: (data) => {
 			localStorage.setItem('RestaurantDeleted', "true");
 			window.location.reload();		

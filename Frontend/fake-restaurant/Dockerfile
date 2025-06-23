@@ -6,7 +6,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installa le dipendenze (incluso Angular CLI se non è in devDependencies)
-RUN npm install -g @angular/cli && npm install
+RUN npm install -g @angular/cli && npm install 
+
 
 # Copia tutto il codice sorgente
 COPY . .

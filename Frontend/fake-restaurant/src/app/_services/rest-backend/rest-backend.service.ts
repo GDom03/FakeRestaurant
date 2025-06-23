@@ -15,8 +15,6 @@ import { ImageRequest } from './image-request.type';
 })
 export class RestBackendService {
 
-	
-
 	url = "https://localhost:3000"
 	imageurl = "https://localhost:9000/fake-restaurant/"
 
@@ -112,13 +110,18 @@ export class RestBackendService {
 		return this.http.delete(url, this.httpOptions);
 	}
 
-	getRemoveResturant(idRestaurant: number) {
+	RemoveResturant(idRestaurant: number) {
 		let url = `${this.url}/restaurants/${idRestaurant}`; 
 		return this.http.delete(url, this.httpOptions);
 	}
 
 	RemoveReview(ReviewId: number) {
 		let url = `${this.url}/reviews/${ReviewId}`; 
+		return this.http.delete(url, this.httpOptions);
+	}
+
+	deleteAccount(email: string) {
+		let url = `${this.url}/users/${email}`; 
 		return this.http.delete(url, this.httpOptions);
 	}
 

@@ -26,6 +26,7 @@ export class RestaurantDetailComponent {
 	location = inject(Location);		
   	restService = inject(RestBackendService);
   	private toastr = inject(ToastrService);
+	srcImg: string;
 	
 
   	constructor() {
@@ -33,8 +34,14 @@ export class RestaurantDetailComponent {
   	  const nav: Navigation | null = this.router.getCurrentNavigation();
   	  this.restaurantItem = nav?.extras.state?.['restaurantItem'] ?? undefined;
   	  this.images = nav?.extras.state?.['images'] ?? [];
-
-  	  if(this.restaurantItem == undefined|| this.images.length == 0){
+		try {
+			
+			
+			this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';	
+		} catch (error) {
+			this.srcImg = 'assets/default.svg';
+		}	
+  	  if(this.restaurantItem == undefined){
   	    this.toastr.error("Sorry, try later", "Error");
   	    this.router.navigate(['/']);
   	  }
@@ -76,12 +83,14 @@ export class RestaurantDetailComponent {
   	prevImage() {
   	  if (this.imageNumber > 0) {
   	    this.imageNumber--;
+		this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
   	  }
   	}
 
   	nextImage() {
   	  if (this.imageNumber < this.images.length - 1) {
   	    this.imageNumber++;
+		this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
   	  }
   	}
 

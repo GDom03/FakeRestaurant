@@ -98,7 +98,7 @@ export class AddReviewComponent {
 				restaurantId: this.restaurant.id as number,
       			}).subscribe({
       	  			next: (msg) => {
-
+						this.router.navigateByUrl('/user-reviews');
       	    		  	this.toastr.success(`Review submitted successfully!`,`Success`);
 
       	  			},

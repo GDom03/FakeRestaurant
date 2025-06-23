@@ -21,12 +21,12 @@
 
                  </span>
 
-                <input (keydown.enter)="search()" type="text" [(ngModel)]="searchField" class=" w-full p-2 rounded-full outline-none text-md md:text-xl placeholder-shown:border-black" placeholder="Search ..." />
+                <input id="searchField" (keydown.enter)="search()" type="text" [(ngModel)]="searchField" class=" w-full p-2 rounded-full outline-none text-md md:text-xl placeholder-shown:border-black" placeholder="Search ..." />
 
             </div>
 
             <div>
-                <button class="bg-orange-400 hover:bg-orange-500 p-2 m-1 rounded-full text-md md:text-xl text-white font-bold transition duration-200 ease-in-out" (click)="search()">Search</button>
+                <button id="searchButton" class="bg-orange-400 hover:bg-orange-500 p-2 m-1 rounded-full text-md md:text-xl text-white font-bold transition duration-200 ease-in-out" (click)="search()">Search</button>
             </div>
 
         </div>

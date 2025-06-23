@@ -37,6 +37,7 @@ const swaggerSpec = swaggerJSDoc({
         info: {
             title: 'FakeResturant',
             version: '1.0.0',
+			description: 'FakeResturant is a REST API designed to manage a user restaurant review image and voting system.',
         },
         components: {
             securitySchemes: {
@@ -50,9 +51,7 @@ const swaggerSpec = swaggerJSDoc({
                 // i tuoi eventuali modelli qui
             }
         },
-        security: [{
-            bearerAuth: []
-        }]
+    
     },
     apis: ['./routes/*Router.js', './models/*.js'], // i file da scansionare per le annotazioni
 });

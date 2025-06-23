@@ -49,8 +49,8 @@ export async function checkEmailField(req, res, next) {
         next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.UserEmail = req.body?.UserEmail || req.query?.UserEmail || req.params?.UserEmail;
 
 
@@ -80,8 +80,8 @@ export async function checkPasswordField(req, res, next) {
     }
 
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.password = req.body?.password || req.query?.password || req.params?.password;
 
     next();
@@ -101,8 +101,8 @@ export async function checkNameField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.name = req.body?.name || req.query?.name || req.params?.name;
 
     next();
@@ -122,8 +122,8 @@ export async function checkSurnameField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.surname = req.body?.surname || req.query?.surname || req.params?.surname;
 
     next();

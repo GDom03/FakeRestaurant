@@ -35,19 +35,14 @@ export class ImageController {
 			    {'Content-Type': contentType}
 			);
 
-			
-
-
-            // Crea una nuova istanza di Image con i parametri corretti
             let image = new Image({
                 image: uniqueFileName,
                 RestaurantId: restaurantId
             });
 
-            return image.save(); // restituisce una Promise
+            return image.save(); 
 
         } catch (error) {
-            // Passa l’errore al middleware di gestione errori
             next(error);
         }
     }

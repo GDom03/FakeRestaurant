@@ -21,6 +21,8 @@ const upload = multer({ storage: storage });
  *     description: Uploads an image file associated with a specific restaurant. The image is stored in MinIO and linked to the restaurant in the database.
  *     tags:
  *       - Insert Resources
+ *     security:
+ *       - bearerAuth: []
  *     consumes:
  *       - multipart/form-data
  *     requestBody:
@@ -125,6 +127,8 @@ imageRouter.post("/images", upload.single('image'), checkRestaurantIdField, chec
  *     description: Deletes an image by its ID and removes it from MinIO and the database.
  *     tags:
  *       - Delete Resources
+ *     security:
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     parameters:

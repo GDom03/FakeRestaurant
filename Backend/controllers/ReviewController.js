@@ -4,11 +4,8 @@ import { Sequelize } from "sequelize";
 
 export class ReviewController {
 
-    /**
-     * Attempts to create a new User
-     */
     static async saveReview(req, res) {
-        //save new user
+
         let review = new Review({
             title: req.locals.title,
             content: req.locals.content,
@@ -24,7 +21,7 @@ export class ReviewController {
 
 
 
-        return review.save(); //returns a Promise
+        return review.save(); 
     }
 
 

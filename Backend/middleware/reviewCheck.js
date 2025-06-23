@@ -46,8 +46,8 @@ export async function checkReviewIdField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.reviewId = req.body?.reviewId || req.query?.reviewId || req.params?.reviewId;
 
     next();
@@ -68,8 +68,8 @@ export async function checkTitleField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.title = req.body?.title || req.query?.title || req.params?.title;
 
     next();
@@ -90,8 +90,8 @@ export async function checkContentField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.content = req.body?.content || req.query?.content || req.params?.content;
 
     next();
@@ -111,8 +111,8 @@ export async function checkOverallRatingField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.overallRating = req.body?.overallRating || req.query?.overallRating || req.params?.overallRating;
 
     next();
@@ -132,8 +132,8 @@ export async function checkServiceRatingField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.serviceRating = req.body?.serviceRating || req.query?.serviceRating || req.params?.serviceRating;
 
     next();
@@ -152,8 +152,8 @@ export async function checkQualityPriceRatingField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.qualityPriceRating = req.body?.qualityPriceRating || req.query?.qualityPriceRating || req.params?.qualityPriceRating;
 
 
@@ -170,12 +170,12 @@ export async function checkFoodRatingField(req, res, next) {
         .run(req);
 
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty()) { 
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.foodRating = req.body?.foodRating || req.query?.foodRating || req.params?.foodRating;
 
     next();
@@ -194,8 +194,8 @@ export async function checkAtmosphereRatingField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    
+    req.locals = req.locals || {}; 
     req.locals.atmosphereRating = req.body?.atmosphereRating || req.query?.atmosphereRating || req.params?.atmosphereRating;
 
     next();

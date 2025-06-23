@@ -31,8 +31,7 @@ export async function checkRestaurantIdField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    req.locals = req.locals || {}; 
     req.locals.restaurantId = req.body?.restaurantId || req.query?.restaurantId || req.params?.restaurantId;
 
     next();
@@ -52,8 +51,8 @@ export async function checkRestaurantIdParam(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+
+    req.locals = req.locals || {}; 
     req.locals.restaurantId = req.body?.restaurantId || req.query?.restaurantId || req.params?.restaurantId;
 
 
@@ -74,8 +73,8 @@ export async function checkNameField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+ 
+    req.locals = req.locals || {}; 
     req.locals.name = req.body?.name || req.query?.name || req.params?.name;
 
     next();
@@ -95,8 +94,8 @@ export async function checkDescriptionField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+ 
+    req.locals = req.locals || {}; 
     req.locals.description = req.body?.description || req.query?.description || req.params?.description;
 
     next();
@@ -114,8 +113,8 @@ export async function checkTypeField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+   
+    req.locals = req.locals || {}; 
     req.locals.type = req.body?.type || req.query?.type || req.params?.type;
 
     next();
@@ -135,8 +134,8 @@ export async function checkLatitudeField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+   
+    req.locals = req.locals || {}; 
     req.locals.latitude = req.body?.latitude || req.query?.latitude || req.params?.latitude;
 
     next();
@@ -156,8 +155,8 @@ export async function checkLongitudeField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+ 
+    req.locals = req.locals || {};
     req.locals.longitude = req.body?.longitude || req.query?.longitude || req.params?.longitude;
 
     next();

@@ -161,6 +161,8 @@ reviewRouter.post("/reviews", checkTitleField, checkContentField, checkOverallRa
  *     description: Deletes a review specified by its ID.
  *     tags:
  *       - Delete Resources
+ *     security:
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     parameters:

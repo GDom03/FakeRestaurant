@@ -3,11 +3,7 @@ import { Vote } from "../models/Database.js";
 
 export class VoteController {
 
-    /**
-     * Attempts to create a new User
-     */
     static async saveVote(req, res) {
-        //save new user
 
         let vote = new Vote({
             ReviewId: req.locals.reviewId,
@@ -16,7 +12,7 @@ export class VoteController {
 
         });
 
-        return vote.save(); //returns a Promise
+        return vote.save(); 
     }
 
 	static async getVote(req, res) {
@@ -31,7 +27,7 @@ export class VoteController {
             
         });
         
-        return vote; //returns a Promise
+        return vote; 
     }
 
 	static async getVoteOfReview(req, res) {
@@ -46,7 +42,7 @@ export class VoteController {
             
         });
         
-        return vote; //returns a Promise
+        return vote; 
     }
 
 

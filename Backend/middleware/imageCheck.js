@@ -58,8 +58,7 @@ export async function checkImageIdField(req, res, next) {
         return next(new MyException(MyException.BAD_REQUEST, errors.array()[0].msg));
     }
 
-    // Salva il valore validato in un campo locale di `req`
-    req.locals = req.locals || {}; // inizializza se necessario
+    req.locals = req.locals || {}; 
     req.locals.imageId = req.body?.imageId || req.query?.imageId || req.params?.imageId;
 
     next();

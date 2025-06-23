@@ -134,6 +134,8 @@ voteRouter.post("/votes", checkIsUpVoteField, checkReviewIdField, checkReviewExi
  *     description: Deletes a vote specified by its ReviewId.
  *     tags:
  *       - Delete Resources
+ *     security:
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     parameters:

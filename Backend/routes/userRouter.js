@@ -15,6 +15,8 @@ export const userRouter = express.Router();
  *     description: Deletes the user that matches the provided email address.
  *     tags:
  *       - Delete Resources
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: UserEmail

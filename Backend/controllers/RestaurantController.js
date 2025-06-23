@@ -4,12 +4,9 @@ import { ImageController } from "./ImageController.js";
 
 export class RestaurantController {
 
-    /**
-     * Attempts to create a new User
-     */
     static async saveRestaurant(req, res) {
 
-        //save new user
+
         let restaurant = new Restaurant({
             name: req.locals.name,
             description: req.locals.description,
@@ -21,7 +18,7 @@ export class RestaurantController {
         restaurant.UserEmail = req.email;
 
 
-        return restaurant.save(); //returns a Promise
+        return restaurant.save(); 
     }
 
     static async get(where, req, res) {

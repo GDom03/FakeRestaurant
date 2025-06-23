@@ -136,6 +136,8 @@ restaurantRouter.post("/restaurants", checkNameField, checkDescriptionField, che
  *     description: Deletes a restaurant specified by its ID.
  *     tags:
  *       - Delete Resources
+ *     security:
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     parameters:

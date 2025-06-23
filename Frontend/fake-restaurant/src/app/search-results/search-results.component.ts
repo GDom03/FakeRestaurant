@@ -17,7 +17,7 @@ export class SearchResultsComponent {
   	searchField: string;
   	page: number = 1;
   	restService = inject(RestBackendService);
-  	private toastr = inject(ToastrService);;
+  	toastr = inject(ToastrService);;
 	router = inject(Router);
 
 	ngOnInit() {

@@ -14,29 +14,29 @@ import { AuthService } from '../_services/auth/auth.service';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  searchField: string = "";
-  private toastr = inject(ToastrService);
-  restService = inject(RestBackendService);
-  authService = inject(AuthService);
-  restaurants: RestaurantItem[] = [];
-  router = inject(Router);
+  	searchField: string = "";
+  	private toastr = inject(ToastrService);
+  	restService = inject(RestBackendService);
+  	authService = inject(AuthService);
+  	restaurants: RestaurantItem[] = [];
+  	router = inject(Router);
 
 
-  search(){
-  
-    if(this.searchField === "" || this.searchField.trim() === ""){
-    	this.toastr.warning('Enter the name of the restaurant you want to search for.', 'Warning');
-      	return;
-    }
-
-	localStorage.setItem('searchField', this.searchField); // Store search field in local storage
+  	search(){
 	
-	this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-  		this.router.navigateByUrl('/search-results');
-	});
+  	  	if(this.searchField === "" || this.searchField.trim() === ""){
+  	  		this.toastr.warning('Enter the name of the restaurant you want to search for.', 'Warning');
+  	  	  	return;
+  	  	}
 
-  
-  }
+		localStorage.setItem('searchField', this.searchField); // Store search field in local storage
+
+		this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+  			this.router.navigateByUrl('/search-results');
+		});
+
+	
+  	}
 
 
 }

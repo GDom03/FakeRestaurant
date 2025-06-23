@@ -18,17 +18,15 @@ export class MapRestaurantComponent implements AfterViewInit {
 	restaurants: RestaurantItem[] = [];
 	private map!: leaflet.Map;
 
-
   	
   	constructor() {
-  	  // Leggi lo stato di navigazione (i dati passati)
-  	  const nav = this.router.getCurrentNavigation();
-  	  this.restaurants = nav?.extras.state?.['restaurants'] ?? [];
+  		// Leggi lo stato di navigazione (i dati passati)
+  	  	const nav = this.router.getCurrentNavigation();
+  	  	this.restaurants = nav?.extras.state?.['restaurants'] ?? [];
   	}
 
 	goBack() {
-  	  this.location.back();
-	 
+  		this.location.back();
   	}
 
 	 

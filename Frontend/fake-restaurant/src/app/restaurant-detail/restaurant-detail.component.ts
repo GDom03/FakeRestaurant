@@ -16,7 +16,6 @@ import { ReviewItemComponent } from '../review-item/review-item.component';
 })
 export class RestaurantDetailComponent {
 
-
   	restaurantItem: RestaurantItem;
   	images: ImageItem[];
   	imageNumber: number = 0;
@@ -25,29 +24,27 @@ export class RestaurantDetailComponent {
 	router = inject(Router);
 	location = inject(Location);		
   	restService = inject(RestBackendService);
-  	private toastr = inject(ToastrService);
+  	toastr = inject(ToastrService);
 	srcImg: string;
 	
 
   	constructor() {
-  	  // Leggi lo stato di navigazione (i dati passati)
-  	  const nav: Navigation | null = this.router.getCurrentNavigation();
-  	  this.restaurantItem = nav?.extras.state?.['restaurantItem'] ?? undefined;
-  	  this.images = nav?.extras.state?.['images'] ?? [];
-		try {
-			
-			
-			this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';	
-		} catch (error) {
-			this.srcImg = 'assets/default.svg';
-		}	
-  	  if(this.restaurantItem == undefined){
-  	    this.toastr.error("Sorry, try later", "Error");
-  	    this.router.navigate(['/']);
-  	  }
+  	  	// Leggi lo stato di navigazione (i dati passati)
+  	  	const nav: Navigation | null = this.router.getCurrentNavigation();
+  	  	this.restaurantItem = nav?.extras.state?.['restaurantItem'] ?? undefined;
+  	  	this.images = nav?.extras.state?.['images'] ?? [];
+			try {
+				this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';	
+			} catch (error) {
+				this.srcImg = 'assets/default.svg';
+			}	
+  	  	if(this.restaurantItem == undefined){
+  	  	  	this.toastr.error("Sorry, try later", "Error");
+  	  	  	this.router.navigate(['/']);
+  	  	}
 
-	  this.fetchReviews();
-	
+	  	this.fetchReviews();
+
 
   	}
 
@@ -55,43 +52,39 @@ export class RestaurantDetailComponent {
 	fetchReviews() {
 
 		this.restService.getReviewsByResturant(this.restaurantItem.id,this.page).subscribe({
-  	    next: (data) => {
+  	    	next: (data) => {
 		
-  	      this.reviews = data;
-		  if(this.reviews.length == 0){
-			this.toastr.info("No reviews found", "Info");
-		  }
-	
-  	    },
-  	    error: (err) => {
-		
-  	        this.toastr.error("Sorry, try later", "Error");
-  	        this.router.navigate(['/']);
-	
-  	    }
-  	  });
+  	      		this.reviews = data;
+		  		if(this.reviews.length == 0){
+					this.toastr.info("No reviews found", "Info");
+		  		}
+  	    	},
+  	    	error: (err) => {
+  		    	this.toastr.error("Sorry, try later", "Error");
+  	        	this.router.navigate(['/']);
 
-
+  	    	}
+  	  	});
 
 	}
 
 
   	goBack() {
-  	  this.location.back();
+  		this.location.back();
   	}
 
   	prevImage() {
-  	  if (this.imageNumber > 0) {
-  	    this.imageNumber--;
-		this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
-  	  }
+  		if (this.imageNumber > 0) {
+  	    	this.imageNumber--;
+			this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
+  	  	}
   	}
 
   	nextImage() {
-  	  if (this.imageNumber < this.images.length - 1) {
-  	    this.imageNumber++;
-		this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
-  	  }
+  		if (this.imageNumber < this.images.length - 1) {
+  	    	this.imageNumber++;
+			this.srcImg = this.images[this.imageNumber].image ?? 'assets/default.svg';
+  	  	}
   	}
 
 	prevReview() {

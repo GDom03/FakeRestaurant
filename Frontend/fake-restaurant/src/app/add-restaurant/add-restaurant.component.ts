@@ -14,7 +14,6 @@ import { forkJoin, of } from 'rxjs';
 })
 export class AddRestaurantComponent {
 
-
 	submitted: boolean = false;
 	imageFiles: File[] = [];
   	imagePreviews: string[] = [];
@@ -25,8 +24,6 @@ export class AddRestaurantComponent {
 
   	addRestaurantForm = new FormGroup({
   	  
-		
-		
 		name: new FormControl('', [
 			Validators.required,
 			Validators.minLength(2),
@@ -99,7 +96,7 @@ export class AddRestaurantComponent {
         				  error: (err) => {
         				
         				    this.toastr.error("Image upload failed. Restaurant was not submitted.", "Upload Error");
-        				    this.restService.RemoveResturant(msg.id ?? 0).subscribe();  // Cleanup
+        				    this.restService.RemoveResturant(msg.id ?? 0).subscribe();  
         				  },
         				  complete: () => {
         				    this.submitted = false;
@@ -135,7 +132,7 @@ export class AddRestaurantComponent {
     	}
   	}
 
-	private renderPreview() {
+	renderPreview() {
 		this.imagePreviews = [];
 		for(const file of this.imageFiles){
 			// Anteprima leggendo il contenuto del file

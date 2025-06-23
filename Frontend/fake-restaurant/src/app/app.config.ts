@@ -9,26 +9,26 @@ import { routes } from './app.routes';
 import { authInterceptor } from './_interceptors/auth/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), 
-    provideHttpClient(
-      withFetch(), //use the Fetch API instead of XMLHttpRequests
-      withInterceptors([authInterceptor])
-    ),
-    provideToastr({
-      timeOut: 3000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
-      progressBar: true,              
-      closeButton: true,                
-      enableHtml: true,
-      maxOpened: 3,
-      autoDismiss: true,
-      newestOnTop: false,
-      tapToDismiss: true,         
-    }),
-    provideAnimations(),
-    provideRouter(routes),
+	providers: [
+    	provideZoneChangeDetection({ eventCoalescing: true }), 
+    	provideHttpClient(
+      		withFetch(), //use the Fetch API instead of XMLHttpRequests
+      		withInterceptors([authInterceptor])
+    	),
+    	provideToastr({
+    	  	timeOut: 3000,
+    	  	positionClass: 'toast-top-right',
+    	  	preventDuplicates: true,
+    	  	progressBar: true,              
+    	  	closeButton: true,                
+    	  	enableHtml: true,
+    	  	maxOpened: 3,
+    	  	autoDismiss: true,
+    	  	newestOnTop: false,
+    	  	tapToDismiss: true,         
+    	}),
+    	provideAnimations(),
+    	provideRouter(routes),
     
-  ]
+  	]
 };

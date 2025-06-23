@@ -11,45 +11,41 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './homepage.component.scss'
 })
 export class HomepageComponent {
-  restService = inject(RestBackendService);
-  page: number = 1;
-  restaurants: RestaurantItem[] = [];
-  private toastr = inject(ToastrService);
+  	restService = inject(RestBackendService);
+  	page: number = 1;
+  	restaurants: RestaurantItem[] = [];
+  	private toastr = inject(ToastrService);
 
-  ngOnInit() {
-    this.fetchLastRestaurants();  
-  }
+  	ngOnInit() {
+  		this.fetchLastRestaurants();  
+  	}
 
-  fetchLastRestaurants(page: number = 1, limit: number = 3){
-    this.restService.getLastResturants(page,limit).subscribe({
-      next: (data) => {
+  	fetchLastRestaurants(page: number = 1, limit: number = 3){
+  	  	this.restService.getLastResturants(page,limit).subscribe({
+  	  		next: (data) => {
 
-        this.restaurants = data;
-		if(this.restaurants == undefined || this.restaurants.length == 0){
-			this.toastr.info("No restaurants found", "Info");
-		}
-      },
-      error: (err) => {
-  
-        this.toastr.error("Sorry try later", "Error")
-        
-      }
-    });
-    
-  }
+  	  	    	this.restaurants = data;
+					if(this.restaurants == undefined || this.restaurants.length == 0){
+						this.toastr.info("No restaurants found", "Info");
+					}
+  	  	  	},
+  	  	  	error: (err) => {
+  	  	    	this.toastr.error("Sorry try later", "Error")
+  	  	  	}
+  	  	});
+  	}
 
-  nextPage(){
-    if(this.restaurants.length > 0){
-      this.fetchLastRestaurants(++this.page);
-    }
-    
-  }
+  	nextPage(){
+  		if(this.restaurants.length > 0){
+  	    	this.fetchLastRestaurants(++this.page);
+  	  	}
+  	}
 
-  prevPage(){
-    if(this.page > 1){
-      this.fetchLastRestaurants(--this.page);
-    }
-    
-  }
+  	prevPage(){
+  		if(this.page > 1){
+  	    	this.fetchLastRestaurants(--this.page);
+  	  	}
+	
+  	}
 
 }

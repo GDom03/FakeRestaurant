@@ -15,7 +15,6 @@ import { RestaurantItem } from '../_models/restaurant-item.type';
 })
 export class AddReviewComponent {
 
-
 	submitted: boolean = false;
 	overall: number;
 	restaurant: RestaurantItem;

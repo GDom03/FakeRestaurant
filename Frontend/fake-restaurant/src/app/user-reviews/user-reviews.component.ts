@@ -14,41 +14,41 @@ export class UserReviewsComponent {
 	restService = inject(RestBackendService);
   	page: number = 1;
   	reviews: ReviewItem[] = [];
-  	private toastr = inject(ToastrService);
+  	toastr = inject(ToastrService);
 
   	ngOnInit() {
-  	  this.fetchUserRestaurants();  
+  	  	this.fetchUserRestaurants();  
   	}
 
   	fetchUserRestaurants(page: number = 1, limit: number = 3){
-  	  this.restService.getUserReviews(page,limit).subscribe({
-  	    next: (data) => {
-  	      
-  	      	this.reviews = data;
-			if(this.reviews == undefined || this.reviews.length == 0){
-				this.toastr.info("No reviews found", "Info");
-			}
-  	    },
-  	    error: (err) => {
-		
-  	      this.toastr.error("Sorry try later", "Error")
-	
-  	    }
-  	  });
+  	  	this.restService.getUserReviews(page,limit).subscribe({
+  	    	next: (data) => {
+			
+  	    	  	this.reviews = data;
+				if(this.reviews == undefined || this.reviews.length == 0){
+					this.toastr.info("No reviews found", "Info");
+				}
+  	    	},
+  	    	error: (err) => {
+			
+  	    	  	this.toastr.error("Sorry try later", "Error")
+
+  	    	}
+  	  	});
 	
   	}
 
   	nextPage(){
-  	  if(this.reviews.length > 0){
-  	    this.fetchUserRestaurants(++this.page);
-  	  }
+  	  	if(this.reviews.length > 0){
+  	   	 	this.fetchUserRestaurants(++this.page);
+  	  	}
 	
   	}
 
   	prevPage(){
-  	  if(this.page > 1){
-  	    this.fetchUserRestaurants(--this.page);
-  	  }
+  	  	if(this.page > 1){
+  	    	this.fetchUserRestaurants(--this.page);
+  	  	}
 	
   	}
 

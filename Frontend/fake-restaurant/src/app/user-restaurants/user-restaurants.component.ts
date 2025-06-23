@@ -17,38 +17,35 @@ export class UserRestaurantsComponent {
   	private toastr = inject(ToastrService);
 
   	ngOnInit() {
-  	  this.fetchUserRestaurants();  
+  		this.fetchUserRestaurants();  
   	}
 
   	fetchUserRestaurants(page: number = 1, limit: number = 3){
-  	  this.restService.getUserResturants(page,limit).subscribe({
-  	    next: (data) => {
+  		this.restService.getUserResturants(page,limit).subscribe({
+  	    	next: (data) => {
   	      
-  	      	this.restaurants = data;
-			if(this.restaurants == undefined || this.restaurants.length == 0){
-				this.toastr.info("No restaurants found", "Info");
-			}
-  	    },
-  	    error: (err) => {
-		
-  	      this.toastr.error("Sorry try later", "Error")
-	
-  	    }
-  	  });
-	
+  	      		this.restaurants = data;
+				if(this.restaurants == undefined || this.restaurants.length == 0){
+					this.toastr.info("No restaurants found", "Info");
+				}
+  	    	},
+  	    	error: (err) => {
+  	      		this.toastr.error("Sorry try later", "Error")
+  	    	}
+  	  	});
   	}
 
   	nextPage(){
-  	  if(this.restaurants.length > 0){
-  	    this.fetchUserRestaurants(++this.page);
-  	  }
+  		if(this.restaurants.length > 0){
+  	    	this.fetchUserRestaurants(++this.page);
+  	  	}
 	
   	}
 
   	prevPage(){
-  	  if(this.page > 1){
-  	    this.fetchUserRestaurants(--this.page);
-  	  }
+  		if(this.page > 1){
+  	    	this.fetchUserRestaurants(--this.page);
+  	  	}
 	
   	}
 }

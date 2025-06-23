@@ -13,7 +13,6 @@ import { RestBackendService } from '../_services/rest-backend/rest-backend.servi
 })
 export class ManageAccountComponent {
 
-
   	user: UserItem;
 	authService = inject(AuthService);
 	restService = inject(RestBackendService);
@@ -38,19 +37,19 @@ export class ManageAccountComponent {
 	deleteAccount() {
 		if(confirm('Are you sure you want to delete account?')) {
 			this.restService.deleteAccount(this.authService.getUser()??"").subscribe({
-			  next: (data) => {
+				next: (data) => {
 			
-				this.authService.logout();
-				this.router.navigate(['/home']);
-				this.toastr.success('You have been delete account successfully.', 'Logout');
+					this.authService.logout();
+					this.router.navigate(['/home']);
+					this.toastr.success('You have been delete account successfully.', 'Logout');
 				
-			  },
-			  error: (err) => {
+			  	},
+			  	error: (err) => {
 			
-			    this.toastr.error("Sorry try later", "Error")			
-			  }
+			    	this.toastr.error("Sorry try later", "Error")			
+			 	}
 			});
-			
+		
 		}
 	}
 

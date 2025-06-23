@@ -6,6 +6,8 @@ import { ReviewController } from "../controllers/ReviewController.js";
 import { checkEmailField, checkUserExists } from "../middleware/userCheck.js";
 import { ImageController } from "../controllers/ImageController.js";
 import { checkRestaurantIdField, checkRestaurantExists } from "../middleware/restaurantCheck.js";
+import { checkReviewIdField, checkReviewExistsWithoutEmail} from "../middleware/reviewCheck.js";
+import { VoteController } from "../controllers/VoteController.js";
 
 export const searchRouter = express.Router();
 
@@ -377,3 +379,91 @@ searchRouter.get("/images/:restaurantId", checkRestaurantIdField, checkRestauran
     }
 
 });
+
+
+/**
+ * @swagger
+ * /votes/{reviewId}:
+ *   get:
+ *     summary: Get votes by review ID
+ *     description: Retrieve all votes associated with a specific review using its unique numeric ID.
+ *     tags:
+ *       - Search Resources
+ *     parameters:
+ *       - in: path
+ *         name: reviewId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the review to retrieve votes for
+ *     responses:
+ *       '200':
+ *         description: The votes were successfully retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   userId:
+ *                     type: integer
+ *                     example: 42
+ *                   vote:
+ *                     type: string
+ *                     enum: [upvote, downvote]
+ *                     example: upvote
+ *       '400':
+ *         description: Invalid review ID (must be an integer)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: Review Id must be an integer
+ *       '404':
+ *         description: Review not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: Review not found
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: Could not fetch votes. Try again later.
+ */
+searchRouter.get("/votes/:reviewId", checkReviewIdField, checkReviewExistsWithoutEmail, async(req, res, next) => {
+
+	try {
+		let votes = await VoteController.getVoteOfReview(req,res);
+		res.json(votes);
+	} catch (err) {
+		console.log(err);
+        next(new MyException(MyException.INTERNAL_SERVER_ERROR, "Could not fetch votes. Try again later."));
+	}
+
+});
+
+
+

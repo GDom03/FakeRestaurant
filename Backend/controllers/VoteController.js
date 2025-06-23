@@ -34,6 +34,21 @@ export class VoteController {
         return vote; //returns a Promise
     }
 
+	static async getVoteOfReview(req, res) {
+        
+		const where = {
+			ReviewId: req.locals.reviewId,
+          
+		};
+
+		const vote = await Vote.findAll({
+            where,
+            
+        });
+        
+        return vote; //returns a Promise
+    }
+
 
     static async deleteVote(req, res) {
         const where = {};

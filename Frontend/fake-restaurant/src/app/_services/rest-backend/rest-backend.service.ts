@@ -9,11 +9,14 @@ import { VoteRequest } from './vote-request.type';
 import { ReviewRequest } from './review-request.type';
 import { RestaurantRequest } from './resturant-request.type';
 import { ImageRequest } from './image-request.type';
+import { VoteItem } from '../../_models/vote-item.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestBackendService {
+
+
 
 	url = "https://localhost:3000"
 	imageurl = "https://localhost:9000/fake-restaurant/"
@@ -43,6 +46,12 @@ export class RestBackendService {
 	  	
 		return this.http.post(url, signupRequest, this.httpOptions);
 	}	
+
+
+	getVotesOfReview(ReviewId: number) {
+		let url = `${this.url}/votes/${ReviewId}`;
+		return this.http.get<VoteItem[]>(url, this.httpOptions);
+	}
 
 
 	getLastResturants(page: number = 1, limit: number = 3) {	

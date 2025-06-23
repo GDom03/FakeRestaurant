@@ -56,8 +56,6 @@ export class AddRestaurantComponent {
 			Validators.max(180)]
 		),
     	
-
-
 	  
   	});
 

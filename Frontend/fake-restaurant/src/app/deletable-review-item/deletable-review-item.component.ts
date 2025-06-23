@@ -4,6 +4,7 @@ import { RestBackendService } from '../_services/rest-backend/rest-backend.servi
 import { AuthService } from '../_services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { VoteItem } from '../_models/vote-item.type';
 
 @Component({
   selector: 'app-deletable-review-item',
@@ -18,7 +19,9 @@ export class DeletableReviewItemComponent {
   	authService = inject(AuthService);
   	toastr = inject(ToastrService);
   	router = inject(Router);
-	upvoted: boolean = false;
+	votes: VoteItem[] = [];
+	userVotes: VoteItem[] = [];
+
 
 	ngOnInit() {
 
@@ -26,6 +29,24 @@ export class DeletableReviewItemComponent {
 			localStorage.removeItem('ReviewDeleted');
 			this.toastr.success("Review deleted successfully", "Success");
 	  	}
+
+		this.restService.getVotesOfReview(
+			this.reviewItem.id
+		).subscribe({
+			next: (votes) => {
+				this.votes = votes;
+
+				if (this.votes.length > 0 && this.authService.isUserAuthenticated()) {
+					// Example: filter votes by a condition, e.g., only upvotes
+					this.userVotes = this.votes.filter(vote => vote.UserEmail == this.authService.getUser());
+			
+				}
+				console.log(this.votes);
+				console.log(this.userVotes);
+			}
+		});
+
+		
 	
   	}
 
@@ -61,17 +82,28 @@ export class DeletableReviewItemComponent {
 							this.toastr.success(`You have down vote`,`Congrats ${this.authService.getUser()}!`);
 							this.reviewItem.upvotes--;
 							this.reviewItem.downvotes++;
+							this.userVotes = [{
+								isUpVote: false,
+								ReviewId: this.reviewItem.id,
+								UserEmail: this.authService.getUser()??""
+							}];
 						}
 					});
 					
 				}else{
 					this.reviewItem.downvotes--;
+					this.userVotes = [];
 					this.toastr.success("Vote deleted successfully", "Success");
 				}	  					
   	  	    },
   	  	    complete: () => {
   	  	    	this.toastr.success(`You have down vote`,`Congrats ${this.authService.getUser()}!`);
-					this.reviewItem.downvotes++;
+				this.reviewItem.downvotes++;
+				this.userVotes = [{
+					isUpVote: false,
+					ReviewId: this.reviewItem.id,
+					UserEmail: this.authService.getUser()??""
+				}];
   	  	    }
   	  	});
   	}
@@ -107,17 +139,28 @@ export class DeletableReviewItemComponent {
 							this.toastr.success(`You have up vote`,`Congrats ${this.authService.getUser()}!`);
 							this.reviewItem.downvotes--;
 							this.reviewItem.upvotes++;
+							this.userVotes = [{
+								isUpVote: true,
+								ReviewId: this.reviewItem.id,
+								UserEmail: this.authService.getUser()??""
+							}];
 						}
 					});
 					
 				}else{
 					this.reviewItem.upvotes--;
+					this.userVotes = [];
 					this.toastr.success("Vote deleted successfully", "Success");
 				}	  					
   	  	    },
   	  	    complete: () => {
   	  	    	this.toastr.success(`You have up vote`,`Congrats ${this.authService.getUser()}!`);
-					this.reviewItem.upvotes++;
+				this.reviewItem.upvotes++;
+				this.userVotes = [{
+					isUpVote: true,
+					ReviewId: this.reviewItem.id,
+					UserEmail: this.authService.getUser()??""
+				}];
   	  	    }
   	  	});
 	}

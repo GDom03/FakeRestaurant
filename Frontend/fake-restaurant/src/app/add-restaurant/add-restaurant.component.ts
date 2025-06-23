@@ -64,6 +64,10 @@ export class AddRestaurantComponent {
 	}
 
 	handleAddRestaurant() {
+		if(this.submitted == true){
+			return;
+		}
+		
 		this.submitted = true;
 		
 		if(this.addRestaurantForm.invalid){

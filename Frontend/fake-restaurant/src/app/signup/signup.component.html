@@ -7,18 +7,7 @@
                     Create a new account
                 </h1>
                 <form class="space-y-4 md:space-y-6" [formGroup]="signupForm" (ngSubmit)="handleSignup()">
-                    <div>
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                        <input type="text" formControlName="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5" placeholder="Your username" required="">
-                        <div class="text-red-500">
-                            @if(submitted && signupForm.controls.email.errors){ @if(signupForm.controls.email.errors['required']){
-                            <p class="form-error">Email is required.</p>
-                            }@if(signupForm.controls.email.errors['email']){
-                            <p class="form-error">Email is invalid.</p>
-                            } }
-                        </div>
 
-                    </div>
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Your name</label>
                         <input type="text" formControlName="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5" placeholder="Your name" required="">
@@ -35,6 +24,19 @@
                         <div class="text-red-500">
                             @if(submitted && signupForm.controls.surname.errors){ @if(signupForm.controls.surname.errors['required']){
                             <p class="form-error">Surname is required.</p>
+                            } }
+                        </div>
+
+                    </div>
+
+                        <div>
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                        <input type="text" formControlName="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5" placeholder="Your email" required="">
+                        <div class="text-red-500">
+                            @if(submitted && signupForm.controls.email.errors){ @if(signupForm.controls.email.errors['required']){
+                            <p class="form-error">Email is required.</p>
+                            }@if(signupForm.controls.email.errors['email']){
+                            <p class="form-error">Email is invalid.</p>
                             } }
                         </div>
 

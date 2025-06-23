@@ -260,7 +260,7 @@ COPY public."Restaurants" (id, name, description, type, latitude, longitude, "cr
 5	SQLosteria Injection	Your input is our menu	Cyber Comfort Food	40.827321	14.204444	2025-06-21 07:53:29.828+00	2025-06-21 07:53:29.828+00	annagag@gmail.com
 6	Paninoteca DevOps	Continuous delivery... except on Sundays	Automation Grill	40.825901	14.202777	2025-06-21 07:53:47.401+00	2025-06-21 07:53:47.401+00	annagag@gmail.com
 1	Osteria Cloud Native	Scalable portions, billed by byte	Microservice Meals	40.8281	14.200002	2025-06-21 07:51:41.254+00	2025-06-21 07:51:41.254+00	debuggingchef@example.com
-2	La Taverna dei Sapori	Once you╬ô├ç├ûve tasted it, it╬ô├ç├ûs instantly available... maybe	Caching Cuisine	40.826001	14.203145	2025-06-21 07:51:55.811+00	2025-06-21 07:51:55.811+00	codegourmet@example.com
+2	La Taverna dei Sapori	Once youΓò¼├┤Γö£├ºΓö£├╗ve tasted it, itΓò¼├┤Γö£├ºΓö£├╗s instantly available... maybe	Caching Cuisine	40.826001	14.203145	2025-06-21 07:51:55.811+00	2025-06-21 07:51:55.811+00	codegourmet@example.com
 3	Locale Lazy Loading	Appetizers arrive only when you&#x27;re hungry enough	Async Eatery	40.829999	14.2001	2025-06-21 07:52:07.345+00	2025-06-21 07:52:07.345+00	asynceater@example.com
 4	Ristorante Bug Tracker	We serve issues on every plate	Beta Bistrot	40.828756	14.199876	2025-06-21 07:52:21.299+00	2025-06-21 07:52:21.299+00	frontendfan@example.com
 \.
@@ -278,9 +278,9 @@ COPY public."Reviews" (id, title, content, "overallRating", "serviceRating", "qu
 12	AI-generated recipes?	The dish tasted like it was invented by an LLM trained only on Wikipedia and leftovers. I respect the ambition, but my taste buds triggered an exception.	3	4	3	2	5	2025-06-21 08:11:04.991+00	2025-06-21 08:11:04.991+00	codegourmet@example.com	5
 9	404: Waiter not found	Tried to flag someone down for 15 minutes. At this point I felt like I was making HTTP requests with no response. Eventually timed out and left. Still hungry, slightly bitter.	1.5	1	2	2	2	2025-06-21 08:10:37.816+00	2025-06-21 08:10:37.816+00	domgag@gmail.com	10
 20	Strange waiters	While I was eating, the waiter stood there the whole time looking at me near the table. I thought they had switched to single-threaded event loop management	4.5	3	4	5	4	2025-06-21 08:13:08.463+00	2025-06-21 08:13:08.463+00	domgag@gmail.com	10
-10	Race condition at the buffet	The buffet was a chaotic shared resource. People fighting over the last meatball like it was a mutex lock. I went for salad╬ô├ç├╢less contention. Good strategy, decent crunch.	3.5	3	4	4	3	2025-06-21 08:10:45.162+00	2025-06-21 08:10:45.162+00	annagag@gmail.com	9
+10	Race condition at the buffet	The buffet was a chaotic shared resource. People fighting over the last meatball like it was a mutex lock. I went for saladΓò¼├┤Γö£├ºΓö£Γòóless contention. Good strategy, decent crunch.	3.5	3	4	4	3	2025-06-21 08:10:45.162+00	2025-06-21 08:10:45.162+00	annagag@gmail.com	9
 5	Fast food, slow thread	Went in for a quick burger, but it felt like the process was scheduled with &#96;low_priority&#96;. Five customers, 40 minutes. Installing Arch Linux was faster.	2.5	2	3	3	2	2025-06-21 08:09:52.661+00	2025-06-21 08:09:52.661+00	asynceater@example.com	7
-6	Pizzeria with buffer overflow	I ordered a margherita, but got three appetizers, two beers, and a dessert. I suspect a stack management issue in the waiter╬ô├ç├ûs code. Ended up eating everything because, honestly, it was good.	4	3	5	4	4	2025-06-21 08:10:03.213+00	2025-06-21 08:10:03.213+00	frontendfan@example.com	7
+6	Pizzeria with buffer overflow	I ordered a margherita, but got three appetizers, two beers, and a dessert. I suspect a stack management issue in the waiterΓò¼├┤Γö£├ºΓö£├╗s code. Ended up eating everything because, honestly, it was good.	4	3	5	4	4	2025-06-21 08:10:03.213+00	2025-06-21 08:10:03.213+00	frontendfan@example.com	7
 7	Hipster full-stack restaurant	Recycled wood tables, menus on tablets, programmable LED lights. A full-stack restaurant experience. Too bad the food was just frontend: pretty to look at, but no substance on the backend.	3.5	4	3	3	5	2025-06-21 08:10:12.625+00	2025-06-21 08:10:12.625+00	devopsdiner@example.com	6
 8	Too many cooks in the thread pool	Kitchen was so loud I thought they&#x27;d spun up a thread for each ingredient. My ears hit 100% CPU usage. The pasta was great though, even if my brain needed a restart after.	4	4	4	5	2	2025-06-21 08:10:30.246+00	2025-06-21 08:10:30.246+00	cachemaster@example.com	6
 11	Microservice kitchen disaster	Each course came from a different chef with zero coordination. Soup cold, main hot, dessert still compiling. Monoliths may be outdated, but at least they deliver consistently.	2.5	2	3	3	4	2025-06-21 08:10:54.087+00	2025-06-21 08:10:54.087+00	debuggingchef@example.com	5
@@ -288,8 +288,8 @@ COPY public."Reviews" (id, title, content, "overallRating", "serviceRating", "qu
 14	The UI was better than the UX	Nice plating, good lighting, clean menus. But everything took ages. It was like browsing a beautiful website with 4MB images and no lazy loading. I was visually impressed and physically starving.	3	2	3	3	5	2025-06-21 08:11:24.702+00	2025-06-21 08:11:24.702+00	frontendfan@example.com	4
 15	API rate limit exceeded	We tried ordering extra fries. Server said, &#x27;You&#x27;ve already ordered once.&#x27; Looks like they implemented some kind of RESTful rate limiter. Honestly, I respect the commitment to protocols.	3.5	3	4	4	3	2025-06-21 08:11:44.974+00	2025-06-21 08:11:44.974+00	devopsdiner@example.com	3
 16	Dependency hell on toast	The sandwich had so many ingredients it clearly required a package manager. Unfortunately, half of them conflicted. Would not compile again.	2.5	3	2	2	4	2025-06-21 08:11:53.678+00	2025-06-21 08:11:53.678+00	cachemaster@example.com	3
-17	Cloud dining: ephemeral but expensive	Trendy, stylish, overpriced. I felt like I was paying for compute credits in a kitchen-as-a-service model. Good taste, but disappears as soon as you╬ô├ç├ûre done chewing. Definitely stateless.	3.5	5	2	4	5	2025-06-21 08:12:02.333+00	2025-06-21 08:12:02.333+00	debuggingchef@example.com	2
-18	Command-line cuisine	No pictures on the menu. Just raw text. You order like it╬ô├ç├ûs a terminal command and hope for the best. Fortunately, the default flags were tasty.	4	4	4	4	4	2025-06-21 08:12:09.648+00	2025-06-21 08:12:09.648+00	codegourmet@example.com	2
+17	Cloud dining: ephemeral but expensive	Trendy, stylish, overpriced. I felt like I was paying for compute credits in a kitchen-as-a-service model. Good taste, but disappears as soon as youΓò¼├┤Γö£├ºΓö£├╗re done chewing. Definitely stateless.	3.5	5	2	4	5	2025-06-21 08:12:02.333+00	2025-06-21 08:12:02.333+00	debuggingchef@example.com	2
+18	Command-line cuisine	No pictures on the menu. Just raw text. You order like itΓò¼├┤Γö£├ºΓö£├╗s a terminal command and hope for the best. Fortunately, the default flags were tasty.	4	4	4	4	4	2025-06-21 08:12:09.648+00	2025-06-21 08:12:09.648+00	codegourmet@example.com	2
 19	NoSQL kitchen: flexible but weird	They serve whatever they feel like, loosely based on what you asked for. Not wrong, just... schema-less. My &#x27;burger&#x27; came with tofu, avocado, and existential doubt.	3	3	3	3	5	2025-06-21 08:12:16.456+00	2025-06-21 08:12:16.456+00	asynceater@example.com	1
 \.
 
@@ -316,6 +316,10 @@ cachemaster@example.com	0ff085b0f82da7ccc9a54b897336b36736f33474d5cde47eb87acbd9
 
 COPY public."Votes" ("isUpVote", "ReviewId", "UserEmail", "createdAt", "updatedAt") FROM stdin;
 t	9	domgag@gmail.com	2025-06-21 08:20:59.426+00	2025-06-21 08:20:59.426+00
+t	20	domgag@gmail.com	2025-06-23 09:56:09.831+00	2025-06-23 09:56:09.831+00
+t	20	annagag@gmail.com	2025-06-23 09:56:31.982+00	2025-06-23 09:56:31.982+00
+f	9	annagag@gmail.com	2025-06-23 09:56:34.534+00	2025-06-23 09:56:34.534+00
+t	4	annagag@gmail.com	2025-06-23 09:56:42.529+00	2025-06-23 09:56:42.529+00
 \.
 
 

@@ -90,7 +90,7 @@
 
                     <div class="flex flex-col gap-3 border p-2 rounded-lg">
                         <label class="block text-sm font-medium text-gray-900">Upload Images</label>
-                        <input type="file" id="fileUpload" (change)="onFileChange($event)" accept="image/*" multiple class="border rounded-lg p-2 w-full ">
+                        <input type="file" formControlName="images" id="fileUpload" (change)="onFileChange($event)" accept="image/*" multiple class="border rounded-lg p-2 w-full ">
 
                         <div class="flex flex-wrap gap-2">
                             @for (img of imagePreviews; track img) {

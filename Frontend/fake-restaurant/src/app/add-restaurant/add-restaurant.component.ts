@@ -55,6 +55,10 @@ export class AddRestaurantComponent {
 			Validators.min(-180), 
 			Validators.max(180)]
 		),
+
+		images: new FormControl(null, [
+			Validators.required
+		])
     	
 	  
   	});

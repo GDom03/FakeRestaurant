@@ -46,7 +46,6 @@ export function checkImageField(req, res, next) {
 
 export async function checkImageIdField(req, res, next) {
     await check('imageId')
-        .if((value, { req }) => req.query.imageId || req.body.imageId)
         .exists({ checkFalsy: true }).withMessage('imageId is required')
         .bail()
         .isInt({ min: 1 }).withMessage('imageId must be a valid integer')

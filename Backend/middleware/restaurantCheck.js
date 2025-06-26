@@ -6,6 +6,23 @@ export async function checkRestaurantExists(req, res, next) {
 
     const where = {};
     where.id = req.locals.restaurantId;
+	where.UserEmail = req.email
+
+    let restaurant = await Restaurant.findOne({
+        where
+    });
+
+    if (restaurant == null) {
+        next(new MyException(MyException.NOT_FOUND, "Restaurant not found"));
+    }
+
+    next();
+}
+
+export async function checkRestaurantExistsWithoutEmail(req, res, next) {
+
+    const where = {};
+    where.id = req.locals.restaurantId;
 
     let restaurant = await Restaurant.findOne({
         where

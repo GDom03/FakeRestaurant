@@ -2,7 +2,7 @@ import express from "express";
 import { ReviewController } from "../controllers/ReviewController.js";
 import { MyException } from "../utils/MyException.js";
 import { checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField } from "../middleware/reviewCheck.js";
-import { checkRestaurantIdField, checkRestaurantExists } from "../middleware/restaurantCheck.js";
+import { checkRestaurantIdField, checkRestaurantExists, checkRestaurantExistsWithoutEmail } from "../middleware/restaurantCheck.js";
 import { SuccessMessage } from "../utils/SuccessMessage.js";
 import { checkReviewExists } from "../middleware/reviewCheck.js";
 import { checkReviewIdField } from "../middleware/reviewCheck.js";
@@ -142,7 +142,7 @@ export const reviewRouter = express.Router();
  *                   description: Error message
  *                   example: Could not save review. Try again later.
  */
-reviewRouter.post("/reviews", checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, checkRestaurantExists, async(req, res, next) => {
+reviewRouter.post("/reviews", checkTitleField, checkContentField, checkOverallRatingField, checkServiceRatingField, checkQualityPriceRatingField, checkFoodRatingField, checkAtmosphereRatingField, checkRestaurantIdField, checkRestaurantExistsWithoutEmail, async(req, res, next) => {
     ReviewController.saveReview(req, res).then((review) => {
         console.log(review);
         res.json(review);

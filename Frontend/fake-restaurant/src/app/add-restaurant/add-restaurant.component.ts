@@ -68,6 +68,7 @@ export class AddRestaurantComponent {
 	}
 
 	handleAddRestaurant() {
+
 		if(this.submitted == true){
 			return;
 		}
@@ -76,6 +77,7 @@ export class AddRestaurantComponent {
 		
 		if(this.addRestaurantForm.invalid){
       		this.toastr.error("The data you provided is invalid!", "Oops! Invalid data!");
+			this.submitted = false;
     	}else{
 			this.restService.addRestaurant({
       	  		name: this.addRestaurantForm.value.name as string,
